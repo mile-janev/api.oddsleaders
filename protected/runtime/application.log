@@ -1,0 +1,511 @@
+2013/10/20 13:22:46 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'The system is unable to find the requested action "da".' in /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/CController.php:483
+Stack trace:
+#0 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/CController.php(270): CController->missingAction('da')
+#1 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/CWebApplication.php(282): CController->run('da')
+#2 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/CWebApplication.php(141): CWebApplication->runController('cron/da')
+#3 /home/mile/public_html/yii-1.1.14.f0fee9/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#4 /home/mile/public_html/oddsapi/index.php(13): CApplication->run()
+#5 {main}
+REQUEST_URI=/oddsapi/index.php?r=cron/da
+HTTP_REFERER=http://localhost/oddsapi/
+---
+2013/10/20 13:22:50 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'The system is unable to find the requested action "da".' in /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/CController.php:483
+Stack trace:
+#0 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/CController.php(270): CController->missingAction('da')
+#1 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/CWebApplication.php(282): CController->run('da')
+#2 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/CWebApplication.php(141): CWebApplication->runController('cron/da')
+#3 /home/mile/public_html/yii-1.1.14.f0fee9/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#4 /home/mile/public_html/oddsapi/index.php(13): CApplication->run()
+#5 {main}
+REQUEST_URI=/oddsapi/index.php?r=cron/da
+HTTP_REFERER=http://localhost/oddsapi/index.php?r=stack/admin
+---
+2013/10/20 13:23:34 [error] [php] include(SimpleHTMLDOM.php) [<a href='function.include'>function.include</a>]: failed to open stream: No such file or directory (/home/mile/public_html/yii-1.1.14.f0fee9/framework/YiiBase.php:427)
+Stack trace:
+#0 /home/mile/public_html/oddsapi/protected/controllers/CronController.php(49): spl_autoload_call()
+#1 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/actions/CInlineAction.php(49): CronController->actionGettournaments()
+#2 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/CController.php(308): CInlineAction->runWithParams()
+#3 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/filters/CFilterChain.php(133): CronController->runAction()
+#4 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/filters/CFilter.php(40): CFilterChain->run()
+#5 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/CController.php(1145): CAccessControlFilter->filter()
+#6 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/filters/CInlineFilter.php(58): CronController->filterAccessControl()
+#7 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/filters/CFilterChain.php(130): CInlineFilter->filter()
+#8 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/CController.php(291): CFilterChain->run()
+#9 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/CController.php(265): CronController->runActionWithFilters()
+#10 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/CWebApplication.php(282): CronController->run()
+#11 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#12 /home/mile/public_html/yii-1.1.14.f0fee9/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#13 /home/mile/public_html/oddsapi/index.php(13): CWebApplication->run()
+REQUEST_URI=/oddsapi/index.php?r=cron/gettournaments
+in /home/mile/public_html/oddsapi/protected/controllers/CronController.php (49)
+in /home/mile/public_html/oddsapi/index.php (13)
+2013/10/20 13:24:35 [error] [php] include(SimpleHTMLDOM.php) [<a href='function.include'>function.include</a>]: failed to open stream: No such file or directory (/home/mile/public_html/yii-1.1.14.f0fee9/framework/YiiBase.php:427)
+Stack trace:
+#0 /home/mile/public_html/oddsapi/protected/controllers/CronController.php(49): spl_autoload_call()
+#1 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/actions/CInlineAction.php(49): CronController->actionGettournaments()
+#2 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/CController.php(308): CInlineAction->runWithParams()
+#3 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/filters/CFilterChain.php(133): CronController->runAction()
+#4 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/filters/CFilter.php(40): CFilterChain->run()
+#5 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/CController.php(1145): CAccessControlFilter->filter()
+#6 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/filters/CInlineFilter.php(58): CronController->filterAccessControl()
+#7 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/filters/CFilterChain.php(130): CInlineFilter->filter()
+#8 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/CController.php(291): CFilterChain->run()
+#9 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/CController.php(265): CronController->runActionWithFilters()
+#10 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/CWebApplication.php(282): CronController->run()
+#11 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#12 /home/mile/public_html/yii-1.1.14.f0fee9/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#13 /home/mile/public_html/oddsapi/index.php(13): CWebApplication->run()
+REQUEST_URI=/oddsapi/index.php?r=cron/gettournaments
+in /home/mile/public_html/oddsapi/protected/controllers/CronController.php (49)
+in /home/mile/public_html/oddsapi/index.php (13)
+2013/10/20 13:36:33 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'The system is unable to find the requested action "da".' in /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/CController.php:483
+Stack trace:
+#0 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/CController.php(270): CController->missingAction('da')
+#1 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/CWebApplication.php(282): CController->run('da')
+#2 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/CWebApplication.php(141): CWebApplication->runController('cron/da')
+#3 /home/mile/public_html/yii-1.1.14.f0fee9/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#4 /home/mile/public_html/oddsapi/index.php(13): CApplication->run()
+#5 {main}
+REQUEST_URI=/oddsapi/index.php?r=cron/da
+HTTP_REFERER=http://localhost/oddsapi/
+---
+2013/10/20 14:49:47 [error] [exception.CException] exception 'CException' with message 'CronController and its behaviors do not have a method or closure named "insertTournaments".' in /home/mile/public_html/yii-1.1.14.f0fee9/framework/base/CComponent.php:266
+Stack trace:
+#0 /home/mile/public_html/oddsapi/protected/controllers/CronController.php(49): CComponent->__call('insertTournamen...', Array)
+#1 /home/mile/public_html/oddsapi/protected/controllers/CronController.php(49): CronController->insertTournaments('https://www.int...')
+#2 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/actions/CInlineAction.php(49): CronController->actionTournamentstack()
+#3 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#4 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/filters/CFilterChain.php(133): CController->runAction(Object(CInlineAction))
+#5 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/filters/CFilter.php(40): CFilterChain->run()
+#6 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/CController.php(1145): CFilter->filter(Object(CFilterChain))
+#7 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/filters/CInlineFilter.php(58): CController->filterAccessControl(Object(CFilterChain))
+#8 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/filters/CFilterChain.php(130): CInlineFilter->filter(Object(CFilterChain))
+#9 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/CController.php(291): CFilterChain->run()
+#10 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#11 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/CWebApplication.php(282): CController->run('tournamentstack')
+#12 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/CWebApplication.php(141): CWebApplication->runController('cron/tournament...')
+#13 /home/mile/public_html/yii-1.1.14.f0fee9/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#14 /home/mile/public_html/oddsapi/index.php(13): CApplication->run()
+#15 {main}
+REQUEST_URI=/oddsapi/index.php?r=cron/tournamentstack
+---
+2013/10/20 14:50:40 [error] [php] Undefined variable: sport (/home/mile/public_html/oddsapi/protected/controllers/CronController.php:86)
+Stack trace:
+#0 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/CController.php(308): CInlineAction->runWithParams()
+#1 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/filters/CFilterChain.php(133): CronController->runAction()
+#2 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/filters/CFilter.php(40): CFilterChain->run()
+#3 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/CController.php(1145): CAccessControlFilter->filter()
+#4 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/filters/CInlineFilter.php(58): CronController->filterAccessControl()
+#5 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/filters/CFilterChain.php(130): CInlineFilter->filter()
+#6 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/CController.php(291): CFilterChain->run()
+#7 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/CController.php(265): CronController->runActionWithFilters()
+#8 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/CWebApplication.php(282): CronController->run()
+#9 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#10 /home/mile/public_html/yii-1.1.14.f0fee9/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#11 /home/mile/public_html/oddsapi/index.php(13): CWebApplication->run()
+REQUEST_URI=/oddsapi/index.php?r=cron/tournamentstack
+in /home/mile/public_html/oddsapi/protected/controllers/CronController.php (86)
+in /home/mile/public_html/oddsapi/protected/controllers/CronController.php (49)
+in /home/mile/public_html/oddsapi/index.php (13)
+2013/10/20 14:52:21 [error] [exception.CException] exception 'CException' with message 'Property "Tournament.cron_group" is not defined.' in /home/mile/public_html/yii-1.1.14.f0fee9/framework/base/CComponent.php:130
+Stack trace:
+#0 /home/mile/public_html/yii-1.1.14.f0fee9/framework/db/ar/CActiveRecord.php(145): CComponent->__get('cron_group')
+#1 /home/mile/public_html/oddsapi/protected/controllers/CronController.php(87): CActiveRecord->__get('cron_group')
+#2 /home/mile/public_html/oddsapi/protected/controllers/CronController.php(49): CronController->tournamentPopulate(Object(Sport))
+#3 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/actions/CInlineAction.php(49): CronController->actionTournamentstack()
+#4 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#5 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/filters/CFilterChain.php(133): CController->runAction(Object(CInlineAction))
+#6 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/filters/CFilter.php(40): CFilterChain->run()
+#7 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/CController.php(1145): CFilter->filter(Object(CFilterChain))
+#8 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/filters/CInlineFilter.php(58): CController->filterAccessControl(Object(CFilterChain))
+#9 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/filters/CFilterChain.php(130): CInlineFilter->filter(Object(CFilterChain))
+#10 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/CController.php(291): CFilterChain->run()
+#11 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#12 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/CWebApplication.php(282): CController->run('tournamentstack')
+#13 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/CWebApplication.php(141): CWebApplication->runController('cron/tournament...')
+#14 /home/mile/public_html/yii-1.1.14.f0fee9/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#15 /home/mile/public_html/oddsapi/index.php(13): CApplication->run()
+#16 {main}
+REQUEST_URI=/oddsapi/index.php?r=cron/tournamentstack
+---
+2013/10/20 15:09:47 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Unable to resolve the request "game/admin".' in /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/CWebApplication.php(141): CWebApplication->runController('game/admin')
+#1 /home/mile/public_html/yii-1.1.14.f0fee9/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#2 /home/mile/public_html/oddsapi/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/oddsapi/index.php?r=game/admin
+HTTP_REFERER=http://localhost/oddsapi/index.php?r=tournament/admin
+---
+2013/10/20 15:27:41 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'The system is unable to find the requested action "oddsa".' in /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/CController.php:483
+Stack trace:
+#0 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/CController.php(270): CController->missingAction('oddsa')
+#1 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/CWebApplication.php(282): CController->run('oddsa')
+#2 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/CWebApplication.php(141): CWebApplication->runController('cron/oddsa')
+#3 /home/mile/public_html/yii-1.1.14.f0fee9/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#4 /home/mile/public_html/oddsapi/index.php(13): CApplication->run()
+#5 {main}
+REQUEST_URI=/oddsapi/index.php?r=cron/oddsa
+HTTP_REFERER=http://localhost/oddsapi/index.php
+---
+2013/10/20 15:31:35 [error] [php] include(CdbCriteria.php) [<a href='function.include'>function.include</a>]: failed to open stream: No such file or directory (/home/mile/public_html/yii-1.1.14.f0fee9/framework/YiiBase.php:427)
+Stack trace:
+#0 /home/mile/public_html/oddsapi/protected/controllers/CronController.php(130): spl_autoload_call()
+#1 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/actions/CInlineAction.php(49): CronController->actionOdds()
+#2 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/CController.php(308): CInlineAction->runWithParams()
+#3 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/filters/CFilterChain.php(133): CronController->runAction()
+#4 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/filters/CFilter.php(40): CFilterChain->run()
+#5 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/CController.php(1145): CAccessControlFilter->filter()
+#6 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/filters/CInlineFilter.php(58): CronController->filterAccessControl()
+#7 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/filters/CFilterChain.php(130): CInlineFilter->filter()
+#8 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/CController.php(291): CFilterChain->run()
+#9 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/CController.php(265): CronController->runActionWithFilters()
+#10 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/CWebApplication.php(282): CronController->run()
+#11 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#12 /home/mile/public_html/yii-1.1.14.f0fee9/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#13 /home/mile/public_html/oddsapi/index.php(13): CWebApplication->run()
+REQUEST_URI=/oddsapi/index.php?r=cron/odds
+in /home/mile/public_html/oddsapi/protected/controllers/CronController.php (130)
+in /home/mile/public_html/oddsapi/index.php (13)
+2013/10/20 15:32:02 [error] [php] include(CdbCriteria.php) [<a href='function.include'>function.include</a>]: failed to open stream: No such file or directory (/home/mile/public_html/yii-1.1.14.f0fee9/framework/YiiBase.php:427)
+Stack trace:
+#0 /home/mile/public_html/oddsapi/protected/controllers/CronController.php(130): spl_autoload_call()
+#1 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/actions/CInlineAction.php(49): CronController->actionOdds()
+#2 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/CController.php(308): CInlineAction->runWithParams()
+#3 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/filters/CFilterChain.php(133): CronController->runAction()
+#4 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/filters/CFilter.php(40): CFilterChain->run()
+#5 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/CController.php(1145): CAccessControlFilter->filter()
+#6 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/filters/CInlineFilter.php(58): CronController->filterAccessControl()
+#7 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/filters/CFilterChain.php(130): CInlineFilter->filter()
+#8 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/CController.php(291): CFilterChain->run()
+#9 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/CController.php(265): CronController->runActionWithFilters()
+#10 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/CWebApplication.php(282): CronController->run()
+#11 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#12 /home/mile/public_html/yii-1.1.14.f0fee9/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#13 /home/mile/public_html/oddsapi/index.php(13): CWebApplication->run()
+REQUEST_URI=/oddsapi/index.php?r=cron/odds
+in /home/mile/public_html/oddsapi/protected/controllers/CronController.php (130)
+in /home/mile/public_html/oddsapi/index.php (13)
+2013/10/20 15:33:00 [error] [php] include(CdbCriteria.php) [<a href='function.include'>function.include</a>]: failed to open stream: No such file or directory (/home/mile/public_html/yii-1.1.14.f0fee9/framework/YiiBase.php:427)
+Stack trace:
+#0 /home/mile/public_html/oddsapi/protected/controllers/CronController.php(130): spl_autoload_call()
+#1 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/actions/CInlineAction.php(49): CronController->actionOdds()
+#2 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/CController.php(308): CInlineAction->runWithParams()
+#3 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/filters/CFilterChain.php(133): CronController->runAction()
+#4 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/filters/CFilter.php(40): CFilterChain->run()
+#5 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/CController.php(1145): CAccessControlFilter->filter()
+#6 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/filters/CInlineFilter.php(58): CronController->filterAccessControl()
+#7 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/filters/CFilterChain.php(130): CInlineFilter->filter()
+#8 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/CController.php(291): CFilterChain->run()
+#9 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/CController.php(265): CronController->runActionWithFilters()
+#10 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/CWebApplication.php(282): CronController->run()
+#11 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#12 /home/mile/public_html/yii-1.1.14.f0fee9/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#13 /home/mile/public_html/oddsapi/index.php(13): CWebApplication->run()
+REQUEST_URI=/oddsapi/index.php?r=cron/odds
+in /home/mile/public_html/oddsapi/protected/controllers/CronController.php (130)
+in /home/mile/public_html/oddsapi/index.php (13)
+2013/10/20 15:33:07 [error] [php] include(CdbCriteria.php) [<a href='function.include'>function.include</a>]: failed to open stream: No such file or directory (/home/mile/public_html/yii-1.1.14.f0fee9/framework/YiiBase.php:427)
+Stack trace:
+#0 /home/mile/public_html/oddsapi/protected/controllers/CronController.php(130): spl_autoload_call()
+#1 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/actions/CInlineAction.php(49): CronController->actionOdds()
+#2 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/CController.php(308): CInlineAction->runWithParams()
+#3 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/filters/CFilterChain.php(133): CronController->runAction()
+#4 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/filters/CFilter.php(40): CFilterChain->run()
+#5 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/CController.php(1145): CAccessControlFilter->filter()
+#6 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/filters/CInlineFilter.php(58): CronController->filterAccessControl()
+#7 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/filters/CFilterChain.php(130): CInlineFilter->filter()
+#8 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/CController.php(291): CFilterChain->run()
+#9 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/CController.php(265): CronController->runActionWithFilters()
+#10 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/CWebApplication.php(282): CronController->run()
+#11 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#12 /home/mile/public_html/yii-1.1.14.f0fee9/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#13 /home/mile/public_html/oddsapi/index.php(13): CWebApplication->run()
+REQUEST_URI=/oddsapi/index.php?r=cron/odds
+in /home/mile/public_html/oddsapi/protected/controllers/CronController.php (130)
+in /home/mile/public_html/oddsapi/index.php (13)
+2013/10/20 15:34:50 [error] [system.db.CDbCommand] CDbCommand::fetchAll() failed: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'cron_date' in 'order clause'. The SQL statement executed was: SELECT * FROM `stack` `t` WHERE cron = :cron ORDER BY cron, cron_date, id LIMIT 2.
+in /home/mile/public_html/oddsapi/protected/controllers/CronController.php (135)
+in /home/mile/public_html/oddsapi/index.php (13)
+2013/10/20 15:34:50 [error] [exception.CDbException] exception 'CDbException' with message 'CDbCommand failed to execute the SQL statement: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'cron_date' in 'order clause'. The SQL statement executed was: SELECT * FROM `stack` `t` WHERE cron = :cron ORDER BY cron, cron_date, id LIMIT 2' in /home/mile/public_html/yii-1.1.14.f0fee9/framework/db/CDbCommand.php:543
+Stack trace:
+#0 /home/mile/public_html/yii-1.1.14.f0fee9/framework/db/CDbCommand.php(396): CDbCommand->queryInternal('fetchAll', Array, Array)
+#1 /home/mile/public_html/yii-1.1.14.f0fee9/framework/db/ar/CActiveRecord.php(1351): CDbCommand->queryAll()
+#2 /home/mile/public_html/yii-1.1.14.f0fee9/framework/db/ar/CActiveRecord.php(1470): CActiveRecord->query(Object(CDbCriteria), true)
+#3 /home/mile/public_html/oddsapi/protected/controllers/CronController.php(135): CActiveRecord->findAll(Object(CDbCriteria))
+#4 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/actions/CInlineAction.php(49): CronController->actionOdds()
+#5 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#6 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/filters/CFilterChain.php(133): CController->runAction(Object(CInlineAction))
+#7 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/filters/CFilter.php(40): CFilterChain->run()
+#8 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/CController.php(1145): CFilter->filter(Object(CFilterChain))
+#9 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/filters/CInlineFilter.php(58): CController->filterAccessControl(Object(CFilterChain))
+#10 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/filters/CFilterChain.php(130): CInlineFilter->filter(Object(CFilterChain))
+#11 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/CController.php(291): CFilterChain->run()
+#12 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#13 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/CWebApplication.php(282): CController->run('odds')
+#14 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/CWebApplication.php(141): CWebApplication->runController('cron/odds')
+#15 /home/mile/public_html/yii-1.1.14.f0fee9/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#16 /home/mile/public_html/oddsapi/index.php(13): CApplication->run()
+#17 {main}
+REQUEST_URI=/oddsapi/index.php?r=cron/odds
+HTTP_REFERER=http://localhost/oddsapi/index.php?r=stack/admin
+---
+2013/10/20 15:38:02 [error] [php] Undefined variable: stack (/home/mile/public_html/oddsapi/protected/controllers/CronController.php:136)
+Stack trace:
+#0 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/filters/CFilterChain.php(133): CronController->runAction()
+#1 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/filters/CFilter.php(40): CFilterChain->run()
+#2 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/CController.php(1145): CAccessControlFilter->filter()
+#3 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/filters/CInlineFilter.php(58): CronController->filterAccessControl()
+#4 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/filters/CFilterChain.php(130): CInlineFilter->filter()
+#5 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/CController.php(291): CFilterChain->run()
+#6 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/CController.php(265): CronController->runActionWithFilters()
+#7 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/CWebApplication.php(282): CronController->run()
+#8 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#9 /home/mile/public_html/yii-1.1.14.f0fee9/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#10 /home/mile/public_html/oddsapi/index.php(13): CWebApplication->run()
+REQUEST_URI=/oddsapi/index.php?r=cron/odds
+in /home/mile/public_html/oddsapi/protected/controllers/CronController.php (136)
+in /home/mile/public_html/oddsapi/index.php (13)
+2013/10/20 16:22:29 [error] [php] include(UserRoleCheck.php) [<a href='function.include'>function.include</a>]: failed to open stream: No such file or directory (/home/mile/public_html/yii-1.1.14.f0fee9/framework/YiiBase.php:427)
+Stack trace:
+#0 /home/mile/public_html/oddsapi/protected/controllers/XmlController.php(31): spl_autoload_call()
+#1 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/CController.php(1144): XmlController->accessRules()
+#2 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/filters/CInlineFilter.php(58): XmlController->filterAccessControl()
+#3 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/filters/CFilterChain.php(130): CInlineFilter->filter()
+#4 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/CController.php(291): CFilterChain->run()
+#5 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/CController.php(265): XmlController->runActionWithFilters()
+#6 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/CWebApplication.php(282): XmlController->run()
+#7 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#8 /home/mile/public_html/yii-1.1.14.f0fee9/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#9 /home/mile/public_html/oddsapi/index.php(13): CWebApplication->run()
+REQUEST_URI=/oddsapi/index.php?r=xml/xml
+in /home/mile/public_html/oddsapi/protected/controllers/XmlController.php (31)
+in /home/mile/public_html/oddsapi/index.php (13)
+2013/10/20 16:23:12 [error] [php] array_map() [<a href='function.array-map'>function.array-map</a>]: Argument #2 should be an array (/home/mile/public_html/yii-1.1.14.f0fee9/framework/web/auth/CAccessControlFilter.php:115)
+Stack trace:
+#0 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/filters/CInlineFilter.php(58): XmlController->filterAccessControl()
+#1 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/filters/CFilterChain.php(130): CInlineFilter->filter()
+#2 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/CController.php(291): CFilterChain->run()
+#3 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/CController.php(265): XmlController->runActionWithFilters()
+#4 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/CWebApplication.php(282): XmlController->run()
+#5 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#6 /home/mile/public_html/yii-1.1.14.f0fee9/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#7 /home/mile/public_html/oddsapi/index.php(13): CWebApplication->run()
+REQUEST_URI=/oddsapi/index.php?r=xml/xml
+in /home/mile/public_html/oddsapi/index.php (13)
+2013/10/20 16:23:43 [error] [php] array_map() [<a href='function.array-map'>function.array-map</a>]: Argument #2 should be an array (/home/mile/public_html/yii-1.1.14.f0fee9/framework/web/auth/CAccessControlFilter.php:115)
+Stack trace:
+#0 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/filters/CInlineFilter.php(58): XmlController->filterAccessControl()
+#1 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/filters/CFilterChain.php(130): CInlineFilter->filter()
+#2 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/CController.php(291): CFilterChain->run()
+#3 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/CController.php(265): XmlController->runActionWithFilters()
+#4 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/CWebApplication.php(282): XmlController->run()
+#5 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#6 /home/mile/public_html/yii-1.1.14.f0fee9/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#7 /home/mile/public_html/oddsapi/index.php(13): CWebApplication->run()
+REQUEST_URI=/oddsapi/index.php?r=xml/xml
+in /home/mile/public_html/oddsapi/index.php (13)
+2013/10/20 16:23:44 [error] [php] array_map() [<a href='function.array-map'>function.array-map</a>]: Argument #2 should be an array (/home/mile/public_html/yii-1.1.14.f0fee9/framework/web/auth/CAccessControlFilter.php:115)
+Stack trace:
+#0 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/filters/CInlineFilter.php(58): XmlController->filterAccessControl()
+#1 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/filters/CFilterChain.php(130): CInlineFilter->filter()
+#2 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/CController.php(291): CFilterChain->run()
+#3 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/CController.php(265): XmlController->runActionWithFilters()
+#4 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/CWebApplication.php(282): XmlController->run()
+#5 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#6 /home/mile/public_html/yii-1.1.14.f0fee9/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#7 /home/mile/public_html/oddsapi/index.php(13): CWebApplication->run()
+REQUEST_URI=/oddsapi/index.php?r=xml/xml
+in /home/mile/public_html/oddsapi/index.php (13)
+2013/10/20 16:23:45 [error] [php] array_map() [<a href='function.array-map'>function.array-map</a>]: Argument #2 should be an array (/home/mile/public_html/yii-1.1.14.f0fee9/framework/web/auth/CAccessControlFilter.php:115)
+Stack trace:
+#0 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/filters/CInlineFilter.php(58): XmlController->filterAccessControl()
+#1 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/filters/CFilterChain.php(130): CInlineFilter->filter()
+#2 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/CController.php(291): CFilterChain->run()
+#3 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/CController.php(265): XmlController->runActionWithFilters()
+#4 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/CWebApplication.php(282): XmlController->run()
+#5 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#6 /home/mile/public_html/yii-1.1.14.f0fee9/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#7 /home/mile/public_html/oddsapi/index.php(13): CWebApplication->run()
+REQUEST_URI=/oddsapi/index.php?r=xml/xml
+in /home/mile/public_html/oddsapi/index.php (13)
+2013/10/20 16:23:45 [error] [php] array_map() [<a href='function.array-map'>function.array-map</a>]: Argument #2 should be an array (/home/mile/public_html/yii-1.1.14.f0fee9/framework/web/auth/CAccessControlFilter.php:115)
+Stack trace:
+#0 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/filters/CInlineFilter.php(58): XmlController->filterAccessControl()
+#1 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/filters/CFilterChain.php(130): CInlineFilter->filter()
+#2 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/CController.php(291): CFilterChain->run()
+#3 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/CController.php(265): XmlController->runActionWithFilters()
+#4 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/CWebApplication.php(282): XmlController->run()
+#5 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#6 /home/mile/public_html/yii-1.1.14.f0fee9/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#7 /home/mile/public_html/oddsapi/index.php(13): CWebApplication->run()
+REQUEST_URI=/oddsapi/index.php?r=xml/xml
+in /home/mile/public_html/oddsapi/index.php (13)
+2013/10/20 16:24:26 [error] [php] array_map() [<a href='function.array-map'>function.array-map</a>]: Argument #2 should be an array (/home/mile/public_html/yii-1.1.14.f0fee9/framework/web/auth/CAccessControlFilter.php:115)
+Stack trace:
+#0 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/filters/CInlineFilter.php(58): XmlController->filterAccessControl()
+#1 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/filters/CFilterChain.php(130): CInlineFilter->filter()
+#2 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/CController.php(291): CFilterChain->run()
+#3 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/CController.php(265): XmlController->runActionWithFilters()
+#4 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/CWebApplication.php(282): XmlController->run()
+#5 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#6 /home/mile/public_html/yii-1.1.14.f0fee9/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#7 /home/mile/public_html/oddsapi/index.php(13): CWebApplication->run()
+REQUEST_URI=/oddsapi/index.php?r=xml/xml
+in /home/mile/public_html/oddsapi/index.php (13)
+2013/10/20 16:24:27 [error] [php] array_map() [<a href='function.array-map'>function.array-map</a>]: Argument #2 should be an array (/home/mile/public_html/yii-1.1.14.f0fee9/framework/web/auth/CAccessControlFilter.php:115)
+Stack trace:
+#0 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/filters/CInlineFilter.php(58): XmlController->filterAccessControl()
+#1 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/filters/CFilterChain.php(130): CInlineFilter->filter()
+#2 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/CController.php(291): CFilterChain->run()
+#3 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/CController.php(265): XmlController->runActionWithFilters()
+#4 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/CWebApplication.php(282): XmlController->run()
+#5 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#6 /home/mile/public_html/yii-1.1.14.f0fee9/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#7 /home/mile/public_html/oddsapi/index.php(13): CWebApplication->run()
+REQUEST_URI=/oddsapi/index.php?r=xml/xml
+in /home/mile/public_html/oddsapi/index.php (13)
+2013/10/20 16:30:29 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Unable to resolve the request "da/da".' in /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/CWebApplication.php(141): CWebApplication->runController('da/da')
+#1 /home/mile/public_html/yii-1.1.14.f0fee9/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#2 /home/mile/public_html/oddsapi/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/oddsapi/index.php?r=da/da
+HTTP_REFERER=http://localhost/oddsapi/index.php?r=sport/admin
+---
+2013/10/20 16:49:54 [error] [php] file_put_contents(/home/mile/public_html/oddsapi/protected) [<a href='function.file-put-contents'>function.file-put-contents</a>]: failed to open stream: Is a directory (/home/mile/public_html/oddsapi/protected/controllers/CronController.php:624)
+Stack trace:
+#0 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/CController.php(308): CInlineAction->runWithParams()
+#1 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/filters/CFilterChain.php(133): CronController->runAction()
+#2 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/filters/CFilter.php(40): CFilterChain->run()
+#3 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/CController.php(1145): CAccessControlFilter->filter()
+#4 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/filters/CInlineFilter.php(58): CronController->filterAccessControl()
+#5 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/filters/CFilterChain.php(130): CInlineFilter->filter()
+#6 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/CController.php(291): CFilterChain->run()
+#7 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/CController.php(265): CronController->runActionWithFilters()
+#8 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/CWebApplication.php(282): CronController->run()
+#9 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#10 /home/mile/public_html/yii-1.1.14.f0fee9/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#11 /home/mile/public_html/oddsapi/index.php(13): CWebApplication->run()
+REQUEST_URI=/oddsapi/index.php?r=cron/xmlgenerate
+in /home/mile/public_html/oddsapi/protected/controllers/CronController.php (624)
+in /home/mile/public_html/oddsapi/index.php (13)
+2013/10/20 16:50:15 [error] [php] file_put_contents(/home/mile/public_html/oddsapi/protected/xml/odds.xml) [<a href='function.file-put-contents'>function.file-put-contents</a>]: failed to open stream: No such file or directory (/home/mile/public_html/oddsapi/protected/controllers/CronController.php:624)
+Stack trace:
+#0 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/CController.php(308): CInlineAction->runWithParams()
+#1 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/filters/CFilterChain.php(133): CronController->runAction()
+#2 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/filters/CFilter.php(40): CFilterChain->run()
+#3 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/CController.php(1145): CAccessControlFilter->filter()
+#4 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/filters/CInlineFilter.php(58): CronController->filterAccessControl()
+#5 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/filters/CFilterChain.php(130): CInlineFilter->filter()
+#6 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/CController.php(291): CFilterChain->run()
+#7 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/CController.php(265): CronController->runActionWithFilters()
+#8 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/CWebApplication.php(282): CronController->run()
+#9 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#10 /home/mile/public_html/yii-1.1.14.f0fee9/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#11 /home/mile/public_html/oddsapi/index.php(13): CWebApplication->run()
+REQUEST_URI=/oddsapi/index.php?r=cron/xmlgenerate
+in /home/mile/public_html/oddsapi/protected/controllers/CronController.php (624)
+in /home/mile/public_html/oddsapi/index.php (13)
+2013/10/20 16:51:17 [error] [exception.CException] exception 'CException' with message 'CWebApplication and its behaviors do not have a method or closure named "basePath".' in /home/mile/public_html/yii-1.1.14.f0fee9/framework/base/CComponent.php:266
+Stack trace:
+#0 /home/mile/public_html/oddsapi/protected/controllers/CronController.php(628): CComponent->__call('basePath', Array)
+#1 /home/mile/public_html/oddsapi/protected/controllers/CronController.php(628): CWebApplication->basePath()
+#2 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/actions/CInlineAction.php(49): CronController->actionXmlgenerate()
+#3 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#4 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/filters/CFilterChain.php(133): CController->runAction(Object(CInlineAction))
+#5 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/filters/CFilter.php(40): CFilterChain->run()
+#6 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/CController.php(1145): CFilter->filter(Object(CFilterChain))
+#7 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/filters/CInlineFilter.php(58): CController->filterAccessControl(Object(CFilterChain))
+#8 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/filters/CFilterChain.php(130): CInlineFilter->filter(Object(CFilterChain))
+#9 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/CController.php(291): CFilterChain->run()
+#10 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#11 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/CWebApplication.php(282): CController->run('xmlgenerate')
+#12 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/CWebApplication.php(141): CWebApplication->runController('cron/xmlgenerat...')
+#13 /home/mile/public_html/yii-1.1.14.f0fee9/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#14 /home/mile/public_html/oddsapi/index.php(13): CApplication->run()
+#15 {main}
+REQUEST_URI=/oddsapi/index.php?r=cron/xmlgenerate
+HTTP_REFERER=http://localhost/oddsapi/index.php?r=site/index
+---
+2013/10/20 16:51:44 [error] [exception.CException] exception 'CException' with message 'CWebApplication and its behaviors do not have a method or closure named "basePath".' in /home/mile/public_html/yii-1.1.14.f0fee9/framework/base/CComponent.php:266
+Stack trace:
+#0 /home/mile/public_html/oddsapi/protected/controllers/CronController.php(628): CComponent->__call('basePath', Array)
+#1 /home/mile/public_html/oddsapi/protected/controllers/CronController.php(628): CWebApplication->basePath()
+#2 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/actions/CInlineAction.php(49): CronController->actionXmlgenerate()
+#3 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#4 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/filters/CFilterChain.php(133): CController->runAction(Object(CInlineAction))
+#5 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/filters/CFilter.php(40): CFilterChain->run()
+#6 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/CController.php(1145): CFilter->filter(Object(CFilterChain))
+#7 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/filters/CInlineFilter.php(58): CController->filterAccessControl(Object(CFilterChain))
+#8 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/filters/CFilterChain.php(130): CInlineFilter->filter(Object(CFilterChain))
+#9 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/CController.php(291): CFilterChain->run()
+#10 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#11 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/CWebApplication.php(282): CController->run('xmlgenerate')
+#12 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/CWebApplication.php(141): CWebApplication->runController('cron/xmlgenerat...')
+#13 /home/mile/public_html/yii-1.1.14.f0fee9/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#14 /home/mile/public_html/oddsapi/index.php(13): CApplication->run()
+#15 {main}
+REQUEST_URI=/oddsapi/index.php?r=cron/xmlgenerate
+HTTP_REFERER=http://localhost/oddsapi/index.php?r=site/index
+---
+2013/10/20 16:51:45 [error] [exception.CException] exception 'CException' with message 'CWebApplication and its behaviors do not have a method or closure named "basePath".' in /home/mile/public_html/yii-1.1.14.f0fee9/framework/base/CComponent.php:266
+Stack trace:
+#0 /home/mile/public_html/oddsapi/protected/controllers/CronController.php(628): CComponent->__call('basePath', Array)
+#1 /home/mile/public_html/oddsapi/protected/controllers/CronController.php(628): CWebApplication->basePath()
+#2 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/actions/CInlineAction.php(49): CronController->actionXmlgenerate()
+#3 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#4 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/filters/CFilterChain.php(133): CController->runAction(Object(CInlineAction))
+#5 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/filters/CFilter.php(40): CFilterChain->run()
+#6 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/CController.php(1145): CFilter->filter(Object(CFilterChain))
+#7 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/filters/CInlineFilter.php(58): CController->filterAccessControl(Object(CFilterChain))
+#8 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/filters/CFilterChain.php(130): CInlineFilter->filter(Object(CFilterChain))
+#9 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/CController.php(291): CFilterChain->run()
+#10 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#11 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/CWebApplication.php(282): CController->run('xmlgenerate')
+#12 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/CWebApplication.php(141): CWebApplication->runController('cron/xmlgenerat...')
+#13 /home/mile/public_html/yii-1.1.14.f0fee9/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#14 /home/mile/public_html/oddsapi/index.php(13): CApplication->run()
+#15 {main}
+REQUEST_URI=/oddsapi/index.php?r=cron/xmlgenerate
+HTTP_REFERER=http://localhost/oddsapi/index.php?r=site/index
+---
+2013/10/20 16:51:57 [error] [exception.CException] exception 'CException' with message 'CWebApplication and its behaviors do not have a method or closure named "basePath".' in /home/mile/public_html/yii-1.1.14.f0fee9/framework/base/CComponent.php:266
+Stack trace:
+#0 /home/mile/public_html/oddsapi/protected/controllers/CronController.php(628): CComponent->__call('basePath', Array)
+#1 /home/mile/public_html/oddsapi/protected/controllers/CronController.php(628): CWebApplication->basePath()
+#2 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/actions/CInlineAction.php(49): CronController->actionXmlgenerate()
+#3 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#4 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/filters/CFilterChain.php(133): CController->runAction(Object(CInlineAction))
+#5 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/filters/CFilter.php(40): CFilterChain->run()
+#6 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/CController.php(1145): CFilter->filter(Object(CFilterChain))
+#7 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/filters/CInlineFilter.php(58): CController->filterAccessControl(Object(CFilterChain))
+#8 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/filters/CFilterChain.php(130): CInlineFilter->filter(Object(CFilterChain))
+#9 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/CController.php(291): CFilterChain->run()
+#10 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#11 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/CWebApplication.php(282): CController->run('xmlgenerate')
+#12 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/CWebApplication.php(141): CWebApplication->runController('cron/xmlgenerat...')
+#13 /home/mile/public_html/yii-1.1.14.f0fee9/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#14 /home/mile/public_html/oddsapi/index.php(13): CApplication->run()
+#15 {main}
+REQUEST_URI=/oddsapi/index.php?r=cron/xmlgenerate
+HTTP_REFERER=http://localhost/oddsapi/index.php?r=site/index
+---
+2013/10/20 16:53:39 [error] [php] file_put_contents(/home/mile/public_html/oddsapi/xml/odds.xml) [<a href='function.file-put-contents'>function.file-put-contents</a>]: failed to open stream: Permission denied (/home/mile/public_html/oddsapi/protected/controllers/CronController.php:624)
+Stack trace:
+#0 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/CController.php(308): CInlineAction->runWithParams()
+#1 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/filters/CFilterChain.php(133): CronController->runAction()
+#2 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/filters/CFilter.php(40): CFilterChain->run()
+#3 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/CController.php(1145): CAccessControlFilter->filter()
+#4 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/filters/CInlineFilter.php(58): CronController->filterAccessControl()
+#5 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/filters/CFilterChain.php(130): CInlineFilter->filter()
+#6 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/CController.php(291): CFilterChain->run()
+#7 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/CController.php(265): CronController->runActionWithFilters()
+#8 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/CWebApplication.php(282): CronController->run()
+#9 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#10 /home/mile/public_html/yii-1.1.14.f0fee9/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#11 /home/mile/public_html/oddsapi/index.php(13): CWebApplication->run()
+REQUEST_URI=/oddsapi/index.php?r=cron/xmlgenerate
+in /home/mile/public_html/oddsapi/protected/controllers/CronController.php (624)
+in /home/mile/public_html/oddsapi/index.php (13)
