@@ -97,7 +97,9 @@ class StackController extends Controller
 			if($model->save())
 				$this->redirect(array('view','id'=>$model->id));
 		}
-
+                
+                $model->data = Oddsleaders::pretty_print($model->data);
+                
 		$this->render('update',array(
 			'model'=>$model,
 		));

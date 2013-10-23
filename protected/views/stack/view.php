@@ -16,6 +16,8 @@ $this->menu=array(
 );
 ?>
 
+<h1>View Stack #<?php echo $model->id; ?></h1>
+
 <table id="yw0" class="detail-view">
     <tbody>
         <tr class="odd"><th><?php echo $model->getAttributeLabel('id'); ?></th><td><?php echo $model->id; ?></td></tr>
