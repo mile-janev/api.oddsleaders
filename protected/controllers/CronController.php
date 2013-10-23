@@ -91,8 +91,6 @@ class CronController extends Controller
                     $tournament->save();
                 }
             }
-            
-            return 1;
         }
 
 //Populate stack with links from given tournament
@@ -122,8 +120,6 @@ class CronController extends Controller
                     }
                 }
             }
-            
-            return 1;
         }
         
 // Cron job 2
@@ -204,7 +200,7 @@ class CronController extends Controller
         public function saveOdds($stack, $odds)
         {
             $odds_encoded = json_encode($odds);
-            $opponent = implode("=>vs<=", $odds['teams']);
+            $opponent = implode("/vs/", $odds['teams']);
             
             $stack->opponent = $opponent;
             $stack->start = $odds['date'];
@@ -635,7 +631,7 @@ class CronController extends Controller
                 foreach ($tournament->stacks as $stack)
                 {
                     $xml .= "<game>";
-                    $xml .= "<odds>".$stack->data."</odds>";
+                    $xml .= "<odds>".$stack->opponent."</odds>";
                     $xml .= "</game>";
                 }
                 

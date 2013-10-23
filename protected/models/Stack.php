@@ -66,11 +66,11 @@ class Stack extends CActiveRecord
 		return array(
 			'id' => 'ID',
 			'link' => 'Link',
-			'opponent' => 'Opponent',
-			'start' => 'Start',
-			'data' => 'Data',
+			'opponent' => 'Opponents',
+			'start' => 'Start game',
+			'data' => 'Data content',
 			'tournament_id' => 'Tournament',
-			'cron' => 'Cron',
+			'cron' => 'Cron group',
 			'cron_time' => 'Cron Time',
 			'date_created' => 'Date Created',
 		);

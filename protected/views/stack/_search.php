@@ -32,11 +32,6 @@
 	</div>
 
 	<div class="row">
-		<?php echo $form->label($model,'data'); ?>
-		<?php echo $form->textArea($model,'data',array('rows'=>6, 'cols'=>50)); ?>
-	</div>
-
-	<div class="row">
 		<?php echo $form->label($model,'tournament_id'); ?>
 		<?php echo $form->textField($model,'tournament_id',array('size'=>10,'maxlength'=>10)); ?>
 	</div>

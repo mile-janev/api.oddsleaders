@@ -227,3 +227,25 @@ div.search-form
 {
 	background: #80CFFF;
 }
+
+/*New css*/
+table.detail-view tr.odd{
+    background: none repeat scroll 0 0 #E5F1F4;
+}
+table.detail-view tr.even{
+    background: none repeat scroll 0 0 #F8F8F8;
+}
+table.detail-view th{
+    text-align: right;
+    width: 160px;
+}
+table.detail-view th, table.detail-view td{
+    border: 1px solid #FFFFFF;
+    font-size: 0.9em;
+    padding: 0.3em 0.6em;
+    vertical-align: top;
+}
+.coefficients-textarea{
+    width: 500px;
+    height: 500px;
+}
