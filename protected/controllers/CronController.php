@@ -631,7 +631,7 @@ class CronController extends Controller
                 foreach ($tournament->stacks as $stack)
                 {
                     $xml .= "<game>";
-                    $xml .= "<odds>".$stack->opponent."</odds>";
+                    $xml .= "<odds>".$stack->data."</odds>";
                     $xml .= "</game>";
                 }
                 

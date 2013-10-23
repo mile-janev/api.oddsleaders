@@ -50,6 +50,11 @@
 		<?php echo $form->label($model,'date_created'); ?>
 		<?php echo $form->textField($model,'date_created'); ?>
 	</div>
+    
+        <div class="row">
+		<?php echo $form->label($model,'data'); ?>
+		<?php echo $form->textArea($model,'data',array('rows'=>6, 'cols'=>50)); ?>
+	</div>
 
 	<div class="row buttons">
 		<?php echo CHtml::submitButton('Search'); ?>
