@@ -335,6 +335,22 @@ class CronController extends Controller
                 $this->icehockeyGoalsFirstPeriod($htmlDiv, $game_type);
             }
         }
+        
+        public function basketballOdds($htmlDiv, $game_type)
+        {
+            if(trim($game_type[0]->innertext) == 'Games')
+            {
+                $this->basketballMatch($htmlDiv, $game_type);
+            }
+            else if(trim($game_type[0]->innertext) == 'Handicap')
+            {
+                $this->basketballHandicap($htmlDiv, $game_type);
+            }
+            else if(trim($game_type[0]->innertext) == 'Over/Under')
+            {
+                $this->basketballOverUnder($htmlDiv, $game_type);
+            }
+        }
 
         //Set home and guest teams. Can be used in any sport
         public function sportSetHomeGuest($htmlAll)
@@ -667,11 +683,41 @@ class CronController extends Controller
             $this->game['coefficients']['goals-first-period']['0-1'] = $odds[0]->innertext;
             $this->game['coefficients']['goals-first-period']['2+'] = $odds[1]->innertext;
         }
+
+        public function basketballMatch($htmlDiv, $game_type)
+        {
+            $odds = $htmlDiv->find('.odds');
+                        
+            $this->game['coefficients']['match']['label'] = trim($game_type[0]->innertext);
+            $this->game['coefficients']['match']['1'] = $odds[0]->innertext;
+            $this->game['coefficients']['match']['2'] = $odds[1]->innertext;
+        }
         
-//        public function sportGameName($htmlDiv, $game_type)
-//        {
-//            
-//        }
+        public function basketballHandicap($htmlDiv, $game_type)
+        {
+            $odds = $htmlDiv->find('.odds');
+                        
+            $this->game['coefficients']['handicap']['label'] = trim($game_type[0]->innertext);
+            $this->game['coefficients']['handicap']['-1.5'] = $odds[0]->innertext;
+            $this->game['coefficients']['handicap']['+1.5'] = $odds[1]->innertext;
+        }
+        
+        public function basketballOverUnder($htmlDiv, $game_type)
+        {
+            $odds = $htmlDiv->find('.odds');
+            
+            $name = $htmlDiv->find('.name');
+            $over = '150';
+            foreach ($name as $nm)
+            {
+                $my_array = explode(' ', $nm->innertext);
+                $over = $my_array[0];
+            }
+                        
+            $this->game['coefficients']['over_under']['label'] = trim($game_type[0]->innertext);
+            $this->game['coefficients']['over_under']['over'][$over] = $odds[0]->innertext;
+            $this->game['coefficients']['over_under']['under'][$over] = $odds[1]->innertext;
+        }
   
 //Cron job 3
 //Generate xml document
@@ -725,7 +771,7 @@ class CronController extends Controller
     
     public function actionTest()
     {
-        $link = "https://www.interwetten.com/en/sportsbook/e/9858005/tampa-bay-lightning-chicago-blackhawks";
+        $link = "https://www.interwetten.com/en/sportsbook/e/9871485/fenerbahce-fc-barcelona";
         
         $parserAll = new SimpleHTMLDOM;
         $htmlAll = $parserAll->file_get_html($link);
@@ -744,10 +790,8 @@ class CronController extends Controller
                 $htmlElement = $htmlDiv->find('.offertype');
                 $game_type = $htmlElement[0]->find('span');//Will return game type, like handicap, First goal etc.
 
-                $this->icehockeyOdds($htmlDiv, $game_type);
+                $this->basketballOdds($htmlDiv, $game_type);
             }
         }
-        var_dump($this->game);
-        exit();
     }
 }
