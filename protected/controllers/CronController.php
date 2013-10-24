@@ -302,21 +302,37 @@ class CronController extends Controller
         
         public function icehockeyOdds($htmlDiv, $game_type)
         {
-            if(trim($game_type[0]->innertext) == 'Winning Team')
+            if(trim($game_type[0]->innertext) == 'Match')
             {
-                $this->hockeyWinning($htmlDiv, $game_type);
+                $this->icehockeyMatch($htmlDiv, $game_type);
+            }
+            else if(trim($game_type[0]->innertext) == 'Winning Team')
+            {
+                $this->icehockeyWinningTeam($htmlDiv, $game_type);
+            }
+            else if(trim($game_type[0]->innertext) == 'Double Chance')
+            {
+                $this->icehockeyDoubleChance($htmlDiv, $game_type);
+            }
+            else if(trim($game_type[0]->innertext) == 'First goal')
+            {
+                $this->icehockeyFirstGoal($htmlDiv, $game_type);
             }
             else if(trim($game_type[0]->innertext) == 'How many goals 0-5/6+')
             {
-                $this->hockeyGoals($htmlDiv, $game_type);
+                $this->icehockeyGoals($htmlDiv, $game_type);
+            }
+            else if(trim($game_type[0]->innertext) == 'Time first goal')
+            {
+                $this->icehockeyTimeFirstGoal($htmlDiv, $game_type);
             }
             else if(trim($game_type[0]->innertext) == '1st period')
             {
-                $this->hockeyFirstPeriod($htmlDiv, $game_type);
+                $this->icehockeyFirstPeriod($htmlDiv, $game_type);
             }
             else if(trim($game_type[0]->innertext) == 'How many goals in 1st period')
             {
-                $this->hockeyGoalsFirstPeriod($htmlDiv, $game_type);
+                $this->icehockeyGoalsFirstPeriod($htmlDiv, $game_type);
             }
         }
 
@@ -386,7 +402,7 @@ class CronController extends Controller
             $this->game['coefficients']['double-chance']['x2'] = $odds[1]->innertext;
         }
         
-        public function foodballFirstgoal($htmlDiv, $game_type)
+        public function foodballFirstGoal($htmlDiv, $game_type)
         {
             $odds = $htmlDiv->find('.odds');
                         
@@ -577,8 +593,18 @@ class CronController extends Controller
             $this->game['coefficients']['set-score']['2:1'] = $odds[3]->innertext;
             $this->game['coefficients']['set-score']['1:2'] = $odds[5]->innertext;
         }
+        
+        public function icehockeyMatch($htmlDiv, $game_type)
+        {
+            $odds = $htmlDiv->find('.odds');
+                        
+            $this->game['coefficients']['match']['label'] = trim($game_type[0]->innertext);
+            $this->game['coefficients']['match']['1'] = $odds[0]->innertext;
+            $this->game['coefficients']['match']['x'] = $odds[1]->innertext;
+            $this->game['coefficients']['match']['2'] = $odds[2]->innertext;
+        }
 
-        public function hockeyWinning($htmlDiv, $game_type)
+        public function icehockeyWinningTeam($htmlDiv, $game_type)
         {
             $odds = $htmlDiv->find('.odds');
                         
@@ -586,8 +612,26 @@ class CronController extends Controller
             $this->game['coefficients']['winning-team']['1'] = $odds[0]->innertext;
             $this->game['coefficients']['winning-team']['2'] = $odds[1]->innertext;
         }
+        
+        public function icehockeyDoubleChance($htmlDiv, $game_type)
+        {
+            $odds = $htmlDiv->find('.odds');
+                        
+            $this->game['coefficients']['double-chance']['label'] = trim($game_type[0]->innertext);
+            $this->game['coefficients']['double-chance']['1x'] = $odds[0]->innertext;
+            $this->game['coefficients']['double-chance']['x2'] = $odds[1]->innertext;
+        }
+        
+        public function icehockeyFirstGoal($htmlDiv, $game_type)
+        {
+            $odds = $htmlDiv->find('.odds');
+                        
+            $this->game['coefficients']['first-goal']['label'] = trim($game_type[0]->innertext);
+            $this->game['coefficients']['first-goal']['home'] = $odds[0]->innertext;
+            $this->game['coefficients']['first-goal']['guest'] = $odds[1]->innertext;
+        }
 
-        public function hockeyGoals($htmlDiv, $game_type)
+        public function icehockeyGoals($htmlDiv, $game_type)
         {
             $odds = $htmlDiv->find('.odds');
                         
@@ -595,8 +639,17 @@ class CronController extends Controller
             $this->game['coefficients']['goals']['0-5'] = $odds[0]->innertext;
             $this->game['coefficients']['goals']['6+'] = $odds[1]->innertext;
         }
+        
+        public function icehockeyTimeFirstGoal($htmlDiv, $game_type)
+        {
+            $odds = $htmlDiv->find('.odds');
 
-        public function hockeyFirstPeriod($htmlDiv, $game_type)
+            $this->game['coefficients']['time-first-goal']['label'] = trim($game_type[0]->innertext);
+            $this->game['coefficients']['time-first-goal']['1-29'] = $odds[0]->innertext;
+            $this->game['coefficients']['time-first-goal']['30+'] = $odds[1]->innertext;
+        }
+        
+        public function icehockeyFirstPeriod($htmlDiv, $game_type)
         {
             $odds = $htmlDiv->find('.odds');
                         
@@ -606,7 +659,7 @@ class CronController extends Controller
             $this->game['coefficients']['first-period']['2'] = $odds[2]->innertext;
         }
 
-        public function hockeyGoalsFirstPeriod($htmlDiv, $game_type)
+        public function icehockeyGoalsFirstPeriod($htmlDiv, $game_type)
         {
             $odds = $htmlDiv->find('.odds');
                         
@@ -672,13 +725,13 @@ class CronController extends Controller
     
     public function actionTest()
     {
-        $link = "https://www.interwetten.com/en/sportsbook/e/9872752/murray-j-peers-j-nieminen-j-tursunov-d";
+        $link = "https://www.interwetten.com/en/sportsbook/e/9858005/tampa-bay-lightning-chicago-blackhawks";
         
         $parserAll = new SimpleHTMLDOM;
         $htmlAll = $parserAll->file_get_html($link);
         $htmlTableDivs = $htmlAll->find('div.containerContentTable');
         $htmlArray = explode('<div>', trim($htmlTableDivs[0]->innertext));
-
+        
         //All divs one-by-one
         foreach ($htmlArray as $elementDiv)
         {
@@ -691,8 +744,10 @@ class CronController extends Controller
                 $htmlElement = $htmlDiv->find('.offertype');
                 $game_type = $htmlElement[0]->find('span');//Will return game type, like handicap, First goal etc.
 
-                $this->tennisOdds($htmlDiv, $game_type);
+                $this->icehockeyOdds($htmlDiv, $game_type);
             }
         }
+        var_dump($this->game);
+        exit();
     }
 }
