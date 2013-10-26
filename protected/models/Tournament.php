@@ -17,7 +17,7 @@
 class Tournament extends CActiveRecord
 {
 	/**
-	 * @return string the associated database table name
+	 * @return stactivering the associated database table name
 	 */
 	public function tableName()
 	{
@@ -34,11 +34,12 @@ class Tournament extends CActiveRecord
 		return array(
 			array('name, link, sport_id', 'required'),
 			array('active', 'numerical', 'integerOnly'=>true),
+                        array('special', 'numerical', 'integerOnly'=>true),
 			array('name', 'length', 'max'=>256),
 			array('sport_id', 'length', 'max'=>10),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, name, link, active, sport_id', 'safe', 'on'=>'search'),
+			array('id, name, link, active, sport_id, special', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -66,6 +67,7 @@ class Tournament extends CActiveRecord
 			'link' => 'Link',
 			'active' => 'Active',
 			'sport_id' => 'Sport',
+                        'special' => 'Special tournament'
 		);
 	}
 
@@ -92,6 +94,7 @@ class Tournament extends CActiveRecord
 		$criteria->compare('link',$this->link,true);
 		$criteria->compare('active',$this->active);
 		$criteria->compare('sport_id',$this->sport_id,true);
+                $criteria->compare('special',$this->special,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

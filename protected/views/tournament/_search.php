@@ -35,6 +35,11 @@
 		<?php echo $form->label($model,'sport_id'); ?>
 		<?php echo $form->textField($model,'sport_id',array('size'=>10,'maxlength'=>10)); ?>
 	</div>
+    
+        <div class="row">
+		<?php echo $form->label($model,'special'); ?>
+		<?php echo $form->textField($model,'special'); ?>
+	</div>
 
 	<div class="row buttons">
 		<?php echo CHtml::submitButton('Search'); ?>

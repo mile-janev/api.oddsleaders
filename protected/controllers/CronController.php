@@ -28,7 +28,7 @@ class CronController extends Controller
 	{
 		return array(
 			array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('tournamentstack','odds','xmlgenerate','test'),//
+				'actions'=>array('tournament','stack','odds','xml','test'),//
 				'users'=>array('*'),
 			),
 			array('deny',  // deny all users
@@ -38,8 +38,8 @@ class CronController extends Controller
 	}
         
 //        Cron job 1
-//        Action who populate tournament and stack. Run at least 30min-1h BEFORE populating odds action
-        public function actionTournamentstack()
+//        Action who populate tournament
+        public function actionTournament()
         {
             $criteria1 = new CDbCriteria();
             $criteria1->addCondition('active = :active');
@@ -49,17 +49,6 @@ class CronController extends Controller
             foreach ($sports as $sport)
             {
                 $this->tournamentPopulate($sport);
-            }
-            
-            $criteria2 = new CDbCriteria();
-            $criteria2->addCondition('active = :active');
-            $criteria2->params[":active"] = 1;
-            $tournaments = Tournament::model()->findAll($criteria2);
-            
-            foreach ($tournaments as $tournament)
-            {
-                $this->populateStack($tournament);
-                
             }
             
             exit();
@@ -88,13 +77,57 @@ class CronController extends Controller
                     $tournament->link = "https://www.interwetten.com".$tournament_link;
                     $tournament->active = 1;
                     $tournament->sport_id = $sport->id;
+                    $tournament->special = 0;
                     $tournament->save();
                 }
             }
         }
+        
+//        Cron job 2
+//        Action who populate stack
+        public function actionStack()
+        {
+            $criteria1 = new CDbCriteria();
+            $criteria1->addCondition('active = :active');
+            $criteria1->params[":active"] = 1;
+            $tournaments = Tournament::model()->findAll($criteria1);
+            
+            foreach ($tournaments as $tournament)
+            {
+                if($tournament->special == 1)
+                {
+                    $this->specialTournament($tournament);
+                }
+                else
+                {
+                    $this->stackPopulate($tournament);
+                }
+            }
+            
+            exit();
+        }
+        
+//        Special leagues, tournaments
+        public function specialTournament($tournament)
+        {
+            $stack = Stack::model()->findByAttributes(array("link"=>$tournament->link));
+            if(!$stack)
+            {
+                $stack = new Stack();
+                $stack->link = $tournament->link;
+                $stack->opponent;
+                $stack->start;
+                $stack->data;
+                $stack->tournament_id = $tournament->id;
+                $stack->cron;
+                $stack->cron_time;
+                $stack->date_created = new CDbExpression('NOW()');
+                $stack->save();
+            }
+        }
 
 //Populate stack with links from given tournament
-        public function populateStack($tournament)
+        public function stackPopulate($tournament)
         {
             $parserAll = new SimpleHTMLDOM;
             $htmlAll = $parserAll->file_get_html($tournament->link);
@@ -122,8 +155,8 @@ class CronController extends Controller
             }
         }
         
-// Cron job 2
-//Get odds. Add this as link in admin part
+// Cron job 3
+//Populating odds. Limit setted
         public function actionOdds()
         {
             $criteria1 = new CDbCriteria();
@@ -146,11 +179,77 @@ class CronController extends Controller
             foreach ($stacks as $stack)
             {                
                 $this->saveCronpass($stack);
-                $odds = $this->getOdds($stack);
+                
+                if($stack->tournament->special==1)
+                {
+                    $odds = $this->getSpecialOdds($stack);
+                }
+                else
+                {
+                    $odds = $this->getOdds($stack);
+                }
                 $this->saveOdds($stack, $odds);
             }
             
             exit();
+        }
+        
+//        Function for getting odds from special tournaments
+        public function getSpecialOdds($stack)
+        {
+            $this->game = array();
+            $sport = $stack->tournament->sport->name;
+            $pagesLinks = array();
+            $parserAll = new SimpleHTMLDOM;
+            $htmlAll = $parserAll->file_get_html($stack->link);
+            $htmlTableDivs = $htmlAll->find('table.betTable');
+            
+            $this->sportSpecialSetTeams($htmlTableDivs);//Set teams
+            $this->sportSpecialSetDateTime($htmlAll);//Set date and time
+            
+            foreach ($htmlTableDivs as $elementDiv)
+            {
+                if(trim($elementDiv) != '')
+                {
+                    $name = $elementDiv->find('.name');
+                    $odds = $elementDiv->find('.odds');
+                    
+                    $this->game['coefficients'][$name[0]->innertext] = $odds[0]->innertext;
+                }
+            }
+            return $this->game;
+        }
+        
+        public function sportSpecialSetTeams($htmlTableDivs)
+        {
+            $teams_array = array();
+            foreach ($htmlTableDivs as $elementDiv)
+            {
+                if(trim($elementDiv) != '')
+                {
+                    $name = $elementDiv->find('.name');
+                    $teams_array[] = trim($name[0]->innertext);
+                }
+            }
+            
+            $teams_string = implode(' vs ', $teams_array);
+            $this->game['teams'] = $teams_string;
+        }
+        
+        public function sportSpecialSetDateTime($htmlAll)
+        {
+            $dateHtml = $htmlAll->find('.offerDate');
+            $date_trimmed = trim($dateHtml[0]->innertext);
+            $date_array = explode('.', $date_trimmed);
+            $day = $date_array[0];
+            $month = $date_array[1];
+            $year = '20'.$date_array[2];
+            $date = $year.'-'.$month.'-'.$day;
+            
+            $timeHtml = $htmlAll->find('.time2');
+            $date_time = $date.' '.trim($timeHtml[0]->innertext);
+            
+            $this->game['date'] = $date_time;
         }
         
 //Get odds for given stack link
@@ -165,7 +264,7 @@ class CronController extends Controller
             $htmlArray = explode('<div>', trim($htmlTableDivs[0]->innertext));
             
             $this->sportSetHomeGuest($htmlAll);//Set home/guest
-            $this->foodballSetDateTime($htmlAll);//Set date and time
+            $this->sportSetDateTime($htmlAll);//Set date and time
             
             //All divs one-by-one
             foreach ($htmlArray as $elementDiv)
@@ -195,6 +294,14 @@ class CronController extends Controller
                     {
                         $this->basketballOdds($htmlDiv, $game_type);
                     }
+                    else if($sport == "Handball")
+                    {
+                        $this->handballOdds($htmlDiv, $game_type);
+                    }
+                    else if($sport == "American football")
+                    {
+                        $this->americanFootballOdds($htmlDiv, $game_type);
+                    }
                 }
             }
             
@@ -210,11 +317,20 @@ class CronController extends Controller
             
             return 1;
         }
+        
 //Save odds into stack in database
         public function saveOdds($stack, $odds)
         {
             $odds_encoded = json_encode($odds);
-            $opponent = implode("/vs/", $odds['teams']);
+            
+            if(is_array($odds['teams']))
+            {
+                $opponent = implode(" vs ", $odds['teams']);
+            }
+            else
+            {
+                $opponent = $odds['teams'];
+            }
             
             $stack->opponent = $opponent;
             $stack->start = $odds['date'];
@@ -351,6 +467,30 @@ class CronController extends Controller
                 $this->basketballOverUnder($htmlDiv, $game_type);
             }
         }
+        
+        public function handballOdds($htmlDiv, $game_type)
+        {
+            if(trim($game_type[0]->innertext) == 'Games')
+            {
+                $this->handballMatch($htmlDiv, $game_type);
+            }
+            else if(trim($game_type[0]->innertext) == 'Double Chance')
+            {
+                $this->handballDoubleChance($htmlDiv, $game_type);
+            }
+            else if(trim($game_type[0]->innertext) == 'Halftime')
+            {
+                $this->handballHalftime($htmlDiv, $game_type);
+            }
+            else if(trim($game_type[0]->innertext) == 'Handicap')
+            {
+                $this->handballHandicap($htmlDiv, $game_type);
+            }
+            else if(trim($game_type[0]->innertext) == 'How many goals')
+            {
+                $this->handballHowManyGoals($htmlDiv, $game_type);
+            }
+        }
 
         //Set home and guest teams. Can be used in any sport
         public function sportSetHomeGuest($htmlAll)
@@ -371,7 +511,7 @@ class CronController extends Controller
             $this->game['teams']['guest'] = $guest_team;
         }
         
-        public function foodballSetDateTime($htmlAll)
+        public function sportSetDateTime($htmlAll)
         {
             $dateHtml = $htmlAll->find('.offerDate');
             $date_trimmed = trim($dateHtml[0]->innertext);
@@ -718,10 +858,79 @@ class CronController extends Controller
             $this->game['coefficients']['over_under']['over'][$over] = $odds[0]->innertext;
             $this->game['coefficients']['over_under']['under'][$over] = $odds[1]->innertext;
         }
-  
-//Cron job 3
+        
+        public function handballMatch($htmlDiv, $game_type)
+        {
+            $odds = $htmlDiv->find('.odds');
+                        
+            $this->game['coefficients']['match']['label'] = trim($game_type[0]->innertext);
+            $this->game['coefficients']['match']['1'] = $odds[0]->innertext;
+            $this->game['coefficients']['match']['x'] = $odds[1]->innertext;
+            $this->game['coefficients']['match']['2'] = $odds[2]->innertext;
+        }
+
+        public function handballDoubleChance($htmlDiv, $game_type)
+        {
+            $odds = $htmlDiv->find('.odds');
+                        
+            $this->game['coefficients']['double-chance']['label'] = trim($game_type[0]->innertext);
+            $this->game['coefficients']['double-chance']['1x'] = $odds[0]->innertext;
+            $this->game['coefficients']['double-chance']['x2'] = $odds[1]->innertext;
+        }
+        
+        public function handballHalfTime($htmlDiv, $game_type)
+        {
+            $odds = $htmlDiv->find('.odds');
+                        
+            $this->game['coefficients']['half-time']['label'] = trim($game_type[0]->innertext);
+            $this->game['coefficients']['half-time']['1'] = $odds[0]->innertext;
+            $this->game['coefficients']['half-time']['x'] = $odds[1]->innertext;
+            $this->game['coefficients']['half-time']['2'] = $odds[2]->innertext;
+        }
+        
+        public function handballHandicap($htmlDiv, $game_type)
+        {
+            $odds = $htmlDiv->find('.odds');
+            
+            $name = $htmlDiv->find('.name');
+            $handicap = '17';
+            $handicap1 = '-';
+            $handicap2 = '+';
+            $my_array = explode('(', $name[0]->innertext);
+            
+            if(strlen(strstr($my_array[1], '+')) > 0)
+            {
+                $handicap1 = '+';
+                $handicap2 = '-';
+            }
+            
+            $handicap = trim($my_array[1], ' , ), +, -');
+            
+            $this->game['coefficients']['handicap']['label'] = trim($game_type[0]->innertext);
+            $this->game['coefficients']['handicap'][$handicap1.$handicap] = $odds[0]->innertext;
+            $this->game['coefficients']['handicap'][$handicap2.$handicap] = $odds[1]->innertext;
+        }
+
+        public function handballHowManyGoals($htmlDiv, $game_type)
+        {
+            $odds = $htmlDiv->find('.odds');
+            
+            $name = $htmlDiv->find('.name');
+            $over = '46';
+            foreach ($name as $nm)
+            {
+                $my_array = explode(' ', $nm->innertext);
+                $over = $my_array[1];
+            }
+            
+            $this->game['coefficients']['how-many-goals']['label'] = trim($game_type[0]->innertext);
+            $this->game['coefficients']['how-many-goals']['over'][$over] = $odds[0]->innertext;
+            $this->game['coefficients']['how-many-goals']['under'][$over] = $odds[1]->innertext;
+        }
+
+//Cron job 4
 //Generate xml document
-    public function actionXmlgenerate()
+    public function actionXml()
     {
         $criteria1 = new CDbCriteria();
         $criteria1->addCondition("active = :active");
@@ -771,7 +980,7 @@ class CronController extends Controller
     
     public function actionTest()
     {
-        $link = "https://www.interwetten.com/en/sportsbook/e/9871485/fenerbahce-fc-barcelona";
+        $link = "https://www.interwetten.com/en/sportsbook/e/9860073/f%C3%BCchse-berlin-hsv-hamburg";
         
         $parserAll = new SimpleHTMLDOM;
         $htmlAll = $parserAll->file_get_html($link);
@@ -790,7 +999,7 @@ class CronController extends Controller
                 $htmlElement = $htmlDiv->find('.offertype');
                 $game_type = $htmlElement[0]->find('span');//Will return game type, like handicap, First goal etc.
 
-                $this->basketballOdds($htmlDiv, $game_type);
+                $this->handballOdds($htmlDiv, $game_type);
             }
         }
     }

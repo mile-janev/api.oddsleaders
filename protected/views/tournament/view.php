@@ -26,5 +26,6 @@ $this->menu=array(
 		'link',
 		'active',
 		'sport_id',
+                'special'
 	),
 )); ?>

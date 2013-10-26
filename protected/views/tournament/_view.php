@@ -25,5 +25,8 @@
 	<?php echo CHtml::encode($data->sport_id); ?>
 	<br />
 
+        <b><?php echo CHtml::encode($data->getAttributeLabel('special')); ?>:</b>
+	<?php echo CHtml::encode($data->special); ?>
+	<br />
 
 </div>

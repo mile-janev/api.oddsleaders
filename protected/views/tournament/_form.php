@@ -42,6 +42,12 @@
 		<?php echo $form->textField($model,'sport_id',array('size'=>10,'maxlength'=>10)); ?>
 		<?php echo $form->error($model,'sport_id'); ?>
 	</div>
+        
+        <div class="row">
+		<?php echo $form->labelEx($model,'special'); ?>
+		<?php echo $form->checkBox($model,'special'); ?>
+		<?php echo $form->error($model,'special'); ?>
+	</div>
 
 	<div class="row buttons">
 		<?php echo CHtml::submitButton($model->isNewRecord ? 'Create' : 'Save'); ?>
