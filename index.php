@@ -1,8 +1,15 @@
 <?php
 
-// change the following paths if necessary
-$yii=dirname(__FILE__).'/../yii-1.1.14.f0fee9/framework/yii.php';
-$config=dirname(__FILE__).'/protected/config/main.php';
+if($_SERVER['SERVER_NAME'] == 'api.oddsleaders.dev')
+{
+    $yii=dirname(__FILE__).'/../yii-1.1.14.f0fee9/framework/yii.php';
+    $config=dirname(__FILE__).'/protected/config/main-local.php';
+}
+else
+{
+    $yii=dirname(__FILE__).'/../../public_html/yii/framework/yii.php';
+    $config=dirname(__FILE__).'/protected/config/main.php';
+}
 
 // remove the following lines when in production mode
 defined('YII_DEBUG') or define('YII_DEBUG',true);
