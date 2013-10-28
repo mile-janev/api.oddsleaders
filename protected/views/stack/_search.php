@@ -15,6 +15,11 @@
 		<?php echo $form->label($model,'id'); ?>
 		<?php echo $form->textField($model,'id',array('size'=>20,'maxlength'=>20)); ?>
 	</div>
+    
+        <div class="row">
+		<?php echo $form->label($model,'code'); ?>
+		<?php echo $form->textField($model,'code',array('size'=>20,'maxlength'=>20)); ?>
+	</div>
 
 	<div class="row">
 		<?php echo $form->label($model,'link'); ?>

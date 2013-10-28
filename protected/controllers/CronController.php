@@ -114,6 +114,7 @@ class CronController extends Controller
             if(!$stack)
             {
                 $stack = new Stack();
+                $stack->code = $this->codeGenerator();
                 $stack->link = $tournament->link;
                 $stack->opponent;
                 $stack->start;
@@ -141,6 +142,7 @@ class CronController extends Controller
                     if(!$stack)
                     {
                         $stack = new Stack();
+                        $stack->code = $this->codeGenerator();
                         $stack->link = $match_link;
                         $stack->opponent;
                         $stack->start;
@@ -155,6 +157,14 @@ class CronController extends Controller
             }
         }
         
+//        Code generator needs improvement
+        public function codeGenerator()
+        {
+            $code = rand(100000, 999999);
+            
+            return $code;
+        }
+
 // Cron job 3
 //Populating odds. Limit setted
         public function actionOdds()
@@ -1018,7 +1028,12 @@ class CronController extends Controller
                 foreach ($tournament->stacks as $stack)
                 {
                     $xml .= "<game>";
+                    
+                    $xml .= "<code>".$stack->code."</code>";
+                    $xml .= "<opponent>".$stack->opponent."</opponent>";
+                    $xml .= "<start>".$stack->start."</start>";
                     $xml .= "<odds>".$stack->data."</odds>";
+                    
                     $xml .= "</game>";
                 }
                 
