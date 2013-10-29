@@ -39,11 +39,19 @@ class CronController extends Controller
         
         public function actionCron()
         {
+            $date = date('Y-m-d', time());
             $time = date("H:i",time());
-//            $time = '';
+            $time = '00:15';
             
-            if($time>'00:00' && $time<"00:30")
+            if(($time>'00:00' && $time<'00:30') || ($time>'12:00' && $time<'12:30'))
             {
+                $cron = Cron::model()->findByAttributes(array('flag'=>'stack_fill'));
+                $cron_date = date('Y-m-d',strtotime($cron->cron_date));
+//                if()
+                $cron->cron_time = $date.' '.$time;
+                $cron->update();
+                var_dump($cron);
+                exit();
                 $this->actionStack();
             }
             else
