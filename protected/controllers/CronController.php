@@ -28,7 +28,7 @@ class CronController extends Controller
 	{
 		return array(
 			array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('tournament','stack','odds','xml','test'),//
+				'actions'=>array('cron','tournament','stack','odds','xml','test'),//
 				'users'=>array('*'),
 			),
 			array('deny',  // deny all users
@@ -37,6 +37,23 @@ class CronController extends Controller
 		);
 	}
         
+        public function actionCron()
+        {
+            $time = date("H:i",time());
+//            $time = '';
+            
+            if($time>'00:00' && $time<"00:30")
+            {
+                $this->actionStack();
+            }
+            else
+            {
+                $this->actionOdds();
+            }
+            var_dump($time);
+            exit();
+        }
+
 //        Cron job 1
 //        Action who populate tournament
         public function actionTournament()
@@ -142,7 +159,7 @@ class CronController extends Controller
                     if(!$stack)
                     {
                         $stack = new Stack();
-                        $stack->code = $this->codeGenerator();
+                        $stack->code = $this->codeGenerator($tournament);
                         $stack->link = $match_link;
                         $stack->opponent;
                         $stack->start;
@@ -158,9 +175,13 @@ class CronController extends Controller
         }
         
 //        Code generator needs improvement
-        public function codeGenerator()
+        public function codeGenerator($tournament)
         {
-            $code = rand(100000, 999999);
+            var_dump($tournament);
+            exit();
+            $rand1 = rand(100000, 999999);
+            $rand2 = rand(100000, 999999);
+            $code = rand($rand1, $rand2);
             
             return $code;
         }
@@ -169,36 +190,42 @@ class CronController extends Controller
 //Populating odds. Limit setted
         public function actionOdds()
         {
-            $criteria1 = new CDbCriteria();
-            $criteria1->addCondition('cron = :cron');
-            $criteria1->params[":cron"] = 0;
-            $criteria1->order = "cron, cron_time, id";
-            $criteria1->limit = 2;
-            $stacks = Stack::model()->findAll($criteria1);
+            $time = date("H:i",time());
+//            $time = '15:00';
             
-            if(!$stacks)
+            if(($time>'03:00' && $time<'07:00') || ($time>'14:00' && $time<'18:00'))
             {
-                $criteria2 = new CDbCriteria();
-                $criteria2->addCondition('cron = :cron');
-                $criteria2->params[":cron"] = 1;
-                $criteria2->order = "cron_time, id";
-                $criteria2->limit = 2;
-                $stacks = Stack::model()->findAll($criteria2);
-            }
-            
-            foreach ($stacks as $stack)
-            {                
-                $this->saveCronpass($stack);
-                
-                if($stack->tournament->special==1)
+                $criteria1 = new CDbCriteria();
+                $criteria1->addCondition('cron = :cron');
+                $criteria1->params[":cron"] = 0;
+                $criteria1->order = "cron, cron_time, id";
+                $criteria1->limit = 2;
+                $stacks = Stack::model()->findAll($criteria1);
+
+                if(!$stacks)
                 {
-                    $odds = $this->getSpecialOdds($stack);
+                    $criteria2 = new CDbCriteria();
+                    $criteria2->addCondition('cron = :cron');
+                    $criteria2->params[":cron"] = 1;
+                    $criteria2->order = "cron_time, id";
+                    $criteria2->limit = 2;
+                    $stacks = Stack::model()->findAll($criteria2);
                 }
-                else
-                {
-                    $odds = $this->getOdds($stack);
+
+                foreach ($stacks as $stack)
+                {                
+                    $this->saveCronpass($stack);
+
+                    if($stack->tournament->special==1)
+                    {
+                        $odds = $this->getSpecialOdds($stack);
+                    }
+                    else
+                    {
+                        $odds = $this->getOdds($stack);
+                    }
+                    $this->saveOdds($stack, $odds);
                 }
-                $this->saveOdds($stack, $odds);
             }
             
             exit();
