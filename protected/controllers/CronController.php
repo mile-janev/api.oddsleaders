@@ -331,7 +331,7 @@ class CronController extends Controller
 //Save odds into stack in database
         public function saveOdds($stack, $odds)
         {
-            $odds_encoded = json_encode($odds);
+            $odds_encoded = json_encode($odds['coefficients']);
             
             if(is_array($odds['teams']))
             {
@@ -1022,22 +1022,25 @@ class CronController extends Controller
             
             foreach ($sport->tournaments as $tournament)
             {
-                $xml .= "<tournament>";
-                $xml .= "<tournament_name>".$tournament->name."</tournament_name>";
-                
-                foreach ($tournament->stacks as $stack)
+                if($tournament->stacks)
                 {
-                    $xml .= "<game>";
-                    
-                    $xml .= "<code>".$stack->code."</code>";
-                    $xml .= "<opponent>".$stack->opponent."</opponent>";
-                    $xml .= "<start>".$stack->start."</start>";
-                    $xml .= "<odds>".$stack->data."</odds>";
-                    
-                    $xml .= "</game>";
+                    $xml .= "<tournament>";
+                    $xml .= "<tournament_name>".$tournament->name."</tournament_name>";
+
+                    foreach ($tournament->stacks as $stack)
+                    {
+                        $xml .= "<game>";
+
+                        $xml .= "<code>".$stack->code."</code>";
+                        $xml .= "<opponent>".$stack->opponent."</opponent>";
+                        $xml .= "<start>".strtotime($stack->start)."</start>";
+                        $xml .= "<odds>".$stack->data."</odds>";
+
+                        $xml .= "</game>";
+                    }
+
+                    $xml .= "</tournament>";
                 }
-                
-                $xml .= "</tournament>";
             }
             
             $xml .= "</sport>";

@@ -57,7 +57,7 @@ return array(
 			'connectionString' => 'mysql:host=localhost;dbname=api',
 			'emulatePrepare' => true,
 			'username' => 'root',
-			'password' => '',
+			'password' => '$L4V3_T!g3R',
 			'charset' => 'utf8',
 		),
 		

@@ -56,3 +56,25 @@ Stack trace:
 REQUEST_URI=/index.php?r=cron/xml
 in /home/mile/public_html/api.oddsleaders/protected/controllers/CronController.php (1033)
 in /home/mile/public_html/api.oddsleaders/index.php (20)
+2013/10/29 21:16:26 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'The requested page does not exist.' in /home/mile/public_html/api.oddsleaders/protected/controllers/StackController.php:159
+Stack trace:
+#0 /home/mile/public_html/api.oddsleaders/protected/controllers/StackController.php(55): StackController->loadModel('2')
+#1 [internal function]: StackController->actionView('2')
+#2 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/actions/CAction.php(108): ReflectionMethod->invokeArgs(Object(StackController), Array)
+#3 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/actions/CInlineAction.php(47): CAction->runWithParamsInternal(Object(StackController), Object(ReflectionMethod), Array)
+#4 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/CController.php(308): CInlineAction->runWithParams(Array)
+#5 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/filters/CFilterChain.php(133): CController->runAction(Object(CInlineAction))
+#6 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/filters/CFilter.php(40): CFilterChain->run()
+#7 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/CController.php(1145): CFilter->filter(Object(CFilterChain))
+#8 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/filters/CInlineFilter.php(58): CController->filterAccessControl(Object(CFilterChain))
+#9 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/filters/CFilterChain.php(130): CInlineFilter->filter(Object(CFilterChain))
+#10 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/CController.php(291): CFilterChain->run()
+#11 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/CController.php(265): CController->runActionWithFilters(Object(CInlineAction), Array)
+#12 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/CWebApplication.php(282): CController->run('view')
+#13 /home/mile/public_html/yii-1.1.14.f0fee9/framework/web/CWebApplication.php(141): CWebApplication->runController('stack/view')
+#14 /home/mile/public_html/yii-1.1.14.f0fee9/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#15 /home/mile/public_html/api.oddsleaders/index.php(20): CApplication->run()
+#16 {main}
+REQUEST_URI=/index.php?r=stack/view&id=2
+HTTP_REFERER=http://api.oddsleaders.dev/index.php?r=stack/admin
+---
