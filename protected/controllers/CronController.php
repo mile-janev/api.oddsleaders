@@ -39,27 +39,34 @@ class CronController extends Controller
         
         public function actionCron()
         {
-            $date = date('Y-m-d', time());
             $time = date("H:i",time());
-            $time = '00:15';
+//            $time = '02:45';
             
-            if( (time()>strtotime($date.' 00:00') && time()<strtotime($date.' 00:00')) 
-                    || (time()>strtotime($date.' 00:00') && time()<strtotime($date.' 00:00')) )
+            if($time>'02:30' && $time<'03:00')
             {
                 $cron = Cron::model()->findByAttributes(array('flag'=>'stack_fill'));
-                $cron_date = date('Y-m-d',strtotime($cron->cron_date));
-//                if()
-                $cron->cron_time = $date.' '.$time;
-                $cron->update();
-                var_dump($cron);
+                
+                if( strtotime($cron->cron_time) < strtotime(date("Y-m-d",time())." 02:30") )
+                {
+                    $this->actionStack();
+                }
+                
                 exit();
-                $this->actionStack();
             }
-            else
+            else if($time>'13:30' && $time<'14:00')
+            {
+                $cron = Cron::model()->findByAttributes(array('flag'=>'stack_fill'));
+                
+                if( strtotime($cron->cron_time) < strtotime(date("Y-m-d",time())." 13:30") )
+                {
+                    $this->actionStack();
+                }
+            }
+            else if( ($time>'03:00' && $time<'07:00') || ($time>'14:00' && $time<'18:00') )
             {
                 $this->actionOdds();
             }
-            var_dump($time);
+            
             exit();
         }
 
