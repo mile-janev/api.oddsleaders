@@ -237,7 +237,7 @@ class CronController extends Controller
                 $criteria1->addCondition('cron = :cron');
                 $criteria1->params[":cron"] = 0;
                 $criteria1->order = "cron, cron_time, id";
-                $criteria1->limit = 2;
+                $criteria1->limit = 5;
                 $stacks = Stack::model()->findAll($criteria1);
 
                 if(!$stacks)
@@ -246,7 +246,7 @@ class CronController extends Controller
                     $criteria2->addCondition('cron = :cron');
                     $criteria2->params[":cron"] = 1;
                     $criteria2->order = "cron_time, id";
-                    $criteria2->limit = 2;
+                    $criteria2->limit = 5;
                     $stacks = Stack::model()->findAll($criteria2);
                 }
 
