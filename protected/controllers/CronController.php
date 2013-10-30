@@ -70,7 +70,7 @@ class CronController extends Controller
             }
             else if($time>'07:00' && $time<'07:30')
             {
-                $cron = Cron::model()->findByAttributes(array('flag'=>'odds_fill'));
+                $cron = Cron::model()->findByAttributes(array('flag'=>'xml_fill'));
                 
                 if( strtotime($cron->cron_time) < strtotime(date("Y-m-d",time())." 07:00") )
                 {
@@ -81,7 +81,7 @@ class CronController extends Controller
             }
             else if($time>'18:00' && $time<'18:30')
             {
-                $cron = Cron::model()->findByAttributes(array('flag'=>'odds_fill'));
+                $cron = Cron::model()->findByAttributes(array('flag'=>'xml_fill'));
                 
                 if( strtotime($cron->cron_time) < strtotime(date("Y-m-d",time())." 18:00") )
                 {
