@@ -39,8 +39,8 @@ class CronController extends Controller
         
         public function actionCron()
         {
-            $time = date("H:i",time());
-//            $time = '02:45';
+//            $time = date("H:i",time());
+            $time = '02:45';
             
             if($time>'02:30' && $time<'03:00')
             {
@@ -48,10 +48,10 @@ class CronController extends Controller
                 
                 if( strtotime($cron->cron_time) < strtotime(date("Y-m-d",time())." 02:30") )
                 {
+                    $cron->cron_time = date("Y-m-d H:i:s", time());
+                    $cron->update();
                     $this->actionStack();
                 }
-                
-                exit();
             }
             else if($time>'13:30' && $time<'14:00')
             {
@@ -59,12 +59,36 @@ class CronController extends Controller
                 
                 if( strtotime($cron->cron_time) < strtotime(date("Y-m-d",time())." 13:30") )
                 {
+                    $cron->cron_time = date("Y-m-d H:i:s", time());
+                    $cron->update();
                     $this->actionStack();
                 }
             }
             else if( ($time>'03:00' && $time<'07:00') || ($time>'14:00' && $time<'18:00') )
             {
                 $this->actionOdds();
+            }
+            else if($time>'07:00' && $time<'07:30')
+            {
+                $cron = Cron::model()->findByAttributes(array('flag'=>'odds_fill'));
+                
+                if( strtotime($cron->cron_time) < strtotime(date("Y-m-d",time())." 07:00") )
+                {
+                    $cron->cron_time = date("Y-m-d H:i:s", time());
+                    $cron->update();
+                    $this->actionXml();
+                }
+            }
+            else if($time>'18:00' && $time<'18:30')
+            {
+                $cron = Cron::model()->findByAttributes(array('flag'=>'odds_fill'));
+                
+                if( strtotime($cron->cron_time) < strtotime(date("Y-m-d",time())." 18:00") )
+                {
+                    $cron->cron_time = date("Y-m-d H:i:s", time());
+                    $cron->update();
+                    $this->actionXml();
+                }
             }
             
             exit();
@@ -193,9 +217,7 @@ class CronController extends Controller
 //        Code generator needs improvement
         public function codeGenerator($tournament)
         {
-            $rand1 = rand(100000, 999999);
-            $rand2 = rand(100000, 999999);
-            $code = rand($rand1, $rand2);
+            $code = mt_rand(100000, 999999);
             
             return $code;
         }
@@ -207,13 +229,13 @@ class CronController extends Controller
             $time = date("H:i",time());
 //            $time = '15:00';
             
-            if(($time>'03:00' && $time<'07:00') || ($time>'14:00' && $time<'18:00'))
-            {
+//            if(($time>'03:00' && $time<'07:00') || ($time>'14:00' && $time<'18:00'))
+//            {
                 $criteria1 = new CDbCriteria();
                 $criteria1->addCondition('cron = :cron');
                 $criteria1->params[":cron"] = 0;
                 $criteria1->order = "cron, cron_time, id";
-                $criteria1->limit = 2;
+                $criteria1->limit = 4;
                 $stacks = Stack::model()->findAll($criteria1);
 
                 if(!$stacks)
@@ -222,25 +244,32 @@ class CronController extends Controller
                     $criteria2->addCondition('cron = :cron');
                     $criteria2->params[":cron"] = 1;
                     $criteria2->order = "cron_time, id";
-                    $criteria2->limit = 2;
+                    $criteria2->limit = 4;
                     $stacks = Stack::model()->findAll($criteria2);
                 }
 
                 foreach ($stacks as $stack)
                 {                
-                    $this->saveCronpass($stack);
+//                    if(strtotime($stack->start)+24*60*60 < time
+//                    {
+//                        izbrisi go ovoj element od stackot
+//                    }
+//                    else
+//                    {
+                        $this->saveCronpass($stack);
 
-                    if($stack->tournament->special==1)
-                    {
-                        $odds = $this->getSpecialOdds($stack);
-                    }
-                    else
-                    {
-                        $odds = $this->getOdds($stack);
-                    }
-                    $this->saveOdds($stack, $odds);
+                        if($stack->tournament->special==1)
+                        {
+                            $odds = $this->getSpecialOdds($stack);
+                        }
+                        else
+                        {
+                            $odds = $this->getOdds($stack);
+                        }
+                        $this->saveOdds($stack, $odds);
+//                    }
                 }
-            }
+//            }
             
             exit();
         }
