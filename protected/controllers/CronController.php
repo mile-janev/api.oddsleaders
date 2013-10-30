@@ -40,8 +40,9 @@ class CronController extends Controller
         public function actionCron()
         {
 //            $time = date("H:i",time());
-            $time = '02:45';
-//            $time = '03:15';
+//            $time = '02:45';//For stack
+            $time = '03:15';//For odds
+//            $time = '07:15';//For xml
             
             if($time>'02:30' && $time<'03:00')
             {
