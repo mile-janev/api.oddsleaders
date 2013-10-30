@@ -41,6 +41,7 @@ class CronController extends Controller
         {
 //            $time = date("H:i",time());
             $time = '02:45';
+//            $time = '03:15';
             
             if($time>'02:30' && $time<'03:00')
             {
