@@ -181,7 +181,7 @@ class CronController extends Controller
                 $stack->tournament_id = $tournament->id;
                 $stack->cron;
                 $stack->cron_time;
-                $stack->date_created = new CDbExpression('NOW()');
+                $stack->date_created = date("Y-m-d H:i", time());
                 $stack->save();
             }
         }
@@ -209,7 +209,7 @@ class CronController extends Controller
                         $stack->tournament_id = $tournament->id;
                         $stack->cron;
                         $stack->cron_time;
-                        $stack->date_created = new CDbExpression('NOW()');
+                        $stack->date_created = date("Y-m-d H:i", time());
                         $stack->save();
                     }
                 }
@@ -394,7 +394,7 @@ class CronController extends Controller
         public function saveCronpass($stack)
         {
             $stack->cron = 1;
-            $stack->cron_time = new CDbExpression('NOW()');
+            $stack->cron_time = date("Y-m-d H:i", time());
             $succ = $stack->update();
             
             return 1;
@@ -418,7 +418,7 @@ class CronController extends Controller
             $stack->start = $odds['date'];
             $stack->data = $odds_encoded;
             $stack->cron = 1;
-            $stack->cron_time = new CDbExpression('NOW()');
+            $stack->cron_time = date("Y-m-d H:i", time());
             $stack->update();
             
             return 1;
