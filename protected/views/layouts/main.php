@@ -34,11 +34,12 @@
 				array('label'=>'Tournament', 'url'=>array('/tournament/admin')),
                                 array('label'=>'Stack', 'url'=>array('/stack/admin')),
                                 array('label'=>'XML', 'url'=>Yii::app()->baseUrl."/xml/odds.xml"),
-                                array('label'=>'Cron Tournament Handly', 'url'=>array('/cron/tournament')),
+                                array('label'=>'Cron Tournament H', 'url'=>array('/cron/tournament')),
                                 array('label'=>'Cron Stack', 'url'=>array('/cron/stack')),
                                 array('label'=>'Cron Odds', 'url'=>array('/cron/odds')),
                                 array('label'=>'Cron XML', 'url'=>array('/cron/xml')),
                                 array('label'=>'Cron Test', 'url'=>array('/cron/test')),
+                                array('label'=>'Cron', 'url'=>array('/cron/crom')),
 				array('label'=>'Login', 'url'=>array('/site/login'), 'visible'=>Yii::app()->user->isGuest),
 				array('label'=>'Logout ('.Yii::app()->user->name.')', 'url'=>array('/site/logout'), 'visible'=>!Yii::app()->user->isGuest)
 			),
