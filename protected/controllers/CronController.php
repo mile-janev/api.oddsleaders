@@ -39,8 +39,8 @@ class CronController extends Controller
         
         public function actionCron()
         {
-//            $time = date("H:i",time());
-            $time = '02:45';//For stack
+            $time = date("H:i",time());
+//            $time = '02:45';//For stack
 //            $time = '03:15';//For odds
 //            $time = '07:15';//For xml
             
@@ -237,7 +237,7 @@ class CronController extends Controller
                 $criteria1->addCondition('cron = :cron');
                 $criteria1->params[":cron"] = 0;
                 $criteria1->order = "cron, cron_time, id";
-                $criteria1->limit = 4;
+                $criteria1->limit = 2;
                 $stacks = Stack::model()->findAll($criteria1);
 
                 if(!$stacks)
@@ -246,18 +246,18 @@ class CronController extends Controller
                     $criteria2->addCondition('cron = :cron');
                     $criteria2->params[":cron"] = 1;
                     $criteria2->order = "cron_time, id";
-                    $criteria2->limit = 4;
+                    $criteria2->limit = 2;
                     $stacks = Stack::model()->findAll($criteria2);
                 }
 
                 foreach ($stacks as $stack)
                 {                
-//                    if(strtotime($stack->start)+24*60*60 < time
-//                    {
-//                        izbrisi go ovoj element od stackot
-//                    }
-//                    else
-//                    {
+                    if( isset($stack->start) && (strtotime($stack->start)+24*60*60 < time()) )
+                    {
+                        $stack->delete();
+                    }
+                    else
+                    {
                         $this->saveCronpass($stack);
 
                         if($stack->tournament->special==1)
@@ -269,7 +269,7 @@ class CronController extends Controller
                             $odds = $this->getOdds($stack);
                         }
                         $this->saveOdds($stack, $odds);
-//                    }
+                    }
                 }
 //            }
             
