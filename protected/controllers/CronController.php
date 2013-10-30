@@ -193,8 +193,6 @@ class CronController extends Controller
 //        Code generator needs improvement
         public function codeGenerator($tournament)
         {
-            var_dump($tournament);
-            exit();
             $rand1 = rand(100000, 999999);
             $rand2 = rand(100000, 999999);
             $code = rand($rand1, $rand2);
