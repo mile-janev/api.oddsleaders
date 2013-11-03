@@ -1135,8 +1135,8 @@ class CronController extends Controller
     
     public function actionTest()
     {
-        $link = "http://www.flashscore.com/soccer/england/premier-league/results/";
-        
+        //$link = "http://www.flashscore.com/soccer/england/premier-league/results/";
+        $link = "http://api.oddsleaders.com";
         $parserAll = new SimpleHTMLDOM;
         $htmlAll = $parserAll->file_get_html($link);
         echo $htmlAll;
