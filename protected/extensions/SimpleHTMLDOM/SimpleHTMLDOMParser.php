@@ -116,7 +116,10 @@ class SimpleHTMLDOMParser
     // load html from file
     function load_file()
     {
+        include('user_agents.php');
         $args = func_get_args();
+        $context = stream_context_create();
+        stream_context_set_params($context, $user_agents);
         $this->load(call_user_func_array('file_get_contents', $args), true);
         // Throw an error if we can't properly load the dom.
         if (($error=error_get_last())!==null) {
