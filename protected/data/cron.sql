@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Oct 30, 2013 at 12:32 AM
+-- Generation Time: Oct 30, 2013 at 09:50 PM
 -- Server version: 5.5.34
 -- PHP Version: 5.3.10-1ubuntu3.8
 
@@ -29,16 +29,17 @@ SET time_zone = "+00:00";
 CREATE TABLE IF NOT EXISTS `cron` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `flag` varchar(32) NOT NULL,
-  `cron_time` datetime NOT NULL,
+  `cron_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
 
 --
 -- Dumping data for table `cron`
 --
 
 INSERT INTO `cron` (`id`, `flag`, `cron_time`) VALUES
-(1, 'stack_fill', '2013-10-29 00:15:00');
+(1, 'stack_fill', '2013-10-30 01:32:39'),
+(2, 'odds_fill', '2013-10-30 19:43:44');
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
