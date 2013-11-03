@@ -173,7 +173,7 @@ class CronController extends Controller
             if(!$stack)
             {
                 $stack = new Stack();
-                $stack->code = $this->codeGenerator();
+                $stack->code = $this->codeGenerator($tournament);
                 $stack->link = $tournament->link;
                 $stack->opponent;
                 $stack->start;
@@ -1135,27 +1135,29 @@ class CronController extends Controller
     
     public function actionTest()
     {
-        $link = "https://www.interwetten.com/en/sportsbook/e/9860126/new-england-patriots-miami-dolphins";
+        $link = "http://www.flashscore.com/soccer/england/premier-league/results/";
         
         $parserAll = new SimpleHTMLDOM;
         $htmlAll = $parserAll->file_get_html($link);
+        echo $htmlAll;
+        exit();
         $htmlTableDivs = $htmlAll->find('div.containerContentTable');
-        $htmlArray = explode('<div>', trim($htmlTableDivs[0]->innertext));
+//        $htmlArray = explode('<div>', trim($htmlTableDivs[0]->innertext));
         
         //All divs one-by-one
-        foreach ($htmlArray as $elementDiv)
-        {
-            if(trim($elementDiv) != '')
-            {
-                $parserDiv = new SimpleHTMLDOM;
-                $htmlDiv = $parserDiv->str_get_html($elementDiv);
-
-//                Now we search in current div to find which game is in this div
-                $htmlElement = $htmlDiv->find('.offertype');
-                $game_type = $htmlElement[0]->find('span');//Will return game type, like handicap, First goal etc.
-
-                $this->americanFootballOdds($htmlDiv, $game_type);
-            }
-        }
+//        foreach ($htmlArray as $elementDiv)
+//        {
+//            if(trim($elementDiv) != '')
+//            {
+//                $parserDiv = new SimpleHTMLDOM;
+//                $htmlDiv = $parserDiv->str_get_html($elementDiv);
+//
+////                Now we search in current div to find which game is in this div
+//                $htmlElement = $htmlDiv->find('.offertype');
+//                $game_type = $htmlElement[0]->find('span');//Will return game type, like handicap, First goal etc.
+//
+//                $this->americanFootballOdds($htmlDiv, $game_type);
+//            }
+//        }
     }
 }
