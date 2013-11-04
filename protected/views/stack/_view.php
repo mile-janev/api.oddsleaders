@@ -16,9 +16,17 @@
 	<b><?php echo CHtml::encode($data->getAttributeLabel('link')); ?>:</b>
 	<?php echo CHtml::encode($data->link); ?>
 	<br />
+        
+        <b><?php echo CHtml::encode($data->getAttributeLabel('syn_link')); ?>:</b>
+	<?php echo CHtml::encode($data->syn_link); ?>
+	<br />
 
 	<b><?php echo CHtml::encode($data->getAttributeLabel('opponent')); ?>:</b>
 	<?php echo CHtml::encode($data->opponent); ?>
+	<br />
+        
+        <b><?php echo CHtml::encode($data->getAttributeLabel('syn')); ?>:</b>
+	<?php echo CHtml::encode($data->syn); ?>
 	<br />
 
 	<b><?php echo CHtml::encode($data->getAttributeLabel('start')); ?>:</b>

@@ -23,7 +23,9 @@ $this->menu=array(
 	'attributes'=>array(
 		'id',
 		'name',
+                'syn',
 		'link',
+                'syn_link',
 		'active',
 	),
 )); ?>

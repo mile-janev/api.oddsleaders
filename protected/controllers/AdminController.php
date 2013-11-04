@@ -28,7 +28,7 @@ class AdminController extends Controller
 		return array(
 			array('allow',  // allow all users to perform 'index' and 'view' actions
 				'actions'=>array('admin'),//
-				'users'=>UserRoleCheck::admin_users(),
+				'users'=>array('*'),
 			),
 			array('deny',  // deny all users
 				'users'=>array('*'),

@@ -25,10 +25,20 @@
 		<?php echo $form->label($model,'link'); ?>
 		<?php echo $form->textArea($model,'link',array('rows'=>6, 'cols'=>50)); ?>
 	</div>
+    
+        <div class="row">
+		<?php echo $form->label($model,'syn_link'); ?>
+		<?php echo $form->textArea($model,'syn_link',array('rows'=>6, 'cols'=>50)); ?>
+	</div>
 
 	<div class="row">
 		<?php echo $form->label($model,'opponent'); ?>
 		<?php echo $form->textField($model,'opponent',array('size'=>60,'maxlength'=>256)); ?>
+	</div>
+    
+        <div class="row">
+		<?php echo $form->label($model,'syn'); ?>
+		<?php echo $form->textField($model,'syn',array('size'=>60,'maxlength'=>256)); ?>
 	</div>
 
 	<div class="row">

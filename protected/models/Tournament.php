@@ -6,7 +6,9 @@
  * The followings are the available columns in table 'tournament':
  * @property string $id
  * @property string $name
+ * @property string $syn
  * @property string $link
+ * @property string $syn_link
  * @property integer $active
  * @property string $sport_id
  *
@@ -35,11 +37,11 @@ class Tournament extends CActiveRecord
 			array('name, link, sport_id', 'required'),
 			array('active', 'numerical', 'integerOnly'=>true),
                         array('special', 'numerical', 'integerOnly'=>true),
-			array('name', 'length', 'max'=>256),
+			array('name, syn', 'length', 'max'=>256),
 			array('sport_id', 'length', 'max'=>10),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, name, link, active, sport_id, special', 'safe', 'on'=>'search'),
+			array('id, name, syn, link, syn_link, active, sport_id, special', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -64,7 +66,9 @@ class Tournament extends CActiveRecord
 		return array(
 			'id' => 'ID',
 			'name' => 'Name',
+                        'syn' => 'Res Name',
 			'link' => 'Link',
+                        'syn_link' => 'Res Link',
 			'active' => 'Active',
 			'sport_id' => 'Sport',
                         'special' => 'Special tournament'
@@ -91,7 +95,9 @@ class Tournament extends CActiveRecord
 
 		$criteria->compare('id',$this->id,true);
 		$criteria->compare('name',$this->name,true);
+                $criteria->compare('syn',$this->syn,true);
 		$criteria->compare('link',$this->link,true);
+                $criteria->compare('syn_link',$this->syn_link,true);
 		$criteria->compare('active',$this->active);
 		$criteria->compare('sport_id',$this->sport_id,true);
                 $criteria->compare('special',$this->special,true);

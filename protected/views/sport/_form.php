@@ -24,11 +24,23 @@
 		<?php echo $form->textField($model,'name',array('size'=>60,'maxlength'=>256)); ?>
 		<?php echo $form->error($model,'name'); ?>
 	</div>
+        
+        <div class="row">
+		<?php echo $form->labelEx($model,'syn'); ?>
+		<?php echo $form->textField($model,'syn',array('size'=>60,'maxlength'=>256)); ?>
+		<?php echo $form->error($model,'syn'); ?>
+	</div>
 
 	<div class="row">
 		<?php echo $form->labelEx($model,'link'); ?>
 		<?php echo $form->textField($model,'link',array('size'=>60,'maxlength'=>256)); ?>
 		<?php echo $form->error($model,'link'); ?>
+	</div>
+        
+        <div class="row">
+		<?php echo $form->labelEx($model,'syn_link'); ?>
+		<?php echo $form->textField($model,'syn_link',array('size'=>60,'maxlength'=>256)); ?>
+		<?php echo $form->error($model,'syn_link'); ?>
 	</div>
 
 	<div class="row">

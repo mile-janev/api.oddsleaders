@@ -94,6 +94,8 @@ class TournamentController extends Controller
 		if(isset($_POST['Tournament']))
 		{
 			$model->attributes=$_POST['Tournament'];
+                        $model->syn_link = $_POST['Tournament']['syn_link'];
+                        
 			if($model->save())
 				$this->redirect(array('view','id'=>$model->id));
 		}

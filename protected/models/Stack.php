@@ -6,7 +6,9 @@
  * The followings are the available columns in table 'stack':
  * @property string $id
  * @property string $link
+ * @property string $syn_link
  * @property string $opponent
+ * @property string $syn
  * @property string $start
  * @property string $data
  * @property string $tournament_id
@@ -38,12 +40,12 @@ class Stack extends CActiveRecord
 			array('link, tournament_id, date_created', 'required'),
 			array('cron', 'numerical', 'integerOnly'=>true),
                         array('code', 'numerical', 'integerOnly'=>true),
-			array('opponent', 'length', 'max'=>256),
+			array('opponent, syn', 'length', 'max'=>256),
 			array('tournament_id', 'length', 'max'=>10),
 			array('start, data, cron_time', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, code, link, opponent, start, data, tournament_id, cron, cron_time, date_created', 'safe', 'on'=>'search'),
+			array('id, code, link, syn_link, opponent, syn, start, data, tournament_id, cron, cron_time, date_created', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -68,7 +70,9 @@ class Stack extends CActiveRecord
 			'id' => 'ID',
                         'code' => 'Code',
 			'link' => 'Link',
+                        'syn_link' => 'Res Link',
 			'opponent' => 'Opponents',
+                        'syn' => 'Res Name',
 			'start' => 'Start game',
 			'data' => 'Data content',
 			'tournament_id' => 'Tournament',
@@ -99,7 +103,9 @@ class Stack extends CActiveRecord
 		$criteria->compare('id',$this->id,true);
                 $criteria->compare('code',$this->code,true);
 		$criteria->compare('link',$this->link,true);
+                $criteria->compare('syn_link',$this->syn_link,true);
 		$criteria->compare('opponent',$this->opponent,true);
+                $criteria->compare('syn',$this->syn,true);
 		$criteria->compare('start',$this->start,true);
 		$criteria->compare('data',$this->data,true);
 		$criteria->compare('tournament_id',$this->tournament_id,true);

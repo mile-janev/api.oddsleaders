@@ -12,9 +12,17 @@
 	<b><?php echo CHtml::encode($data->getAttributeLabel('name')); ?>:</b>
 	<?php echo CHtml::encode($data->name); ?>
 	<br />
+        
+        <b><?php echo CHtml::encode($data->getAttributeLabel('syn')); ?>:</b>
+	<?php echo CHtml::encode($data->syn); ?>
+	<br />
 
 	<b><?php echo CHtml::encode($data->getAttributeLabel('link')); ?>:</b>
 	<?php echo CHtml::encode($data->link); ?>
+	<br />
+        
+        <b><?php echo CHtml::encode($data->getAttributeLabel('syn_link')); ?>:</b>
+	<?php echo CHtml::encode($data->syn_link); ?>
 	<br />
 
 	<b><?php echo CHtml::encode($data->getAttributeLabel('active')); ?>:</b>

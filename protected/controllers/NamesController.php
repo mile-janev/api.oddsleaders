@@ -32,7 +32,7 @@ class NamesController extends Controller
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('create','update'),
+				'actions'=>array('create','update','cron'),
 				'users'=>array('@'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -171,9 +171,20 @@ class NamesController extends Controller
 		}
 	}
         
-        public function actionSynonymous()
+        public function actionCron()
         {
+            $criteria1 = new CDbCriteria();
+            $criteria1->addCondition('syn_link IS NOT NULL');
+            $criteria1->addCondition('syn_link!=""', 'OR');
+            $tournaments = Tournament::model()->findAll($criteria1);
             
+//            foreach ($tournaments as $tournament)
+//            {
+//                Vcitaj go html-ot od $tournament->syn_link i zapisi gi site iminja u tabelata names
+//            }
+            
+            var_dump($tournaments);
+            exit();
         }
         
 }
