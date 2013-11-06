@@ -178,12 +178,28 @@ class NamesController extends Controller
             $criteria1->addCondition('syn_link!=""', 'OR');
             $tournaments = Tournament::model()->findAll($criteria1);
             
-//            foreach ($tournaments as $tournament)
-//            {
-//                Vcitaj go html-ot od $tournament->syn_link i zapisi gi site iminja u tabelata names
-//            }
+            foreach ($tournaments as $tournament)
+            {
+                $parserAll = new SimpleHTMLDOM;
+                $htmlAll = $parserAll->file_get_html($tournament->syn_link);
+
+                foreach ($htmlAll->find('td.fh, td.fa') as $team)
+                {
+                    $criteria1 = new CDbCriteria();
+                    $criteria1->addCondition('name = :name');
+                    $criteria1->params[':name'] = trim($team->innertext);
+                    $name = Names::model()->find($criteria1);
+                    
+                    if(!$name)
+                    {
+                        $name = new Names();
+                        $name->name = trim($team->innertext);
+                        $name->syn = trim($team->innertext);
+                        $name->save();
+                    }
+                }
+            }      
             
-            var_dump($tournaments);
             exit();
         }
         

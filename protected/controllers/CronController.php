@@ -28,7 +28,7 @@ class CronController extends Controller
 	{
 		return array(
 			array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('cron','tournament','stack','odds','xml','test'),//
+				'actions'=>array('cron','tournament','stack','odds','results','xml','test'),//
 				'users'=>array('*'),
 			),
 			array('deny',  // deny all users
@@ -1133,6 +1133,58 @@ class CronController extends Controller
         exit();
     }
     
+//    Cron job 5
+    public function actionResults()
+    {
+        $stacks = Stack::model()->findAll();
+        
+        foreach ($stacks as $game)
+        {
+            if(time() >= strtotime($game->start)+3*60*60)
+            {
+                $teams = $this->getNames($game->opponent);
+                if($teams)
+                {
+                    $parserAll = new SimpleHTMLDOM;
+                    $htmlAll = $parserAll->file_get_html($game->tournament->syn_link);
+                    foreach ($htmlAll->find('table.league-table tr') as $tableHtmlRow)
+                    {
+                        $ft = false;
+                        $at = false;
+                        
+                        foreach ($tableHtmlRow->find('td.fh') as $homeTeam)
+                        {
+                            if(trim($homeTeam->innertext) == $teams[0])
+                            {
+                                $ft = true;
+                            }
+                        }
+
+                        foreach ($tableHtmlRow->find('td.fa') as $guestTeam)
+                        {
+                            if(trim($guestTeam->innertext) == $teams[1])
+                            {
+                                $at = true;
+                            }
+                        }
+                        
+                        if($ft && $at)
+                        {
+                            $scoreHtml = $tableHtmlRow->find('a.scorelink');
+                            $scoreArray = explode(' - ', trim($scoreHtml[0]->innertext));
+                            $jsonData = json_decode($game->data);
+                            $jsonData->score = array('team1'=>$scoreArray[0], 'team2'=>$scoreArray[1]);
+                            $game->data = json_encode($jsonData);
+                            $game->update();
+                        }
+                    }
+                }
+            }
+        }
+        
+        exit();
+    }
+
     public function actionTest()
     {
         //$link = "http://www.flashscore.com/soccer/england/premier-league/results/";
@@ -1159,5 +1211,22 @@ class CronController extends Controller
 //                $this->americanFootballOdds($htmlDiv, $game_type);
 //            }
 //        }
+    }
+    
+    public function getNames($opponents)
+    {
+        $teamsLive = FALSE;
+        $teamsInter = explode(' vs ', $opponents);
+        
+        foreach ($teamsInter as $teamInter)
+        {
+            $team = Names::model()->findByAttributes(array('name'=>$teamInter));
+            if($team)
+            {
+                $teamsLive[] = $team->syn;
+            }
+        }
+        
+        return $teamsLive;
     }
 }
