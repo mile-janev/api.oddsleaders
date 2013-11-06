@@ -92,6 +92,17 @@ class CronController extends Controller
                     $this->actionXml();
                 }
             }
+            else if($time>'23:00' && $time<'23:59')
+            {
+                $cron = Cron::model()->findByAttributes(array('flag'=>'result_fill'));
+                
+                if( strtotime($cron->cron_time) < strtotime(date("Y-m-d",time())." 18:00") )
+                {
+                    $cron->cron_time = date("Y-m-d H:i:s", time());
+                    $cron->update();
+                    $this->actionResults();
+                }
+            }
             
             exit();
         }
@@ -1136,7 +1147,7 @@ class CronController extends Controller
 //    Cron job 5
     public function actionResults()
     {
-        $stacks = Stack::model()->findAll();
+        $stacks = Stack::model()->findAllByAttributes(array('end'=>0));
         
         foreach ($stacks as $game)
         {
@@ -1175,6 +1186,8 @@ class CronController extends Controller
                             $jsonData = json_decode($game->data);
                             $jsonData->score = array('team1'=>$scoreArray[0], 'team2'=>$scoreArray[1]);
                             $game->data = json_encode($jsonData);
+                            $game->end = TRUE;
+                            $game->cron_time = date("Y-m-d H:i:s", time());
                             $game->update();
                         }
                     }
