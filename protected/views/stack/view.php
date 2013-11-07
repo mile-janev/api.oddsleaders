@@ -22,8 +22,8 @@ $this->menu=array(
     <tbody>
         <tr class="odd"><th><?php echo $model->getAttributeLabel('id'); ?></th><td><?php echo $model->id; ?></td></tr>
         <tr class="even"><th><?php echo $model->getAttributeLabel('code'); ?></th><td><?php echo $model->code; ?></td></tr>
-        <tr class="odd"><th><?php echo $model->getAttributeLabel('link'); ?></th><td><?php echo $model->link; ?></td></tr>
-        <tr class="even"><th><?php echo $model->getAttributeLabel('syn_link'); ?></th><td><?php echo $model->syn_link; ?></td></tr>
+        <tr class="odd"><th><?php echo $model->getAttributeLabel('link'); ?></th><td><a href='<?php echo $model->link; ?>' target='_blank'><?php echo $model->link; ?></a></td></tr>
+        <tr class="even"><th><?php echo $model->getAttributeLabel('syn_link'); ?></th><td><a href='<?php echo $model->syn_link; ?>' target='_blank'><?php echo $model->syn_link; ?></a></td></tr>
         <tr class="odd"><th><?php echo $model->getAttributeLabel('opponent'); ?></th><td><?php echo $model->opponent; ?></td></tr>
         <tr class="even"><th><?php echo $model->getAttributeLabel('syn'); ?></th><td><?php echo $model->syn; ?></td></tr>
         <tr class="odd"><th><?php echo $model->getAttributeLabel('start'); ?></th><td><?php echo $model->start; ?></td></tr>
