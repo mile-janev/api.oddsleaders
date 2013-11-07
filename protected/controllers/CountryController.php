@@ -1,6 +1,6 @@
 <?php
 
-class NamesController extends Controller
+class CountryController extends Controller
 {
 	/**
 	 * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
@@ -32,7 +32,7 @@ class NamesController extends Controller
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('create','update','cron'),
+				'actions'=>array('create','update'),
 				'users'=>array('@'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -62,14 +62,14 @@ class NamesController extends Controller
 	 */
 	public function actionCreate()
 	{
-		$model=new Names;
+		$model=new Country;
 
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
-		if(isset($_POST['Names']))
+		if(isset($_POST['Country']))
 		{
-			$model->attributes=$_POST['Names'];
+			$model->attributes=$_POST['Country'];
 			if($model->save())
 				$this->redirect(array('view','id'=>$model->id));
 		}
@@ -91,9 +91,9 @@ class NamesController extends Controller
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
-		if(isset($_POST['Names']))
+		if(isset($_POST['Country']))
 		{
-			$model->attributes=$_POST['Names'];
+			$model->attributes=$_POST['Country'];
 			if($model->save())
 				$this->redirect(array('view','id'=>$model->id));
 		}
@@ -122,10 +122,10 @@ class NamesController extends Controller
 	 */
 	public function actionIndex()
 	{
-            $dataProvider = new CActiveDataProvider('Names');
-            $this->render('index', array(
-                'dataProvider' => $dataProvider,
-            ));
+		$dataProvider=new CActiveDataProvider('Country');
+		$this->render('index',array(
+			'dataProvider'=>$dataProvider,
+		));
 	}
 
 	/**
@@ -133,10 +133,10 @@ class NamesController extends Controller
 	 */
 	public function actionAdmin()
 	{
-		$model = new Names('search');
+		$model=new Country('search');
 		$model->unsetAttributes();  // clear any default values
-		if(isset($_GET['Names']))
-			$model->attributes=$_GET['Names'];
+		if(isset($_GET['Country']))
+			$model->attributes=$_GET['Country'];
 
 		$this->render('admin',array(
 			'model'=>$model,
@@ -147,60 +147,27 @@ class NamesController extends Controller
 	 * Returns the data model based on the primary key given in the GET variable.
 	 * If the data model is not found, an HTTP exception will be raised.
 	 * @param integer $id the ID of the model to be loaded
-	 * @return Names the loaded model
+	 * @return Country the loaded model
 	 * @throws CHttpException
 	 */
 	public function loadModel($id)
 	{
-		$model=Names::model()->findByPk($id);
-		if ($model === null) {
+		$model=Country::model()->findByPk($id);
+		if($model===null)
 			throw new CHttpException(404,'The requested page does not exist.');
-                }
 		return $model;
 	}
 
 	/**
 	 * Performs the AJAX validation.
-	 * @param Names $model the model to be validated
+	 * @param Country $model the model to be validated
 	 */
 	protected function performAjaxValidation($model)
 	{
-            if (isset($_POST['ajax']) && $_POST['ajax'] === 'names-form') {
-                echo CActiveForm::validate($model);
-                Yii::app()->end();
-            }
+		if(isset($_POST['ajax']) && $_POST['ajax']==='country-form')
+		{
+			echo CActiveForm::validate($model);
+			Yii::app()->end();
+		}
 	}
-        
-        public function actionCron()
-        {
-            $criteria1 = new CDbCriteria();
-            $criteria1->addCondition('special != 0');
-            $criteria1->addCondition('syn_link IS NOT NULL');
-            $criteria1->addCondition('syn_link!=""', 'OR');
-            $tournaments = Tournament::model()->findAll($criteria1);
-            
-            foreach ($tournaments as $tournament) {
-                $parserAll = new SimpleHTMLDOM;
-                $htmlAll = $parserAll->file_get_html($tournament->syn_link);
-
-                if ($htmlAll) {
-                    foreach ($htmlAll->find('td.fh, td.fa') as $team) {
-                        $criteria1 = new CDbCriteria();
-                        $criteria1->addCondition('syn = :name');
-                        $criteria1->params[':name'] = trim($team->innertext);
-                        $name = Names::model()->find($criteria1);
-
-                        if (!$name) {
-                            $name = new Names();
-                            $name->name = trim($team->innertext);
-                            $name->syn = trim($team->innertext);
-                            $name->save();
-                        }
-                    }
-                }
-            }      
-            
-            exit();
-        }
-        
 }

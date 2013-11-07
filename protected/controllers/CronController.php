@@ -1075,8 +1075,7 @@ class CronController extends Controller
             
             $name = $htmlDiv->find('.name');
             $over = '150';
-            foreach ($name as $nm)
-            {
+            foreach ($name as $nm) {
                 $my_array = explode(' ', $nm->innertext);
                 $over = $my_array[0];
             }
@@ -1098,20 +1097,16 @@ class CronController extends Controller
         $xml = '<?xml version="1.0" encoding="utf-8"?>'; 
         $xml .= '<oddsleaders xmlns="http://oddsleaders.com">';
         
-        foreach ($sports as $sport)
-        {
+        foreach ($sports as $sport) {
             $xml .= "<sport>";
             $xml .= "<sport_name>".$sport->name."</sport_name>";
             
-            foreach ($sport->tournaments as $tournament)
-            {
-                if($tournament->stacks)
-                {
+            foreach ($sport->tournaments as $tournament) {
+                if ($tournament->stacks) {
                     $xml .= "<tournament>";
                     $xml .= "<tournament_name>".$tournament->name."</tournament_name>";
 
-                    foreach ($tournament->stacks as $stack)
-                    {
+                    foreach ($tournament->stacks as $stack) {
                         $xml .= "<game>";
 
                         $xml .= "<code>".$stack->code."</code>";
@@ -1131,12 +1126,9 @@ class CronController extends Controller
         
         $xml .= '</oddsleaders>'; 
  
-        if(file_put_contents(dirname(Yii::app()->getBasePath())."/xml/odds.xml",$xml))
-        {
+        if (file_put_contents(dirname(Yii::app()->getBasePath())."/xml/odds.xml",$xml)) {
             $sucessfull = true;
-        }
-        else
-        {
+        } else {
             $sucessfull = false;
             echo "Prati mejl na admin vednas!";
         }
@@ -1149,42 +1141,35 @@ class CronController extends Controller
     {
         $stacks = Stack::model()->findAllByAttributes(array('end'=>0));
         
-        foreach ($stacks as $game)
-        {
-            if(time() >= strtotime($game->start)+3*60*60)
-            {
+        foreach ($stacks as $game) {
+            if (time() >= strtotime($game->start)+3*60*60) {
                 $teams = $this->getNames($game->opponent);
-                if($teams)
-                {
+                if ($teams) {
                     $parserAll = new SimpleHTMLDOM;
                     $htmlAll = $parserAll->file_get_html($game->tournament->syn_link);
-                    foreach ($htmlAll->find('table.league-table tr') as $tableHtmlRow)
-                    {
+                    foreach ($htmlAll->find('table.league-table tr') as $tableHtmlRow) {
                         $ft = false;
                         $at = false;
                         
-                        foreach ($tableHtmlRow->find('td.fh') as $homeTeam)
-                        {
-                            if(trim($homeTeam->innertext) == $teams[0])
-                            {
+                        foreach ($tableHtmlRow->find('td.fh') as $homeTeam) {
+                            if (trim($homeTeam->innertext) == $teams[0]) {
                                 $ft = true;
                             }
                         }
 
-                        foreach ($tableHtmlRow->find('td.fa') as $guestTeam)
-                        {
-                            if(trim($guestTeam->innertext) == $teams[1])
-                            {
+                        foreach ($tableHtmlRow->find('td.fa') as $guestTeam) {
+                            if (trim($guestTeam->innertext) == $teams[1]) {
                                 $at = true;
                             }
                         }
                         
-                        if($ft && $at)
-                        {
+                        if ($ft && $at) {
                             $scoreHtml = $tableHtmlRow->find('a.scorelink');
                             $scoreArray = explode(' - ', trim($scoreHtml[0]->innertext));
                             $jsonData = json_decode($game->data);
-                            $jsonData->score = array('team1'=>$scoreArray[0], 'team2'=>$scoreArray[1]);
+                            $jsonData->score = array(
+                                'team1' => $scoreArray[0],
+                                'team2' => $scoreArray[1]);
                             $game->data = json_encode($jsonData);
                             $game->end = TRUE;
                             $game->cron_time = date("Y-m-d H:i:s", time());
@@ -1231,11 +1216,10 @@ class CronController extends Controller
         $teamsLive = FALSE;
         $teamsInter = explode(' vs ', $opponents);
         
-        foreach ($teamsInter as $teamInter)
-        {
-            $team = Names::model()->findByAttributes(array('name'=>$teamInter));
-            if($team)
-            {
+        foreach ($teamsInter as $teamInter) {
+            $team = Names::model()->findByAttributes(array('name' => $teamInter));
+            
+            if ($team) {
                 $teamsLive[] = $team->syn;
             }
         }
