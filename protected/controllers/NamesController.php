@@ -186,7 +186,7 @@ class NamesController extends Controller
                 foreach ($htmlAll->find('td.fh, td.fa') as $team)
                 {
                     $criteria1 = new CDbCriteria();
-                    $criteria1->addCondition('name = :name');
+                    $criteria1->addCondition('syn = :name');
                     $criteria1->params[':name'] = trim($team->innertext);
                     $name = Names::model()->find($criteria1);
                     
