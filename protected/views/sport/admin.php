@@ -48,8 +48,18 @@ or <b>=</b>) at the beginning of each of your search values to specify how the c
 		'id',
 		'name',
                 'syn',
-		'link',
-                'syn_link',
+		array(
+                    'name'=>'link',
+                    'value'=>'"<a href=" .$data->link. " target=_blank>" .$data->link. "</a>"',
+                    'sortable'=>TRUE,
+                    'type'  => 'raw',
+                ),
+                array(
+                    'name'=>'syn_link',
+                    'value'=>'"<a href=" .$data->syn_link. " target=_blank>" .$data->syn_link. "</a>"',
+                    'sortable'=>TRUE,
+                    'type'  => 'raw',
+                ),
 		'active',
 		array(
 			'class'=>'CButtonColumn',
