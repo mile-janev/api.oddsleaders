@@ -24,6 +24,12 @@ $this->menu=array(
 		'id',
 		'name',
                 'syn',
+                array(
+                    'name'=>'country',
+                    'value'=>$model->country->country,
+                    'sortable'=>TRUE,
+                    'type'  => 'raw',
+                ),
 		array(
                     'name'=>'link',
                     'value'=>"<a href='" .$model->link. "' target='_blank'>" .$model->link. "</a>",

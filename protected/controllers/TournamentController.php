@@ -90,18 +90,23 @@ class TournamentController extends Controller
 
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
-
+                
+                $countries = Country::model()->findAll();
+                $countriesList = CHtml::listData($countries, 'id', 'country');
+                
 		if(isset($_POST['Tournament']))
 		{
 			$model->attributes=$_POST['Tournament'];
+                        $model->country_id = $_POST['Tournament']['country_id'];
                         $model->syn_link = $_POST['Tournament']['syn_link'];
                         
 			if($model->save())
 				$this->redirect(array('view','id'=>$model->id));
 		}
 
-		$this->render('update',array(
-			'model'=>$model,
+		$this->render('update', array(
+                    'model' => $model,
+                    'countriesList' => $countriesList
 		));
 	}
 

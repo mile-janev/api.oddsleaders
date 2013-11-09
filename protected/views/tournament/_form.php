@@ -31,6 +31,12 @@
 		<?php echo $form->error($model,'syn'); ?>
 	</div>
 
+        <div class="row">
+		<?php echo $form->labelEx($model,'country_id'); ?>
+		<?php echo $form->dropDownList($model,'country_id', $countriesList); ?>
+		<?php echo $form->error($model,'country_id'); ?>
+	</div>
+        
 	<div class="row">
 		<?php echo $form->labelEx($model,'link'); ?>
 		<?php echo $form->textArea($model,'link',array('rows'=>6, 'cols'=>50)); ?>
