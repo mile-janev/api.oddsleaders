@@ -64,7 +64,7 @@ class CronController extends Controller
                 {
                     $cron = Cron::model()->findByAttributes(array('flag'=>'stack_fill'));
 
-                    if( strtotime($cron->cron_time) < strtotime(date("Y-m-d",time())." 13:30") )
+                    if( strtotime($cron->cron_time) < strtotime(date("Y-m-d",time())." 14:30") )
                     {
                         $cron->cron_time = date("Y-m-d H:i:s", time());
                         $cron->update();
@@ -75,37 +75,30 @@ class CronController extends Controller
                 {
                     $this->actionOdds();
                 }
-                else if($time>'07:00' && $time<'07:30') //XML Generate
+                else if ( ($time>'07:00' && $time<'07:03') || ($time>'19:00' && $time<'19:03')) //Result get
+                {
+                    $this->actionResults();
+                }
+                else if($time>'08:00' && $time<'08:30') //XML Generate
                 {
                     $cron = Cron::model()->findByAttributes(array('flag'=>'xml_fill'));
 
-                    if( strtotime($cron->cron_time) < strtotime(date("Y-m-d",time())." 07:00") )
+                    if( strtotime($cron->cron_time) < strtotime(date("Y-m-d",time())." 08:00") )
                     {
                         $cron->cron_time = date("Y-m-d H:i:s", time());
                         $cron->update();
                         $this->actionXml();
                     }
                 }
-                else if($time>'19:00' && $time<'19:30') //XML Generate
+                else if($time>'20:00' && $time<'20:30') //XML Generate
                 {
                     $cron = Cron::model()->findByAttributes(array('flag'=>'xml_fill'));
 
-                    if( strtotime($cron->cron_time) < strtotime(date("Y-m-d",time())." 18:00") )
+                    if( strtotime($cron->cron_time) < strtotime(date("Y-m-d",time())." 20:00") )
                     {
                         $cron->cron_time = date("Y-m-d H:i:s", time());
                         $cron->update();
                         $this->actionXml();
-                    }
-                }
-                else if ($time>'23:00' && $time<'23:59') //Result get
-                {
-                    $cron = Cron::model()->findByAttributes(array('flag'=>'result_fill'));
-
-                    if( strtotime($cron->cron_time) < strtotime(date("Y-m-d",time())." 18:00") )
-                    {
-                        $cron->cron_time = date("Y-m-d H:i:s", time());
-                        $cron->update();
-                        $this->actionResults();
                     }
                 }
             
