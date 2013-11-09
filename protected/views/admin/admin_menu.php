@@ -1,6 +1,8 @@
 <ul class="admin-menu">
     <li><?php echo CHtml::link("Cron insert names", Yii::app()->createUrl("names/cron")); ?></li>
     <li>-------------------------------------------------------------------------------------</li>
+    <li><?php echo CHtml::link("Stack Old admin", Yii::app()->createUrl("stackOld/admin")); ?></li>
+    <li>-------------------------------------------------------------------------------------</li>
     <li><?php echo CHtml::link("Sport admin", Yii::app()->createUrl("sport/admin")); ?></li>
     <li><?php echo CHtml::link("Tournament admin", Yii::app()->createUrl("tournament/admin")); ?></li>
      <li><?php echo CHtml::link("Stack admin", Yii::app()->createUrl("stack/admin")); ?></li>

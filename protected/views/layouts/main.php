@@ -41,7 +41,7 @@
                                 array('label'=>'Cron Odds', 'url'=>array('/cron/odds')),
                                 array('label'=>'Cron XML', 'url'=>array('/cron/xml')),
                                 array('label'=>'Cr Test', 'url'=>array('/cron/test')),
-                                array('label'=>'Cron', 'url'=>array('/cron/crom')),
+                                array('label'=>'Cron', 'url'=>array('/cron/cron')),
 				array('label'=>'Login', 'url'=>array('/site/login'), 'visible'=>Yii::app()->user->isGuest),
 				array('label'=>'Logout', 'url'=>array('/site/logout'), 'visible'=>!Yii::app()->user->isGuest)
 			),

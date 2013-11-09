@@ -44,7 +44,7 @@ class CronController extends Controller
 //            $time = '03:15';//For odds
 //            $time = '07:15';//For xml
             
-            if($time>'02:30' && $time<'03:00')
+            if($time>'02:30' && $time<'03:00') //Stack fill
             {
                 $cron = Cron::model()->findByAttributes(array('flag'=>'stack_fill'));
                 
@@ -55,7 +55,7 @@ class CronController extends Controller
                     $this->actionStack();
                 }
             }
-            else if($time>'13:30' && $time<'14:00')
+            else if($time>'14:30' && $time<'15:00') //Stack fill
             {
                 $cron = Cron::model()->findByAttributes(array('flag'=>'stack_fill'));
                 
@@ -66,11 +66,11 @@ class CronController extends Controller
                     $this->actionStack();
                 }
             }
-            else if( ($time>'03:00' && $time<'07:00') || ($time>'14:00' && $time<'18:00') )
+            else if( ($time>'03:00' && $time<'07:00') || ($time>'15:00' && $time<'19:00') ) //Odds get
             {
                 $this->actionOdds();
             }
-            else if($time>'07:00' && $time<'07:30')
+            else if($time>'07:00' && $time<'07:30') //XML Generate
             {
                 $cron = Cron::model()->findByAttributes(array('flag'=>'xml_fill'));
                 
@@ -81,7 +81,7 @@ class CronController extends Controller
                     $this->actionXml();
                 }
             }
-            else if($time>'18:00' && $time<'18:30')
+            else if($time>'19:00' && $time<'19:30') //XML Generate
             {
                 $cron = Cron::model()->findByAttributes(array('flag'=>'xml_fill'));
                 
@@ -92,7 +92,7 @@ class CronController extends Controller
                     $this->actionXml();
                 }
             }
-            else if($time>'23:00' && $time<'23:59')
+            else if ($time>'23:00' && $time<'23:59') //Result get
             {
                 $cron = Cron::model()->findByAttributes(array('flag'=>'result_fill'));
                 
@@ -116,8 +116,7 @@ class CronController extends Controller
             $criteria1->params[":active"] = 1;
             $sports = Sport::model()->findAll($criteria1);
             
-            foreach ($sports as $sport)
-            {
+            foreach ($sports as $sport) {
                 $this->tournamentPopulate($sport);
             }
             
@@ -131,8 +130,7 @@ class CronController extends Controller
             $htmlAll = $parserAll->file_get_html($sport->link);
             $htmlTable = $htmlAll->find('div#divOfferTarget');
 
-            foreach ($htmlTable[0]->find('td a') as $tournament_a)
-            {
+            foreach ($htmlTable[0]->find('td a') as $tournament_a) {
                 $tournament_name = trim($tournament_a->innertext);
                 $tournament_link = $tournament_a->href;
 
@@ -140,8 +138,7 @@ class CronController extends Controller
                 $criteria2->addCondition('name = :tournament_name');
                 $criteria2->params[":tournament_name"] = $tournament_name;
                 $tournament = Tournament::model()->find($criteria2);
-                if(!$tournament)
-                {
+                if (!$tournament) {
                     $tournament = new Tournament();
                     $tournament->name = $tournament_name;
                     $tournament->link = "https://www.interwetten.com".$tournament_link;
@@ -162,14 +159,10 @@ class CronController extends Controller
             $criteria1->params[":active"] = 1;
             $tournaments = Tournament::model()->findAll($criteria1);
             
-            foreach ($tournaments as $tournament)
-            {
-                if($tournament->special == 1)
-                {
+            foreach ($tournaments as $tournament) {
+                if ($tournament->special == 1) {
                     $this->specialTournament($tournament);
-                }
-                else
-                {
+                } else {
                     $this->stackPopulate($tournament);
                 }
             }
@@ -181,8 +174,7 @@ class CronController extends Controller
         public function specialTournament($tournament)
         {
             $stack = Stack::model()->findByAttributes(array("link"=>$tournament->link));
-            if(!$stack)
-            {
+            if (!$stack) {
                 $stack = new Stack();
                 $stack->code = $this->codeGenerator($tournament);
                 $stack->link = $tournament->link;
@@ -202,26 +194,24 @@ class CronController extends Controller
         {
             $parserAll = new SimpleHTMLDOM;
             $htmlAll = $parserAll->file_get_html($tournament->link);
-            foreach($htmlAll->find('div.moreinfo') as $elementAll)
-            {
-                foreach ($elementAll->find('a') as $link)
-                {
-                    $match_link = "https://www.interwetten.com".$link->href;
-
-                    $stack = Stack::model()->findByAttributes(array("link"=>$match_link));
-                    if(!$stack)
-                    {
-                        $stack = new Stack();
-                        $stack->code = $this->codeGenerator($tournament);
-                        $stack->link = $match_link;
-                        $stack->opponent;
-                        $stack->start;
-                        $stack->data;
-                        $stack->tournament_id = $tournament->id;
-                        $stack->cron;
-                        $stack->cron_time;
-                        $stack->date_created = date("Y-m-d H:i", time());
-                        $stack->save();
+            if ($htmlAll) {
+                foreach ($htmlAll->find('div.moreinfo') as $elementAll) {
+                    foreach ($elementAll->find('a') as $link) {
+                        $match_link = "https://www.interwetten.com".$link->href;
+                        $stack = Stack::model()->findByAttributes(array("link"=>$match_link));
+                        if (!$stack) {
+                            $stack = new Stack();
+                            $stack->code = $this->codeGenerator($tournament);
+                            $stack->link = $match_link;
+                            $stack->opponent;
+                            $stack->start;
+                            $stack->data;
+                            $stack->tournament_id = $tournament->id;
+                            $stack->cron;
+                            $stack->cron_time;
+                            $stack->date_created = date("Y-m-d H:i", time());
+                            $stack->save();
+                        }
                     }
                 }
             }
@@ -251,8 +241,7 @@ class CronController extends Controller
                 $criteria1->limit = 5;
                 $stacks = Stack::model()->findAll($criteria1);
 
-                if(!$stacks)
-                {
+                if (!$stacks) {
                     $criteria2 = new CDbCriteria();
                     $criteria2->addCondition('cron = :cron');
                     $criteria2->params[":cron"] = 1;
@@ -261,25 +250,22 @@ class CronController extends Controller
                     $stacks = Stack::model()->findAll($criteria2);
                 }
 
-                foreach ($stacks as $stack)
-                {                
-                    if( isset($stack->start) && (strtotime($stack->start)+24*60*60 < time()) )
-                    {
-                        $stack->delete();
-                    }
-                    else
-                    {
+                foreach ($stacks as $stack) {                
+                    if ( isset($stack->start) && (strtotime($stack->start)+24*60*60 < time()) ) {
+                        $this->deleteFromStack($stack);
+                    } else {
                         $this->saveCronpass($stack);
-
-                        if($stack->tournament->special==1)
-                        {
+                        if ($stack->tournament->special==1) {
                             $odds = $this->getSpecialOdds($stack);
-                        }
-                        else
-                        {
+                        } else {
                             $odds = $this->getOdds($stack);
                         }
-                        $this->saveOdds($stack, $odds);
+                        
+                        if ($odds->game['teams'] != false) {
+                            $this->saveOdds($stack, $odds);
+                        } else {
+                            $stack->delete();
+                        }
                     }
                 }
 //            }
@@ -300,33 +286,36 @@ class CronController extends Controller
             $this->sportSpecialSetTeams($htmlTableDivs);//Set teams
             $this->sportSpecialSetDateTime($htmlAll);//Set date and time
             
-            foreach ($htmlTableDivs as $elementDiv)
-            {
-                if(trim($elementDiv) != '')
-                {
+            foreach ($htmlTableDivs as $elementDiv) {
+                if (trim($elementDiv) != '') {
                     $name = $elementDiv->find('.name');
                     $odds = $elementDiv->find('.odds');
-                    
                     $this->game['coefficients'][$name[0]->innertext] = $odds[0]->innertext;
                 }
             }
+            
             return $this->game;
         }
         
         public function sportSpecialSetTeams($htmlTableDivs)
         {
             $teams_array = array();
-            foreach ($htmlTableDivs as $elementDiv)
-            {
-                if(trim($elementDiv) != '')
-                {
+            foreach ($htmlTableDivs as $elementDiv) {
+                if (trim($elementDiv) != '') {
                     $name = $elementDiv->find('.name');
-                    $teams_array[] = trim($name[0]->innertext);
+                    $nameExist = Names::model()->findByAttributes(array('name' => trim($name[0]->innertext)));
+                    if ($nameExist) {
+                        $teams_array[] = trim($name[0]->innertext);
+                    }                    
                 }
             }
             
-            $teams_string = implode(' vs ', $teams_array);
-            $this->game['teams'] = $teams_string;
+            if (count($teams_array) >= 2) {
+                $teams_string = implode(' vs ', $teams_array);
+                $this->game['teams'] = $teams_string;
+            } else {
+                $this->game['teams'] = FALSE;
+            }
         }
         
         public function sportSpecialSetDateTime($htmlAll)
@@ -610,14 +599,21 @@ class CronController extends Controller
             $parserDiv = new SimpleHTMLDOM;
             $htmlDiv = $parserDiv->str_get_html($elementDiv);
             $teamsHtml = $htmlAll->find('.head');
-            $home_guest_html = trim($teamsHtml[0]->innertext);
+            $homeGuestHtml = trim($teamsHtml[0]->innertext);
             
-            $home_guest_array = explode('-', $home_guest_html);
-            $home_team = trim($home_guest_array[0]);
-            $guest_team = trim($home_guest_array[1]);
+            $homeGuestArray = explode('-', $homeGuestHtml);
+            $homeTeam = trim($homeGuestArray[0]);
+            $guestTeam = trim($homeGuestArray[1]);
             
-            $this->game['teams']['home'] = $home_team;
-            $this->game['teams']['guest'] = $guest_team;
+            $teamHomeExist = Names::model()->findByAttributes(array('name' => $homeTeam));
+            $teamGuestExist = Names::model()->findByAttributes(array('name' => $guestTeam));
+            
+            if ($teamGuestExist && $teamGuestExist) {
+                $this->game['teams']['home'] = $home_team;
+                $this->game['teams']['guest'] = $guest_team;
+            } else {
+                $this->game['teams'] = false;
+            }
         }
         
         public function sportSetDateTime($htmlAll)
@@ -1142,7 +1138,7 @@ class CronController extends Controller
         $stacks = Stack::model()->findAllByAttributes(array('end'=>0));
         
         foreach ($stacks as $game) {
-            if (time() >= strtotime($game->start)+3*60*60) {
+            if (time() >= strtotime($game->start)+5*60*60) {
                 $teams = $this->getNames($game->opponent);
                 if ($teams) {
                     $parserAll = new SimpleHTMLDOM;
@@ -1182,6 +1178,49 @@ class CronController extends Controller
         
         exit();
     }
+    
+//    Return array of opponents
+    public function getNames($opponents)
+    {
+        $teamsLive = FALSE;
+        $teamsInter = explode(' vs ', $opponents);
+        
+        foreach ($teamsInter as $teamInter) {
+            $team = Names::model()->findByAttributes(array('name' => $teamInter));
+            
+            if ($team) {
+                $teamsLive[] = $team->syn;
+            }
+        }
+        
+        return $teamsLive;
+    }
+    
+    //Copy to another table and delete from current
+    public function deleteFromStack($stack)
+    {
+        $stackOld = new StackOld();
+        
+        $stackOld->code = $stack->code;
+        $stackOld->link = $stack->link;
+        $stackOld->syn_link = $stack->syn_link;
+        $stackOld->opponent = $stack->opponent;
+        $stackOld->syn = $stack->syn;
+        $stackOld->start = $stack->start;
+        $stackOld->end = $stack->end;
+        $stackOld->data = $stack->data;
+        $stackOld->tournament_id = $stack->tournament_id;
+        $stackOld->cron = $stack->cron;
+        $stackOld->cron_time = $stack->cron_time;
+        $stackOld->date_created = $stack->date_created;
+        
+        $saved = $stackOld->save();
+        if ($saved) {
+            $stack->delete();
+        }
+        
+        exit();
+    }
 
     public function actionTest()
     {
@@ -1211,19 +1250,4 @@ class CronController extends Controller
 //        }
     }
     
-    public function getNames($opponents)
-    {
-        $teamsLive = FALSE;
-        $teamsInter = explode(' vs ', $opponents);
-        
-        foreach ($teamsInter as $teamInter) {
-            $team = Names::model()->findByAttributes(array('name' => $teamInter));
-            
-            if ($team) {
-                $teamsLive[] = $team->syn;
-            }
-        }
-        
-        return $teamsLive;
-    }
 }
