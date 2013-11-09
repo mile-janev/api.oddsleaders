@@ -247,9 +247,7 @@ class CronController extends Controller
 //        Code generator needs improvement
         public function codeGenerator($tournament)
         {
-            $code = mt_rand(100000, 999999);
-            
-            return $code;
+            return $tournament->sport->id.$tournament->id.mt_rand(100000, 999999);
         }
 
 // Cron job 3
@@ -1278,6 +1276,11 @@ class CronController extends Controller
         $isAdmin = array_key_exists($u_id, $this->admin);
 
         if (($_SERVER['SERVER_ADDR'] == $_SERVER['REMOTE_ADDR']) || $isAdmin) {
+            
+            $tournament = Tournament::model()->findByPk(88);
+            $bla = $this->codeGenerator($tournament);
+//            var_dump($bla);
+//            exit();
             
             //$link = "http://www.flashscore.com/soccer/england/premier-league/results/";
             $link = "http://api.oddsleaders.com";
