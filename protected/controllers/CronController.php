@@ -1098,22 +1098,25 @@ class CronController extends Controller
             $xml .= "<sport_name>".$sport->name."</sport_name>";
             
             foreach ($sport->tournaments as $tournament) {
-                if ($tournament->stacks) {
-                    $xml .= "<tournament>";
-                    $xml .= "<tournament_name>".$tournament->name."</tournament_name>";
+                if ($tournament->active == 1) {
+                    if ($tournament->stacks) {
+                        $xml .= "<tournament>";
+                        $xml .= "<country>".$tournament->country->country."</country>";
+                        $xml .= "<tournament_name>".$tournament->name."</tournament_name>";
 
-                    foreach ($tournament->stacks as $stack) {
-                        $xml .= "<game>";
+                        foreach ($tournament->stacks as $stack) {
+                            $xml .= "<game>";
 
-                        $xml .= "<code>".$stack->code."</code>";
-                        $xml .= "<opponent>".$stack->opponent."</opponent>";
-                        $xml .= "<start>".strtotime($stack->start)."</start>";
-                        $xml .= "<odds>".$stack->data."</odds>";
+                            $xml .= "<code>".$stack->code."</code>";
+                            $xml .= "<opponent>".$stack->opponent."</opponent>";
+                            $xml .= "<start>".strtotime($stack->start)."</start>";
+                            $xml .= "<odds>".$stack->data."</odds>";
 
-                        $xml .= "</game>";
+                            $xml .= "</game>";
+                        }
+
+                        $xml .= "</tournament>";
                     }
-
-                    $xml .= "</tournament>";
                 }
             }
             
