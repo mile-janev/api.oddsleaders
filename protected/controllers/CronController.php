@@ -142,7 +142,7 @@ class CronController extends Controller
                     $tournament = new Tournament();
                     $tournament->name = $tournament_name;
                     $tournament->link = "https://www.interwetten.com".$tournament_link;
-                    $tournament->active = 1;
+                    $tournament->active = 0;
                     $tournament->sport_id = $sport->id;
                     $tournament->special = 0;
                     $tournament->save();
