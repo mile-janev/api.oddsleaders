@@ -261,7 +261,7 @@ class CronController extends Controller
                             $odds = $this->getOdds($stack);
                         }
                         
-                        if ($odds->game['teams'] != false) {
+                        if ($odds['teams']) {
                             $this->saveOdds($stack, $odds);
                         } else {
                             $stack->delete();
@@ -609,8 +609,8 @@ class CronController extends Controller
             $teamGuestExist = Names::model()->findByAttributes(array('name' => $guestTeam));
             
             if ($teamGuestExist && $teamGuestExist) {
-                $this->game['teams']['home'] = $home_team;
-                $this->game['teams']['guest'] = $guest_team;
+                $this->game['teams']['home'] = $homeTeam;
+                $this->game['teams']['guest'] = $guestTeam;
             } else {
                 $this->game['teams'] = false;
             }
