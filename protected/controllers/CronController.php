@@ -39,69 +39,78 @@ class CronController extends Controller
         
         public function actionCron()
         {
-            $time = date("H:i",time());
-//            $time = '02:45';//For stack
-//            $time = '03:15';//For odds
-//            $time = '07:15';//For xml
+            $u_id = Yii::app()->user->id;
+            $isAdmin = array_key_exists($u_id, $this->admin);
+
+            if (($_SERVER['SERVER_ADDR'] == $_SERVER['REMOTE_ADDR']) || $isAdmin) {
+                
+                $time = date("H:i",time());
+    //            $time = '02:45';//For stack
+    //            $time = '03:15';//For odds
+    //            $time = '07:15';//For xml
+
+                if($time>'02:30' && $time<'03:00') //Stack fill
+                {
+                    $cron = Cron::model()->findByAttributes(array('flag'=>'stack_fill'));
+
+                    if( strtotime($cron->cron_time) < strtotime(date("Y-m-d",time())." 02:30") )
+                    {
+                        $cron->cron_time = date("Y-m-d H:i:s", time());
+                        $cron->update();
+                        $this->actionStack();
+                    }
+                }
+                else if($time>'14:30' && $time<'15:00') //Stack fill
+                {
+                    $cron = Cron::model()->findByAttributes(array('flag'=>'stack_fill'));
+
+                    if( strtotime($cron->cron_time) < strtotime(date("Y-m-d",time())." 13:30") )
+                    {
+                        $cron->cron_time = date("Y-m-d H:i:s", time());
+                        $cron->update();
+                        $this->actionStack();
+                    }
+                }
+                else if( ($time>'03:00' && $time<'07:00') || ($time>'15:00' && $time<'19:00') ) //Odds get
+                {
+                    $this->actionOdds();
+                }
+                else if($time>'07:00' && $time<'07:30') //XML Generate
+                {
+                    $cron = Cron::model()->findByAttributes(array('flag'=>'xml_fill'));
+
+                    if( strtotime($cron->cron_time) < strtotime(date("Y-m-d",time())." 07:00") )
+                    {
+                        $cron->cron_time = date("Y-m-d H:i:s", time());
+                        $cron->update();
+                        $this->actionXml();
+                    }
+                }
+                else if($time>'19:00' && $time<'19:30') //XML Generate
+                {
+                    $cron = Cron::model()->findByAttributes(array('flag'=>'xml_fill'));
+
+                    if( strtotime($cron->cron_time) < strtotime(date("Y-m-d",time())." 18:00") )
+                    {
+                        $cron->cron_time = date("Y-m-d H:i:s", time());
+                        $cron->update();
+                        $this->actionXml();
+                    }
+                }
+                else if ($time>'23:00' && $time<'23:59') //Result get
+                {
+                    $cron = Cron::model()->findByAttributes(array('flag'=>'result_fill'));
+
+                    if( strtotime($cron->cron_time) < strtotime(date("Y-m-d",time())." 18:00") )
+                    {
+                        $cron->cron_time = date("Y-m-d H:i:s", time());
+                        $cron->update();
+                        $this->actionResults();
+                    }
+                }
             
-            if($time>'02:30' && $time<'03:00') //Stack fill
-            {
-                $cron = Cron::model()->findByAttributes(array('flag'=>'stack_fill'));
-                
-                if( strtotime($cron->cron_time) < strtotime(date("Y-m-d",time())." 02:30") )
-                {
-                    $cron->cron_time = date("Y-m-d H:i:s", time());
-                    $cron->update();
-                    $this->actionStack();
-                }
-            }
-            else if($time>'14:30' && $time<'15:00') //Stack fill
-            {
-                $cron = Cron::model()->findByAttributes(array('flag'=>'stack_fill'));
-                
-                if( strtotime($cron->cron_time) < strtotime(date("Y-m-d",time())." 13:30") )
-                {
-                    $cron->cron_time = date("Y-m-d H:i:s", time());
-                    $cron->update();
-                    $this->actionStack();
-                }
-            }
-            else if( ($time>'03:00' && $time<'07:00') || ($time>'15:00' && $time<'19:00') ) //Odds get
-            {
-                $this->actionOdds();
-            }
-            else if($time>'07:00' && $time<'07:30') //XML Generate
-            {
-                $cron = Cron::model()->findByAttributes(array('flag'=>'xml_fill'));
-                
-                if( strtotime($cron->cron_time) < strtotime(date("Y-m-d",time())." 07:00") )
-                {
-                    $cron->cron_time = date("Y-m-d H:i:s", time());
-                    $cron->update();
-                    $this->actionXml();
-                }
-            }
-            else if($time>'19:00' && $time<'19:30') //XML Generate
-            {
-                $cron = Cron::model()->findByAttributes(array('flag'=>'xml_fill'));
-                
-                if( strtotime($cron->cron_time) < strtotime(date("Y-m-d",time())." 18:00") )
-                {
-                    $cron->cron_time = date("Y-m-d H:i:s", time());
-                    $cron->update();
-                    $this->actionXml();
-                }
-            }
-            else if ($time>'23:00' && $time<'23:59') //Result get
-            {
-                $cron = Cron::model()->findByAttributes(array('flag'=>'result_fill'));
-                
-                if( strtotime($cron->cron_time) < strtotime(date("Y-m-d",time())." 18:00") )
-                {
-                    $cron->cron_time = date("Y-m-d H:i:s", time());
-                    $cron->update();
-                    $this->actionResults();
-                }
+            } else {
+                die('Access forbidden!');
             }
             
             exit();
@@ -111,13 +120,22 @@ class CronController extends Controller
 //        Action who populate tournament
         public function actionTournament()
         {
-            $criteria1 = new CDbCriteria();
-            $criteria1->addCondition('active = :active');
-            $criteria1->params[":active"] = 1;
-            $sports = Sport::model()->findAll($criteria1);
+            $u_id = Yii::app()->user->id;
+            $isAdmin = array_key_exists($u_id, $this->admin);
+
+            if (($_SERVER['SERVER_ADDR'] == $_SERVER['REMOTE_ADDR']) || $isAdmin) {
+                
+                $criteria1 = new CDbCriteria();
+                $criteria1->addCondition('active = :active');
+                $criteria1->params[":active"] = 1;
+                $sports = Sport::model()->findAll($criteria1);
+
+                foreach ($sports as $sport) {
+                    $this->tournamentPopulate($sport);
+                }
             
-            foreach ($sports as $sport) {
-                $this->tournamentPopulate($sport);
+            } else {
+                die("Access forbidden!");
             }
             
             exit();
@@ -154,17 +172,26 @@ class CronController extends Controller
 //        Action who populate stack
         public function actionStack()
         {
-            $criteria1 = new CDbCriteria();
-            $criteria1->addCondition('active = :active');
-            $criteria1->params[":active"] = 1;
-            $tournaments = Tournament::model()->findAll($criteria1);
-            
-            foreach ($tournaments as $tournament) {
-                if ($tournament->special == 1) {
-                    $this->specialTournament($tournament);
-                } else {
-                    $this->stackPopulate($tournament);
+            $u_id = Yii::app()->user->id;
+            $isAdmin = array_key_exists($u_id, $this->admin);
+
+            if (($_SERVER['SERVER_ADDR'] == $_SERVER['REMOTE_ADDR']) || $isAdmin) {
+                
+                $criteria1 = new CDbCriteria();
+                $criteria1->addCondition('active = :active');
+                $criteria1->params[":active"] = 1;
+                $tournaments = Tournament::model()->findAll($criteria1);
+
+                foreach ($tournaments as $tournament) {
+                    if ($tournament->special == 1) {
+                        $this->specialTournament($tournament);
+                    } else {
+                        $this->stackPopulate($tournament);
+                    }
                 }
+            
+            } else {
+                die("Access forbidden!");
             }
             
             exit();
@@ -229,11 +256,11 @@ class CronController extends Controller
 //Populating odds. Limit setted
         public function actionOdds()
         {
-            $time = date("H:i",time());
-//            $time = '15:00';
-            
-//            if(($time>'03:00' && $time<'07:00') || ($time>'14:00' && $time<'18:00'))
-//            {
+            $u_id = Yii::app()->user->id;
+            $isAdmin = array_key_exists($u_id, $this->admin);
+
+            if (($_SERVER['SERVER_ADDR'] == $_SERVER['REMOTE_ADDR']) || $isAdmin) {
+                
                 $criteria1 = new CDbCriteria();
                 $criteria1->addCondition('cron = :cron');
                 $criteria1->params[":cron"] = 0;
@@ -268,7 +295,10 @@ class CronController extends Controller
                         }
                     }
                 }
-//            }
+                
+            } else {
+                die("Access forbidden!");
+            }
             
             exit();
         }
@@ -1085,98 +1115,115 @@ class CronController extends Controller
 //Generate xml document
     public function actionXml()
     {
-        $criteria1 = new CDbCriteria();
-        $criteria1->addCondition("active = :active");
-        $criteria1->params[':active'] = 1;
-        $sports = Sport::model()->findAll($criteria1);
-        
-        $xml = '<?xml version="1.0" encoding="utf-8"?>'; 
-        $xml .= '<oddsleaders xmlns="http://oddsleaders.com">';
-        
-        foreach ($sports as $sport) {
-            $xml .= "<sport>";
-            $xml .= "<sport_name>".$sport->name."</sport_name>";
+        $u_id = Yii::app()->user->id;
+        $isAdmin = array_key_exists($u_id, $this->admin);
+
+        if (($_SERVER['SERVER_ADDR'] == $_SERVER['REMOTE_ADDR']) || $isAdmin) {
             
-            foreach ($sport->tournaments as $tournament) {
-                if ($tournament->active == 1) {
-                    if ($tournament->stacks) {
-                        $xml .= "<tournament>";
-                        $xml .= "<country>".$tournament->country->country."</country>";
-                        $xml .= "<tournament_name>".$tournament->name."</tournament_name>";
+            $criteria1 = new CDbCriteria();
+            $criteria1->addCondition("active = :active");
+            $criteria1->params[':active'] = 1;
+            $sports = Sport::model()->findAll($criteria1);
 
-                        foreach ($tournament->stacks as $stack) {
-                            $xml .= "<game>";
+            $xml = '<?xml version="1.0" encoding="utf-8"?>'; 
+            $xml .= '<oddsleaders xmlns="http://oddsleaders.com">';
 
-                            $xml .= "<code>".$stack->code."</code>";
-                            $xml .= "<opponent>".$stack->opponent."</opponent>";
-                            $xml .= "<start>".strtotime($stack->start)."</start>";
-                            $xml .= "<odds>".$stack->data."</odds>";
+            foreach ($sports as $sport) {
+                $xml .= "<sport>";
+                $xml .= "<sport_name>".$sport->name."</sport_name>";
 
-                            $xml .= "</game>";
+                foreach ($sport->tournaments as $tournament) {
+                    if ($tournament->active == 1) {
+                        if ($tournament->stacks) {
+                            $xml .= "<tournament>";
+                            $xml .= "<country>".$tournament->country->country."</country>";
+                            $xml .= "<tournament_name>".$tournament->name."</tournament_name>";
+
+                            foreach ($tournament->stacks as $stack) {
+                                $xml .= "<game>";
+
+                                $xml .= "<code>".$stack->code."</code>";
+                                $xml .= "<opponent>".$stack->opponent."</opponent>";
+                                $xml .= "<start>".strtotime($stack->start)."</start>";
+                                $xml .= "<odds>".$stack->data."</odds>";
+
+                                $xml .= "</game>";
+                            }
+
+                            $xml .= "</tournament>";
                         }
-
-                        $xml .= "</tournament>";
                     }
                 }
+
+                $xml .= "</sport>";
             }
-            
-            $xml .= "</sport>";
-        }
+
+            $xml .= '</oddsleaders>'; 
+
+            if (file_put_contents(dirname(Yii::app()->getBasePath())."/xml/odds.xml",$xml)) {
+                $sucessfull = true;
+            } else {
+                $sucessfull = false;
+                echo "Prati mejl na admin vednas!";
+            }
         
-        $xml .= '</oddsleaders>'; 
- 
-        if (file_put_contents(dirname(Yii::app()->getBasePath())."/xml/odds.xml",$xml)) {
-            $sucessfull = true;
         } else {
-            $sucessfull = false;
-            echo "Prati mejl na admin vednas!";
+            die("Access forbidden!");
         }
-        
         exit();
     }
     
 //    Cron job 5
     public function actionResults()
     {
-        $stacks = Stack::model()->findAllByAttributes(array('end'=>0));
-        
-        foreach ($stacks as $game) {
-            if (time() >= strtotime($game->start)+5*60*60) {
-                $teams = $this->getNames($game->opponent);
-                if ($teams) {
-                    $parserAll = new SimpleHTMLDOM;
-                    $htmlAll = $parserAll->file_get_html($game->tournament->syn_link);
-                    foreach ($htmlAll->find('table.league-table tr') as $tableHtmlRow) {
-                        $ft = false;
-                        $at = false;
-                        
-                        foreach ($tableHtmlRow->find('td.fh') as $homeTeam) {
-                            if (trim($homeTeam->innertext) == $teams[0]) {
-                                $ft = true;
-                            }
-                        }
+        $u_id = Yii::app()->user->id;
+        $isAdmin = array_key_exists($u_id, $this->admin);
 
-                        foreach ($tableHtmlRow->find('td.fa') as $guestTeam) {
-                            if (trim($guestTeam->innertext) == $teams[1]) {
-                                $at = true;
+        if (($_SERVER['SERVER_ADDR'] == $_SERVER['REMOTE_ADDR']) || $isAdmin) {
+                
+            $stacks = Stack::model()->findAllByAttributes(array('end'=>0));
+
+            foreach ($stacks as $game) {
+                if (time() >= strtotime($game->start)+5*60*60) {
+                    $teams = $this->getNames($game->opponent);
+                    if ($teams) {
+                        $parserAll = new SimpleHTMLDOM;
+                        $htmlAll = $parserAll->file_get_html($game->tournament->syn_link);
+                        foreach ($htmlAll->find('table.league-table tr') as $tableHtmlRow) {
+                            $ft = false;
+                            $at = false;
+
+                            foreach ($tableHtmlRow->find('td.fh') as $homeTeam) {
+                                if (trim($homeTeam->innertext) == $teams[0]) {
+                                    $ft = true;
+                                }
                             }
-                        }
-                        
-                        if ($ft && $at) {
-                            $scoreHtml = $tableHtmlRow->find('a.scorelink');
-                            $scoreArray = explode(' - ', trim($scoreHtml[0]->innertext));
-                            $jsonData = json_decode($game->data);
-                            $jsonData->score = array(
-                                'team1' => $scoreArray[0],
-                                'team2' => $scoreArray[1]);
-                            $game->data = json_encode($jsonData);
-                            $game->end = TRUE;
-                            $game->cron_time = date("Y-m-d H:i:s", time());
-                            $game->update();
+
+                            foreach ($tableHtmlRow->find('td.fa') as $guestTeam) {
+                                if (trim($guestTeam->innertext) == $teams[1]) {
+                                    $at = true;
+                                }
+                            }
+
+                            if ($ft && $at) {
+                                $scoreHtml = $tableHtmlRow->find('a.scorelink');
+                                $scoreArray = explode(' - ', trim($scoreHtml[0]->innertext));
+                                $jsonData = json_decode($game->data);
+                                $jsonData->score = array(
+                                    'team1' => $scoreArray[0],
+                                    'team2' => $scoreArray[1]);
+                                $game->data = json_encode($jsonData);
+                                $game->end = TRUE;
+                                $game->cron_time = date("Y-m-d H:i:s", time());
+                                $game->update();
+                            }
                         }
                     }
                 }
             }
+            
+        } else {
+            die("Access forbidden!");
         }
         
         exit();
@@ -1227,30 +1274,38 @@ class CronController extends Controller
 
     public function actionTest()
     {
-        //$link = "http://www.flashscore.com/soccer/england/premier-league/results/";
-        $link = "http://api.oddsleaders.com";
-        $parserAll = new SimpleHTMLDOM;
-        $htmlAll = $parserAll->file_get_html($link);
-        echo $htmlAll;
-        exit();
-        $htmlTableDivs = $htmlAll->find('div.containerContentTable');
-//        $htmlArray = explode('<div>', trim($htmlTableDivs[0]->innertext));
-        
-        //All divs one-by-one
-//        foreach ($htmlArray as $elementDiv)
-//        {
-//            if(trim($elementDiv) != '')
-//            {
-//                $parserDiv = new SimpleHTMLDOM;
-//                $htmlDiv = $parserDiv->str_get_html($elementDiv);
-//
-////                Now we search in current div to find which game is in this div
-//                $htmlElement = $htmlDiv->find('.offertype');
-//                $game_type = $htmlElement[0]->find('span');//Will return game type, like handicap, First goal etc.
-//
-//                $this->americanFootballOdds($htmlDiv, $game_type);
-//            }
-//        }
+        $u_id = Yii::app()->user->id;
+        $isAdmin = array_key_exists($u_id, $this->admin);
+
+        if (($_SERVER['SERVER_ADDR'] == $_SERVER['REMOTE_ADDR']) || $isAdmin) {
+            
+            //$link = "http://www.flashscore.com/soccer/england/premier-league/results/";
+            $link = "http://api.oddsleaders.com";
+            $parserAll = new SimpleHTMLDOM;
+            $htmlAll = $parserAll->file_get_html($link);
+            echo $htmlAll;
+            exit();
+            $htmlTableDivs = $htmlAll->find('div.containerContentTable');
+    //        $htmlArray = explode('<div>', trim($htmlTableDivs[0]->innertext));
+
+            //All divs one-by-one
+    //        foreach ($htmlArray as $elementDiv)
+    //        {
+    //            if(trim($elementDiv) != '')
+    //            {
+    //                $parserDiv = new SimpleHTMLDOM;
+    //                $htmlDiv = $parserDiv->str_get_html($elementDiv);
+    //
+    ////                Now we search in current div to find which game is in this div
+    //                $htmlElement = $htmlDiv->find('.offertype');
+    //                $game_type = $htmlElement[0]->find('span');//Will return game type, like handicap, First goal etc.
+    //
+    //                $this->americanFootballOdds($htmlDiv, $game_type);
+    //            }
+    //        }
+        } else {
+            die("Access forbidden!");
+        }
     }
     
 }
