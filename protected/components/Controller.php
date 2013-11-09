@@ -28,7 +28,7 @@ class Controller extends CController
             $roles = Role::model()->findAll();
             $adminArray = array();
             foreach($roles as $role){
-                if ($role == Role::ROLE_ADMINISTRATOR) {
+                if ($role->role == Role::ROLE_ADMINISTRATOR) {
                     $adminArray[$role->user->id] = $role->user->username;
                 }
             }
