@@ -30,12 +30,9 @@
 		<?php $this->widget('zii.widgets.CMenu',array(
 			'items'=>array(
 				array('label'=>'Home', 'url'=>array('/site/index')),
-				array('label'=>'Sport', 'url'=>array('/sport/admin')),
-				array('label'=>'Tournament', 'url'=>array('/tournament/admin')),
-                                array('label'=>'Stack', 'url'=>array('/stack/admin')),
-                                array('label'=>'Names', 'url'=>array('/names/admin')),
                                 array('label'=>'Admin', 'url'=>array('/admin/admin')),
                                 array('label'=>'XML', 'url'=>Yii::app()->baseUrl."/xml/odds.xml"),
+                                array('label'=>'Cron Names', 'url'=>array('/names/cron')),
                                 array('label'=>'Cron Tour H', 'url'=>array('/cron/tournament')),
                                 array('label'=>'Cron Stack', 'url'=>array('/cron/stack')),
                                 array('label'=>'Cron Odds', 'url'=>array('/cron/odds')),
