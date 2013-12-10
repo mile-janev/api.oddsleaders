@@ -45,9 +45,10 @@ class CronController extends Controller
             if (($_SERVER['SERVER_ADDR'] == $_SERVER['REMOTE_ADDR']) || $isAdmin) {
                 
                 $time = date("H:i",time());
-    //            $time = '02:45';//For stack
-    //            $time = '03:15';//For odds
-    //            $time = '07:15';//For xml
+//                $time = '02:45';//For stack
+//                $time = '03:15';//For odds
+//                $time = '07:15';//For xml
+//                $time = '07:02';//For results
 
                 if($time>'02:30' && $time<'03:00') //Stack fill
                 {
@@ -269,7 +270,7 @@ class CronController extends Controller
                 }
 
                 foreach ($stacks as $stack) {                
-                    if ( isset($stack->start) && (strtotime($stack->start)+24*60*60 < time()) ) {
+                    if ( isset($stack->start) && ((strtotime($stack->start)+30*24*60*60) < time()) ) {
                         $this->deleteFromStack($stack);
                     } else {
                         $this->saveCronpass($stack);
@@ -426,21 +427,23 @@ class CronController extends Controller
         {
             $odds_encoded = json_encode($odds['coefficients']);
             
-            if(is_array($odds['teams']))
-            {
-                $opponent = implode(" vs ", $odds['teams']);
+            if ($odds['teams']) {
+                if(is_array($odds['teams']))
+                {
+                    $opponent = implode(" vs ", $odds['teams']);
+                }
+                else
+                {
+                    $opponent = $odds['teams'];
+                }
+
+                $stack->opponent = $opponent;
+                $stack->start = $odds['date'];
+                $stack->data = $odds_encoded;
+                $stack->cron = 1;
+                $stack->cron_time = date("Y-m-d H:i", time());
+                $stack->update();
             }
-            else
-            {
-                $opponent = $odds['teams'];
-            }
-            
-            $stack->opponent = $opponent;
-            $stack->start = $odds['date'];
-            $stack->data = $odds_encoded;
-            $stack->cron = 1;
-            $stack->cron_time = date("Y-m-d H:i", time());
-            $stack->update();
             
             return 1;
         }
@@ -1131,14 +1134,16 @@ class CronController extends Controller
                             $xml .= "<tournament_name>".$tournament->name."</tournament_name>";
 
                             foreach ($tournament->stacks as $stack) {
-                                $xml .= "<game>";
+                                if ($stack->start) {
+                                    $xml .= "<game>";
 
-                                $xml .= "<code>".$stack->code."</code>";
-                                $xml .= "<opponent>".$stack->opponent."</opponent>";
-                                $xml .= "<start>".strtotime($stack->start)."</start>";
-                                $xml .= "<odds>".$stack->data."</odds>";
+                                    $xml .= "<code>".$stack->code."</code>";
+                                    $xml .= "<opponent>".$stack->opponent."</opponent>";
+                                    $xml .= "<start>".strtotime($stack->start)."</start>";
+                                    $xml .= "<odds>".$stack->data."</odds>";
 
-                                $xml .= "</game>";
+                                    $xml .= "</game>";
+                                }
                             }
 
                             $xml .= "</tournament>";
@@ -1175,9 +1180,9 @@ class CronController extends Controller
             $stacks = Stack::model()->findAllByAttributes(array('end'=>0));
 
             foreach ($stacks as $game) {
-                if (time() >= strtotime($game->start)+5*60*60) {
+                if (time() >= strtotime($game->start)+3*60*60) {
                     $teams = $this->getNames($game->opponent);
-                    if ($teams) {
+                    if ($teams && count($teams) == 2) {
                         $parserAll = new SimpleHTMLDOM;
                         $htmlAll = $parserAll->file_get_html($game->tournament->syn_link);
                         foreach ($htmlAll->find('table.league-table tr') as $tableHtmlRow) {
@@ -1261,6 +1266,16 @@ class CronController extends Controller
         }
         
         exit();
+    }
+    
+    /**
+     * Format numbers, ',' is changed into '.'
+     * @param type $value
+     * @return type float
+     */
+    public function formatNumber($value)
+    {
+        return round(str_replace(',', '.', $value) , 2);
     }
 
     public function actionTest()
