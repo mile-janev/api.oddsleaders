@@ -1,2 +1,3 @@
 14.12.2013
 ALTER TABLE `stack` ADD `result` TEXT NULL DEFAULT NULL AFTER `data`;
+ALTER TABLE `stack_old` ADD `result` TEXT NULL DEFAULT NULL AFTER `data`;
