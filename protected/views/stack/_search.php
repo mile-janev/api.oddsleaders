@@ -70,6 +70,11 @@
 		<?php echo $form->label($model,'data'); ?>
 		<?php echo $form->textArea($model,'data',array('rows'=>6, 'cols'=>50)); ?>
 	</div>
+    
+        <div class="row">
+		<?php echo $form->label($model,'result'); ?>
+		<?php echo $form->textArea($model,'result',array('rows'=>6, 'cols'=>50)); ?>
+	</div>
 
 	<div class="row buttons">
 		<?php echo CHtml::submitButton('Search'); ?>

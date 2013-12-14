@@ -36,5 +36,9 @@ $this->menu=array(
             <th><?php echo $model->getAttributeLabel('data'); ?></th>
             <td><?php echo CHtml::textArea('data', Oddsleaders::pretty_print($model->data), array('class'=>'coefficients-textarea','readonly'=>'readonly')); ?></td>
         </tr>
+        <tr class="even">
+            <th><?php echo $model->getAttributeLabel('result'); ?></th>
+            <td><?php echo CHtml::textArea('result', Oddsleaders::pretty_print($model->result), array('class'=>'coefficients-textarea','readonly'=>'readonly')); ?></td>
+        </tr>
     </tbody>
 </table>

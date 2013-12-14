@@ -60,6 +60,12 @@
 		<?php echo $form->textArea($model,'data',array('class'=>'coefficients-textarea')); ?>
 		<?php echo $form->error($model,'data'); ?>
 	</div>
+        
+	<div class="row">
+		<?php echo $form->labelEx($model,'result'); ?>
+		<?php echo $form->textArea($model,'result',array('class'=>'coefficients-textarea')); ?>
+		<?php echo $form->error($model,'result'); ?>
+	</div>
 
 	<div class="row">
 		<?php echo $form->labelEx($model,'tournament_id'); ?>

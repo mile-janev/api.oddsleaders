@@ -30,6 +30,7 @@ $this->menu=array(
 		'start',
 		'end',
 		'data',
+                'result',
 		'tournament_id',
 		'cron',
 		'cron_time',

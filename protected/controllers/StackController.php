@@ -99,6 +99,7 @@ class StackController extends Controller
 		}
                 
                 $model->data = Oddsleaders::pretty_print($model->data);
+                $model->result = Oddsleaders::pretty_print($model->result);
                 
 		$this->render('update',array(
 			'model'=>$model,

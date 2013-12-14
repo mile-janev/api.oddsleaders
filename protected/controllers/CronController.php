@@ -28,7 +28,7 @@ class CronController extends Controller
 	{
 		return array(
 			array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('cron','tournament','stack','odds','results','xml','test'),//
+				'actions'=>array('cron','tournament','stack','odds','results','xml','test', 'getresult'),//
 				'users'=>array('*'),
 			),
 			array('deny',  // deny all users
@@ -1180,7 +1180,7 @@ class CronController extends Controller
             $stacks = Stack::model()->findAllByAttributes(array('end'=>0));
 
             foreach ($stacks as $game) {
-                if (time() >= strtotime($game->start)+3*60*60) {
+//                if (time() >= strtotime($game->start)+3*60*60) {
                     $teams = $this->getNames($game->opponent);
                     if ($teams && count($teams) == 2) {
                         $parserAll = new SimpleHTMLDOM;
@@ -1188,34 +1188,84 @@ class CronController extends Controller
                         foreach ($htmlAll->find('table.league-table tr') as $tableHtmlRow) {
                             $ft = false;
                             $at = false;
+                            $fd = false;
 
-                            foreach ($tableHtmlRow->find('td.fh') as $homeTeam) {
-                                if (trim($homeTeam->innertext) == $teams[0]) {
-                                    $ft = true;
+                            foreach ($tableHtmlRow->find('td.fd') as $isFinisfed) {
+                                if (trim($isFinisfed->innertext) == 'FT') {
+                                    $fd = true;
                                 }
                             }
-
-                            foreach ($tableHtmlRow->find('td.fa') as $guestTeam) {
-                                if (trim($guestTeam->innertext) == $teams[1]) {
-                                    $at = true;
+                            
+                            if ($fd) { //If game is finished
+                                
+                                foreach ($tableHtmlRow->find('a.scorelink') as $scoreLink) {
+                                    $parserLink = new SimpleHTMLDOM;
+                                    $htmlLink = $parserLink->file_get_html('http://www.livescore.com'.trim($scoreLink->href));
+                                    
+                                    $matchDetailsPage = $htmlLink->find('table.match-details tbody tr');
+//                                    $matchDetailsPage[0]//This is first row with final score
+//                                    $matchDetailsPage[1]//This is second row with half-time score
+                                    
+                                    //For final score and teams
+                                    $homeTeamHtml = $matchDetailsPage[0]->find('th.home span.team');
+                                    $homeTeam = trim($homeTeamHtml[0]->innertext);
+                                    
+                                    $guestTeamHtml = $matchDetailsPage[0]->find('th.awy span.team');
+                                    $guestTeam = trim($guestTeamHtml[0]->innertext);
+                                    
+                                    $finalScoreHtml = $matchDetailsPage[0]->find('th.sco');
+                                    $finalScore = trim($finalScoreHtml[0]->innertext);
+                                    $finalScoreArray = explode(' - ', $finalScore);
+                                    if (count($finalScoreArray) == 2) {
+                                        $homeTeamGoals = trim($finalScoreArray[0]);
+                                        $guestTeamGoals = trim($finalScoreArray[1]);
+                                    }
+                                    
+//                                    For half-time
+                                    $halfTimeGoalsHtml = $matchDetailsPage[1]->find('th.sco');
+                                    if ($halfTimeGoalsHtml) {
+                                        $halfTimeGoals = trim(trim($halfTimeGoalsHtml[0]->innertext), '()');
+                                        $halfTimeArray = explode(' - ', $halfTimeGoals);
+                                        if (count($halfTimeArray) == 2) {
+                                            $halfTimeHomeGoals = trim($halfTimeArray[0]);
+                                            $halfTimeGuestGoals = trim($halfTimeArray[1]);
+                                        }
+                                    }
+                                    
+                                    if ($homeTeam == $teams[0]) {
+                                        $ft = true;
+                                    }
+                                    
+                                    if ($guestTeam == $teams[1]) {
+                                        $at = true;
+                                    }
+                                    
+                                    $resultArray = array(
+                                        'half-time' => array(
+                                            'team1' => $halfTimeHomeGoals,
+                                            'team2' => $halfTimeGuestGoals
+                                        ),
+                                        'final' => array(
+                                            'team1' => $homeTeamGoals,
+                                            'team2' => $guestTeamGoals
+                                        )
+                                    );
+                                    
+                                    if ($ft && $at) {
+                                        $jsonData = json_decode($game->data);
+                                        $jsonData->score = $resultArray;
+                                        $game->data = json_encode($jsonData);
+                                        $game->result = json_encode($resultArray);
+                                        $game->end = TRUE;
+                                        $game->cron_time = date("Y-m-d H:i:s", time());
+                                        $updated = $game->update();
+                                    }
+                                    
                                 }
-                            }
-
-                            if ($ft && $at) {
-                                $scoreHtml = $tableHtmlRow->find('a.scorelink');
-                                $scoreArray = explode(' - ', trim($scoreHtml[0]->innertext));
-                                $jsonData = json_decode($game->data);
-                                $jsonData->score = array(
-                                    'team1' => $scoreArray[0],
-                                    'team2' => $scoreArray[1]);
-                                $game->data = json_encode($jsonData);
-                                $game->end = TRUE;
-                                $game->cron_time = date("Y-m-d H:i:s", time());
-                                $game->update();
                             }
                         }
                     }
-                }
+//                }
             }
             
         } else {
@@ -1276,6 +1326,20 @@ class CronController extends Controller
     public function formatNumber($value)
     {
         return round(str_replace(',', '.', $value) , 2);
+    }
+    
+    /**
+     * Accept game code and return final and half-time score
+     * @param type $code
+     */
+    public function actionGetresult($code=false)
+    {
+        if ($code) {
+            $stack = Stack::model()->findByAttributes(array('code'=>$code));
+            echo $stack->result;
+        } else {        
+            echo $code;
+        }
     }
 
     public function actionTest()

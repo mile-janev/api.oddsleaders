@@ -42,10 +42,10 @@ class Stack extends CActiveRecord
                         array('code', 'numerical', 'integerOnly'=>true),
 			array('opponent, syn', 'length', 'max'=>256),
 			array('tournament_id', 'length', 'max'=>10),
-			array('start, data, cron_time', 'safe'),
+			array('start, data, result, cron_time', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, code, link, syn_link, opponent, syn, start, data, tournament_id, cron, cron_time, date_created', 'safe', 'on'=>'search'),
+			array('id, code, link, syn_link, opponent, syn, start, data, result, tournament_id, cron, cron_time, date_created', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -75,6 +75,7 @@ class Stack extends CActiveRecord
                         'syn' => 'Res Name',
 			'start' => 'Start game',
 			'data' => 'Data content',
+                        'result' => 'Result',
 			'tournament_id' => 'Tournament',
 			'cron' => 'Cron group',
 			'cron_time' => 'Cron Time',
@@ -108,6 +109,7 @@ class Stack extends CActiveRecord
                 $criteria->compare('syn',$this->syn,true);
 		$criteria->compare('start',$this->start,true);
 		$criteria->compare('data',$this->data,true);
+                $criteria->compare('result',$this->result,true);
 		$criteria->compare('tournament_id',$this->tournament_id,true);
 		$criteria->compare('cron',$this->cron);
 		$criteria->compare('cron_time',$this->cron_time,true);

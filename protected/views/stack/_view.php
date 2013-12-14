@@ -36,6 +36,10 @@
 	<b><?php echo CHtml::encode($data->getAttributeLabel('data')); ?>:</b>
 	<?php echo CHtml::encode($data->data); ?>
 	<br />
+        
+	<b><?php echo CHtml::encode($data->getAttributeLabel('result')); ?>:</b>
+	<?php echo CHtml::encode($data->result); ?>
+	<br />
 
 	<b><?php echo CHtml::encode($data->getAttributeLabel('tournament_id')); ?>:</b>
 	<?php echo CHtml::encode($data->tournament_id); ?>
@@ -44,16 +48,5 @@
 	<b><?php echo CHtml::encode($data->getAttributeLabel('cron')); ?>:</b>
 	<?php echo CHtml::encode($data->cron); ?>
 	<br />
-
-	<?php /*
-	<b><?php echo CHtml::encode($data->getAttributeLabel('cron_time')); ?>:</b>
-	<?php echo CHtml::encode($data->cron_time); ?>
-	<br />
-
-	<b><?php echo CHtml::encode($data->getAttributeLabel('date_created')); ?>:</b>
-	<?php echo CHtml::encode($data->date_created); ?>
-	<br />
-
-	*/ ?>
 
 </div>

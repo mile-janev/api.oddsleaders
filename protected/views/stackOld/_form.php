@@ -66,6 +66,12 @@
 		<?php echo $form->textArea($model,'data',array('rows'=>6, 'cols'=>50)); ?>
 		<?php echo $form->error($model,'data'); ?>
 	</div>
+        
+        <div class="row">
+		<?php echo $form->labelEx($model,'result'); ?>
+		<?php echo $form->textArea($model,'result',array('rows'=>6, 'cols'=>50)); ?>
+		<?php echo $form->error($model,'result'); ?>
+	</div>
 
 	<div class="row">
 		<?php echo $form->labelEx($model,'tournament_id'); ?>
