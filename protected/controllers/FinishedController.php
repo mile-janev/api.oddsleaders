@@ -1,6 +1,6 @@
 <?php
 
-class StackOldController extends Controller
+class FinishedController extends Controller
 {
 	/**
 	 * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
@@ -62,14 +62,14 @@ class StackOldController extends Controller
 	 */
 	public function actionCreate()
 	{
-		$model=new StackOld;
+		$model=new Finished;
 
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
-		if(isset($_POST['StackOld']))
+		if(isset($_POST['Finished']))
 		{
-			$model->attributes=$_POST['StackOld'];
+			$model->attributes=$_POST['Finished'];
 			if($model->save())
 				$this->redirect(array('view','id'=>$model->id));
 		}
@@ -91,9 +91,9 @@ class StackOldController extends Controller
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
-		if(isset($_POST['StackOld']))
+		if(isset($_POST['Finished']))
 		{
-			$model->attributes=$_POST['StackOld'];
+			$model->attributes=$_POST['Finished'];
 			if($model->save())
 				$this->redirect(array('view','id'=>$model->id));
 		}
@@ -122,7 +122,7 @@ class StackOldController extends Controller
 	 */
 	public function actionIndex()
 	{
-		$dataProvider=new CActiveDataProvider('StackOld');
+		$dataProvider=new CActiveDataProvider('Finished');
 		$this->render('index',array(
 			'dataProvider'=>$dataProvider,
 		));
@@ -133,10 +133,10 @@ class StackOldController extends Controller
 	 */
 	public function actionAdmin()
 	{
-		$model=new StackOld('search');
+		$model=new Finished('search');
 		$model->unsetAttributes();  // clear any default values
-		if(isset($_GET['StackOld']))
-			$model->attributes=$_GET['StackOld'];
+		if(isset($_GET['Finished']))
+			$model->attributes=$_GET['Finished'];
 
 		$this->render('admin',array(
 			'model'=>$model,
@@ -147,12 +147,12 @@ class StackOldController extends Controller
 	 * Returns the data model based on the primary key given in the GET variable.
 	 * If the data model is not found, an HTTP exception will be raised.
 	 * @param integer $id the ID of the model to be loaded
-	 * @return StackOld the loaded model
+	 * @return Finished the loaded model
 	 * @throws CHttpException
 	 */
 	public function loadModel($id)
 	{
-		$model=StackOld::model()->findByPk($id);
+		$model=Finished::model()->findByPk($id);
 		if($model===null)
 			throw new CHttpException(404,'The requested page does not exist.');
 		return $model;
@@ -160,11 +160,11 @@ class StackOldController extends Controller
 
 	/**
 	 * Performs the AJAX validation.
-	 * @param StackOld $model the model to be validated
+	 * @param Finished $model the model to be validated
 	 */
 	protected function performAjaxValidation($model)
 	{
-		if(isset($_POST['ajax']) && $_POST['ajax']==='stack-old-form')
+		if(isset($_POST['ajax']) && $_POST['ajax']==='finished-form')
 		{
 			echo CActiveForm::validate($model);
 			Yii::app()->end();

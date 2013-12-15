@@ -1,34 +1,28 @@
 <?php
 
 /**
- * This is the model class for table "stack_old".
+ * This is the model class for table "finished".
  *
- * The followings are the available columns in table 'stack_old':
+ * The followings are the available columns in table 'finished':
  * @property string $id
  * @property string $code
- * @property string $link
- * @property string $syn_link
  * @property string $opponent
- * @property string $syn
  * @property string $start
- * @property integer $end
  * @property string $data
+ * @property string $result
  * @property string $tournament_id
- * @property integer $cron
- * @property string $cron_time
- * @property string $date_created
  *
  * The followings are the available model relations:
  * @property Tournament $tournament
  */
-class StackOld extends CActiveRecord
+class Finished extends CActiveRecord
 {
 	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
 	{
-		return 'stack_old';
+		return 'finished';
 	}
 
 	/**
@@ -39,15 +33,12 @@ class StackOld extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('code, link, tournament_id, date_created', 'required'),
-			array('end, cron', 'numerical', 'integerOnly'=>true),
+			array('code, opponent, start, data, result, tournament_id', 'required'),
 			array('code', 'length', 'max'=>20),
-			array('opponent, syn', 'length', 'max'=>256),
 			array('tournament_id', 'length', 'max'=>10),
-			array('syn_link, start, data, result, cron_time', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, code, link, syn_link, opponent, syn, start, end, data, result, tournament_id, cron, cron_time, date_created', 'safe', 'on'=>'search'),
+			array('id, code, opponent, start, data, result, tournament_id', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -71,18 +62,11 @@ class StackOld extends CActiveRecord
 		return array(
 			'id' => 'ID',
 			'code' => 'Code',
-			'link' => 'Link',
-			'syn_link' => 'Syn Link',
 			'opponent' => 'Opponent',
-			'syn' => 'Syn',
 			'start' => 'Start',
-			'end' => 'End',
 			'data' => 'Data',
-                        'result' => 'Result',
+			'result' => 'Result',
 			'tournament_id' => 'Tournament',
-			'cron' => 'Cron',
-			'cron_time' => 'Cron Time',
-			'date_created' => 'Date Created',
 		);
 	}
 
@@ -106,18 +90,11 @@ class StackOld extends CActiveRecord
 
 		$criteria->compare('id',$this->id,true);
 		$criteria->compare('code',$this->code,true);
-		$criteria->compare('link',$this->link,true);
-		$criteria->compare('syn_link',$this->syn_link,true);
 		$criteria->compare('opponent',$this->opponent,true);
-		$criteria->compare('syn',$this->syn,true);
 		$criteria->compare('start',$this->start,true);
-		$criteria->compare('end',$this->end);
 		$criteria->compare('data',$this->data,true);
-                $criteria->compare('result',$this->result,true);
+		$criteria->compare('result',$this->result,true);
 		$criteria->compare('tournament_id',$this->tournament_id,true);
-		$criteria->compare('cron',$this->cron);
-		$criteria->compare('cron_time',$this->cron_time,true);
-		$criteria->compare('date_created',$this->date_created,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -128,7 +105,7 @@ class StackOld extends CActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return StackOld the static model class
+	 * @return Finished the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{

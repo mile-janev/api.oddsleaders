@@ -1,18 +1,18 @@
 <?php
-/* @var $this StackOldController */
+/* @var $this FinishedController */
 /* @var $dataProvider CActiveDataProvider */
 
 $this->breadcrumbs=array(
-	'Stack Olds',
+	'Finisheds',
 );
 
 $this->menu=array(
-	array('label'=>'Create StackOld', 'url'=>array('create')),
-	array('label'=>'Manage StackOld', 'url'=>array('admin')),
+	array('label'=>'Create Finished', 'url'=>array('create')),
+	array('label'=>'Manage Finished', 'url'=>array('admin')),
 );
 ?>
 
-<h1>Stack Olds</h1>
+<h1>Finisheds</h1>
 
 <?php $this->widget('zii.widgets.CListView', array(
 	'dataProvider'=>$dataProvider,

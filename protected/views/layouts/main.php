@@ -38,6 +38,7 @@
                                 array('label'=>'Cr.Odds', 'url'=>array('/cron/odds')),
                                 array('label'=>'Cr.Results', 'url'=>array('/cron/results')),
                                 array('label'=>'Cr.XML', 'url'=>array('/cron/xml')),
+                                array('label'=>'Cr.Archive', 'url'=>array('/cron/archive')),
                                 array('label'=>'Cr.Test', 'url'=>array('/cron/test')),
                                 array('label'=>'Cron', 'url'=>array('/cron/cron')),
 				array('label'=>'Login', 'url'=>array('/site/login'), 'visible'=>Yii::app()->user->isGuest),

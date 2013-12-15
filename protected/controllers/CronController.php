@@ -28,7 +28,7 @@ class CronController extends Controller
 	{
 		return array(
 			array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('cron','tournament','stack','odds','results','xml','test', 'getresult'),//
+				'actions'=>array('cron','tournament','stack','odds','results','xml','archive','getresult','getodds','test'),
 				'users'=>array('*'),
 			),
 			array('deny',  // deny all users
@@ -1177,7 +1177,7 @@ class CronController extends Controller
 
         if (($_SERVER['SERVER_ADDR'] == $_SERVER['REMOTE_ADDR']) || $isAdmin) {
                 
-            $stacks = Stack::model()->findAllByAttributes(array('end'=>0));
+            $stacks = Stack::model()->findAll();
 
             foreach ($stacks as $game) {
 //                if (time() >= strtotime($game->start)+3*60*60) {
@@ -1254,11 +1254,17 @@ class CronController extends Controller
                                     if ($ft && $at) {
                                         $jsonData = json_decode($game->data);
                                         $jsonData->score = $resultArray;
-                                        $game->data = json_encode($jsonData);
-                                        $game->result = json_encode($resultArray);
-                                        $game->end = TRUE;
-                                        $game->cron_time = date("Y-m-d H:i:s", time());
-                                        $updated = $game->update();
+                                        
+                                        $finished = new Finished();
+                                        $finished->code = $game->code;
+                                        $finished->opponent = $game->opponent;
+                                        $finished->start = $game->start;
+                                        $finished->data = json_encode($jsonData);
+                                        $finished->result = json_encode($resultArray);
+                                        $finished->tournament_id = $game->tournament_id;
+                                        $finished->save();
+                                        
+                                        $game->delete();
                                     }
                                     
                                 }
@@ -1295,22 +1301,16 @@ class CronController extends Controller
     //Copy to another table and delete from current
     public function deleteFromStack($stack)
     {
-        $stackOld = new StackOld();
+        $finished = new Finished();
         
-        $stackOld->code = $stack->code;
-        $stackOld->link = $stack->link;
-        $stackOld->syn_link = $stack->syn_link;
-        $stackOld->opponent = $stack->opponent;
-        $stackOld->syn = $stack->syn;
-        $stackOld->start = $stack->start;
-        $stackOld->end = $stack->end;
-        $stackOld->data = $stack->data;
-        $stackOld->tournament_id = $stack->tournament_id;
-        $stackOld->cron = $stack->cron;
-        $stackOld->cron_time = $stack->cron_time;
-        $stackOld->date_created = $stack->date_created;
+        $finished->code = $stack->code;
+        $finished->opponent = $stack->opponent;
+        $finished->start = $stack->start;
+        $finished->data = $stack->data;
+        $finished->result = $stack->result;
+        $finished->tournament_id = $stack->tournament_id;
         
-        $saved = $stackOld->save();
+        $saved = $finished->save();
         if ($saved) {
             $stack->delete();
         }
@@ -1329,17 +1329,95 @@ class CronController extends Controller
     }
     
     /**
-     * Accept game code and return final and half-time score
+     * Accept game code and return final and half-time score. False is returned if no such game
      * @param type $code
      */
     public function actionGetresult($code=false)
     {
+        $this->layout='none';
+        $variable='false';
+        
+        if ($code) {
+            $stack = Finished::model()->findByAttributes(array('code'=>$code));
+            
+            if (!$stack) {//If this code is not in finished then search archive
+                $stack = Archive::model()->findByAttributes(array('code'=>$code));
+            }
+            
+            if ($stack) {
+                $this->render('print',array(
+                    'variable'=>$stack->result,
+                ));
+            } else {        
+                $this->render('print',array(
+                    'variable'=>$variable,
+                ));
+            }
+        } else {        
+            $this->render('print',array(
+                'variable'=>$variable,
+            ));
+        }        
+    }
+    
+    /**
+     * Accept game code and return odds and result(data field from db)
+     * @param type $code of game
+     */
+    public function actionGetodds($code=false)
+    {
+        $this->layout='none';
+        $variable='false';
+        
         if ($code) {
             $stack = Stack::model()->findByAttributes(array('code'=>$code));
-            echo $stack->result;
+            
+            if (!$stack) {//If this code is not in stack then search finished
+                $stack = Finished::model()->findByAttributes(array('code'=>$code));
+            }
+            
+            if (!$stack) {//If this code is not in stack and finished then search archive
+                $stack = Archive::model()->findByAttributes(array('code'=>$code));
+            }
+            
+            if ($stack) {
+                $this->render('print',array(
+                    'variable'=>$stack->data,
+                ));
+            } else {        
+                $this->render('print',array(
+                    'variable'=>$variable,
+                ));
+            }
         } else {        
-            echo $code;
+            $this->render('print',array(
+                'variable'=>$variable,
+            ));
+        } 
+    }
+    
+    /**
+     * Cron for archiving stack games
+     */
+    public function actionArchive()
+    {
+        $criteria1 = new CDbCriteria();
+        $criteria1->addCondition('start<date_sub( current_date, INTERVAL 7 day )');//Find only older than 30 days
+        $finished = Finished::model()->findAll($criteria1);
+        
+        foreach ($finished as $game) {
+            $archive = new Archive();
+            $archive->code = $game->code;
+            $archive->opponent = $game->opponent;
+            $archive->start = $game->start;
+            $archive->data = $game->data;
+            $archive->result = $game->result;
+            $archive->tournament_id = $game->tournament_id;
+            $archive->save();
+            $game->delete();
         }
+        
+        exit();
     }
 
     public function actionTest()

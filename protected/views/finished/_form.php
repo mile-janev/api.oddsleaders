@@ -1,13 +1,13 @@
 <?php
-/* @var $this StackOldController */
-/* @var $model StackOld */
+/* @var $this FinishedController */
+/* @var $model Finished */
 /* @var $form CActiveForm */
 ?>
 
 <div class="form">
 
 <?php $form=$this->beginWidget('CActiveForm', array(
-	'id'=>'stack-old-form',
+	'id'=>'finished-form',
 	// Please note: When you enable ajax validation, make sure the corresponding
 	// controller action is handling ajax validation correctly.
 	// There is a call to performAjaxValidation() commented in generated controller code.
@@ -26,27 +26,9 @@
 	</div>
 
 	<div class="row">
-		<?php echo $form->labelEx($model,'link'); ?>
-		<?php echo $form->textArea($model,'link',array('rows'=>6, 'cols'=>50)); ?>
-		<?php echo $form->error($model,'link'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'syn_link'); ?>
-		<?php echo $form->textArea($model,'syn_link',array('rows'=>6, 'cols'=>50)); ?>
-		<?php echo $form->error($model,'syn_link'); ?>
-	</div>
-
-	<div class="row">
 		<?php echo $form->labelEx($model,'opponent'); ?>
-		<?php echo $form->textField($model,'opponent',array('size'=>60,'maxlength'=>256)); ?>
+		<?php echo $form->textArea($model,'opponent',array('rows'=>6, 'cols'=>50)); ?>
 		<?php echo $form->error($model,'opponent'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'syn'); ?>
-		<?php echo $form->textField($model,'syn',array('size'=>60,'maxlength'=>256)); ?>
-		<?php echo $form->error($model,'syn'); ?>
 	</div>
 
 	<div class="row">
@@ -56,18 +38,12 @@
 	</div>
 
 	<div class="row">
-		<?php echo $form->labelEx($model,'end'); ?>
-		<?php echo $form->textField($model,'end'); ?>
-		<?php echo $form->error($model,'end'); ?>
-	</div>
-
-	<div class="row">
 		<?php echo $form->labelEx($model,'data'); ?>
 		<?php echo $form->textArea($model,'data',array('rows'=>6, 'cols'=>50)); ?>
 		<?php echo $form->error($model,'data'); ?>
 	</div>
-        
-        <div class="row">
+
+	<div class="row">
 		<?php echo $form->labelEx($model,'result'); ?>
 		<?php echo $form->textArea($model,'result',array('rows'=>6, 'cols'=>50)); ?>
 		<?php echo $form->error($model,'result'); ?>
@@ -77,24 +53,6 @@
 		<?php echo $form->labelEx($model,'tournament_id'); ?>
 		<?php echo $form->textField($model,'tournament_id',array('size'=>10,'maxlength'=>10)); ?>
 		<?php echo $form->error($model,'tournament_id'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'cron'); ?>
-		<?php echo $form->textField($model,'cron'); ?>
-		<?php echo $form->error($model,'cron'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'cron_time'); ?>
-		<?php echo $form->textField($model,'cron_time'); ?>
-		<?php echo $form->error($model,'cron_time'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'date_created'); ?>
-		<?php echo $form->textField($model,'date_created'); ?>
-		<?php echo $form->error($model,'date_created'); ?>
 	</div>
 
 	<div class="row buttons">
