@@ -28,7 +28,7 @@ class CronController extends Controller
 	{
 		return array(
 			array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('cron','tournament','stack','odds','results','xml','archive','getresult','getodds','test'),
+				'actions'=>array('cron','tournament','stack','odds','results','xml','archive','getresult','getodds','getinfo','test'),
 				'users'=>array('*'),
 			),
 			array('deny',  // deny all users
@@ -1396,6 +1396,48 @@ class CronController extends Controller
         } 
     }
     
+    public function actionGetinfo($code=false)
+    {
+        $this->layout='none';
+        $variable='false';
+        
+        if ($code) {
+            $isFinished = false;
+            $stack = Stack::model()->findByAttributes(array('code'=>$code));
+            
+            if (!$stack) {//If this code is not in stack then search finished
+                $stack = Finished::model()->findByAttributes(array('code'=>$code));
+                $isFinished = TRUE;
+            }
+            
+            if (!$stack) {//If this code is not in stack and finished then search archive
+                $stack = Archive::model()->findByAttributes(array('code'=>$code));
+                $isFinished = TRUE;
+            }
+            
+            if ($stack) {
+                $jsonData = json_decode($stack->data);
+                $jsonData->code = $stack->code;
+                $jsonData->start = strtotime($stack->start);
+                $jsonData->tournament = $stack->tournament->name;
+                $jsonData->finished = $isFinished;
+                
+                $this->render('print',array(
+                    'variable'=>json_encode($jsonData),
+                ));
+            } else {        
+                $this->render('print',array(
+                    'variable'=>$variable,
+                ));
+            }
+        } else {        
+            $this->render('print',array(
+                'variable'=>$variable,
+            ));
+        }
+    }
+
+
     /**
      * Cron for archiving stack games
      */
