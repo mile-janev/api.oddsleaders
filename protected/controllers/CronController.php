@@ -28,7 +28,8 @@ class CronController extends Controller
 	{
 		return array(
 			array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('cron','tournament','stack','odds','results','xml','archive','getresult','getodds','getinfo','gettournament','test'),
+				'actions'=>array('cron','tournament','stack','odds','results','xml','archive',
+                                    'getresult','getodds','getinfo','gettournament','forceodds','forceresults','test'),
 				'users'=>array('*'),
 			),
 			array('deny',  // deny all users
@@ -1346,18 +1347,18 @@ class CronController extends Controller
             
             if ($stack) {
                 $this->render('print',array(
-                    'variable'=>$stack->result,
+                    'variable'=>$stack->result
                 ));
             } else {        
                 $this->render('print',array(
-                    'variable'=>$variable,
+                    'variable'=>$variable
                 ));
             }
         } else {        
             $this->render('print',array(
-                'variable'=>$variable,
+                'variable'=>$variable
             ));
-        }        
+        }
     }
     
     /**
@@ -1382,16 +1383,16 @@ class CronController extends Controller
             
             if ($stack) {
                 $this->render('print',array(
-                    'variable'=>$stack->data,
+                    'variable'=>$stack->data
                 ));
             } else {        
                 $this->render('print',array(
-                    'variable'=>$variable,
+                    'variable'=>$variable
                 ));
             }
         } else {        
             $this->render('print',array(
-                'variable'=>$variable,
+                'variable'=>$variable
             ));
         } 
     }
@@ -1427,16 +1428,16 @@ class CronController extends Controller
                 $jsonData->finished = $isFinished;
                 
                 $this->render('print',array(
-                    'variable'=>json_encode($jsonData),
+                    'variable'=>json_encode($jsonData)
                 ));
             } else {        
                 $this->render('print',array(
-                    'variable'=>$variable,
+                    'variable'=>$variable
                 ));
             }
         } else {        
             $this->render('print',array(
-                'variable'=>$variable,
+                'variable'=>$variable
             ));
         }
     }
@@ -1460,21 +1461,150 @@ class CronController extends Controller
                 }
                 
                 $this->render('print',array(
-                    'variable'=> json_encode($codes),
+                    'variable'=> json_encode($codes)
                 ));
             } else {
                 $this->render('print',array(
-                    'variable'=>$variable,
+                    'variable'=>$variable
                 ));
             }
         } else {
             $this->render('print',array(
-                'variable'=>$variable,
+                'variable'=>$variable
             ));
         }
     }
+    
+    /**
+     * Forse getting odds for given game code
+     * @param type $code
+     * @return type json odds
+     */
+    public function actionForseodds($code=false)
+    {
+        
+    }
+    
+    /**
+     * Forse getting results for given game code
+     * @param type $code
+     * @return type json results
+     */
+    public function actionForceresults($code=false)
+    {
+        $this->layout='none';
+        $variable='false';
+        
+        if ($code) {
+            
+            $game = Stack::model()->findByAttributes(array('code'=>$code));
+            
+            if ($game) {
+                $teams = $this->getNames($game->opponent);
+                if ($teams && count($teams) == 2) {
+                    $parserAll = new SimpleHTMLDOM;
+                    $htmlAll = $parserAll->file_get_html($game->tournament->syn_link);
+                    foreach ($htmlAll->find('table.league-table tr') as $tableHtmlRow) {
+                        $ft = false;
+                        $at = false;
+                        $fd = false;
 
-        /**
+                        foreach ($tableHtmlRow->find('td.fd') as $isFinisfed) {
+                            if (trim($isFinisfed->innertext) == 'FT') {
+                                $fd = true;
+                            }
+                        }
+
+                        if ($fd) { //If game is finished
+
+                            foreach ($tableHtmlRow->find('a.scorelink') as $scoreLink) {
+                                $parserLink = new SimpleHTMLDOM;
+                                $htmlLink = $parserLink->file_get_html('http://www.livescore.com'.trim($scoreLink->href));
+
+                                $matchDetailsPage = $htmlLink->find('table.match-details tbody tr');
+//                                    $matchDetailsPage[0]//This is first row with final score
+//                                    $matchDetailsPage[1]//This is second row with half-time score
+
+                                //For final score and teams
+                                $homeTeamHtml = $matchDetailsPage[0]->find('th.home span.team');
+                                $homeTeam = trim($homeTeamHtml[0]->innertext);
+
+                                $guestTeamHtml = $matchDetailsPage[0]->find('th.awy span.team');
+                                $guestTeam = trim($guestTeamHtml[0]->innertext);
+
+                                $finalScoreHtml = $matchDetailsPage[0]->find('th.sco');
+                                $finalScore = trim($finalScoreHtml[0]->innertext);
+                                $finalScoreArray = explode(' - ', $finalScore);
+                                if (count($finalScoreArray) == 2) {
+                                    $homeTeamGoals = trim($finalScoreArray[0]);
+                                    $guestTeamGoals = trim($finalScoreArray[1]);
+                                }
+
+//                                    For half-time
+                                $halfTimeGoalsHtml = $matchDetailsPage[1]->find('th.sco');
+                                if ($halfTimeGoalsHtml) {
+                                    $halfTimeGoals = trim(trim($halfTimeGoalsHtml[0]->innertext), '()');
+                                    $halfTimeArray = explode(' - ', $halfTimeGoals);
+                                    if (count($halfTimeArray) == 2) {
+                                        $halfTimeHomeGoals = trim($halfTimeArray[0]);
+                                        $halfTimeGuestGoals = trim($halfTimeArray[1]);
+                                    }
+                                }
+
+                                if ($homeTeam == $teams[0]) {
+                                    $ft = true;
+                                }
+
+                                if ($guestTeam == $teams[1]) {
+                                    $at = true;
+                                }
+
+                                $resultArray = array(
+                                    'half-time' => array(
+                                        'team1' => $halfTimeHomeGoals,
+                                        'team2' => $halfTimeGuestGoals
+                                    ),
+                                    'final' => array(
+                                        'team1' => $homeTeamGoals,
+                                        'team2' => $guestTeamGoals
+                                    )
+                                );
+
+                                if ($ft && $at) {
+                                    $this->render('print',array(
+                                        'variable'=>json_encode($resultArray)
+                                    ));
+                                }
+                            }
+                        }
+                    }
+                }                
+            } else {
+                $game = Finished::model()->findByAttributes(array('code'=>$code));
+                
+                if (!$game) {
+                    $game = Archive::model()->findByAttributes(array('code'=>$code));
+                }
+                
+                if (!$game) {
+                    $this->render('print',array(
+                        'variable'=>$game->result
+                    ));
+                } else {
+                    $this->render('print',array(
+                        'variable'=>$variable
+                    ));
+                }
+            }
+        } else {
+            $this->render('print',array(
+                'variable'=>$variable
+            ));
+        }
+            
+    }
+
+    /**
      * Cron for archiving stack games
      */
     public function actionArchive()
