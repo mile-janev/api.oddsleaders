@@ -28,7 +28,7 @@ class CronController extends Controller
 	{
 		return array(
 			array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('cron','tournament','stack','odds','results','xml','archive','getresult','getodds','getinfo','test'),
+				'actions'=>array('cron','tournament','stack','odds','results','xml','archive','getresult','getodds','getinfo','gettournament','test'),
 				'users'=>array('*'),
 			),
 			array('deny',  // deny all users
@@ -1396,6 +1396,10 @@ class CronController extends Controller
         } 
     }
     
+    /**
+     * Get info for game
+     * @param type $code
+     */
     public function actionGetinfo($code=false)
     {
         $this->layout='none';
@@ -1436,9 +1440,41 @@ class CronController extends Controller
             ));
         }
     }
-
-
+    
     /**
+     * Get codes for all games from this tournament
+     * @param type $name
+     */
+    public function actionGettournament($name=FALSE)
+    {
+        $this->layout='none';
+        $variable='false';
+        
+        if ($name) {
+            $tournament = Tournament::model()->findByAttributes(array('name'=>$name));
+            
+            if ($tournament) {
+                $codes = array();
+                foreach ($tournament->stacks as $game) {
+                    $codes[] = $game->code;
+                }
+                
+                $this->render('print',array(
+                    'variable'=> json_encode($codes),
+                ));
+            } else {
+                $this->render('print',array(
+                    'variable'=>$variable,
+                ));
+            }
+        } else {
+            $this->render('print',array(
+                'variable'=>$variable,
+            ));
+        }
+    }
+
+        /**
      * Cron for archiving stack games
      */
     public function actionArchive()
