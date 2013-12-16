@@ -1480,9 +1480,34 @@ class CronController extends Controller
      * @param type $code
      * @return type json odds
      */
-    public function actionForseodds($code=false)
+    public function actionForceodds($code=false)
     {
+        $this->layout='none';
+        $variable='false';
         
+        if ($code) {
+            $stack = Stack::model()->findByAttributes(array('code'=>$code));
+            if ($stack) {
+                if ($stack->tournament->special==1) {
+                    $odds = $this->getSpecialOdds($stack);
+                } else {
+                    $odds = $this->getOdds($stack);
+                }
+                if ($odds) {
+                    $this->render('print',array(
+                        'variable'=>json_encode($odds)
+                    )); 
+                } else {
+                    $this->render('print',array(
+                        'variable'=>$variable
+                    ));
+                }
+            }
+        } else {
+            $this->render('print',array(
+                'variable'=>$variable
+            ));
+        }
     }
     
     /**
