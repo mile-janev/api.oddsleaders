@@ -94,6 +94,8 @@ class StackController extends Controller
 		if(isset($_POST['Stack']))
 		{
 			$model->attributes=$_POST['Stack'];
+                        $model->data = json_encode(json_decode($model->data)); //This is maked because pretty_print destroy string in area
+                        $model->result = json_encode(json_decode($model->result)); //This is maked because pretty_print destroy string in area
 			if($model->save())
 				$this->redirect(array('view','id'=>$model->id));
 		}

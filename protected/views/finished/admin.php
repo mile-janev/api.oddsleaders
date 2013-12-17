@@ -49,7 +49,7 @@ or <b>=</b>) at the beginning of each of your search values to specify how the c
 		'code',
 		'opponent',
 		'start',
-		'data',
+//		'data',
 		'result',
 		/*
 		'tournament_id',
