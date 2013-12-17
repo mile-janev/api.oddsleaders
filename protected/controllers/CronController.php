@@ -1263,9 +1263,11 @@ class CronController extends Controller
                                         $finished->data = json_encode($jsonData);
                                         $finished->result = json_encode($resultArray);
                                         $finished->tournament_id = $game->tournament_id;
-                                        $finished->save();
+                                        $saved = $finished->save();
                                         
-                                        $game->delete();
+                                        if ($saved) {
+                                            $game->delete();
+                                        }
                                     }
                                     
                                 }
