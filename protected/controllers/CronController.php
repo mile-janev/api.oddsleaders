@@ -1233,6 +1233,26 @@ class CronController extends Controller
                                                 $halfTimeGuestGoals = trim($halfTimeArray[1]);
                                             }
                                         }
+                                        
+                                        //For Goals time
+                                        $goalsTime = array();
+                                        $counter = 1;
+                                        for ($i=3; $i<count($matchDetailsPage); $i++) {
+                                            
+                                            $goalGuestFind = $matchDetailsPage[$i]->find("span[class=inc goal left]");
+                                            if ($goalGuestFind) {
+                                                $goalMin = $matchDetailsPage[$i]->find('td.min');
+                                                $goalsTime['team1'][$counter] = trim($goalMin[0]->innertext, " ,'");
+                                                $counter++;
+                                            }
+                                            
+                                            $goalHomeFind = $matchDetailsPage[$i]->find("span[class=inc goal right]");
+                                            if ($goalHomeFind) {
+                                                $goalMin = $matchDetailsPage[$i]->find('td.min');
+                                                $goalsTime['team2'][$counter] = trim($goalMin[0]->innertext, " , '");
+                                                $counter++;
+                                            }
+                                        }
 
                                         if ($homeTeam == $teams[0]) {
                                             $ft = true;
@@ -1250,7 +1270,8 @@ class CronController extends Controller
                                             'final' => array(
                                                 'team1' => $homeTeamGoals,
                                                 'team2' => $guestTeamGoals
-                                            )
+                                            ),
+                                            'goals' => $goalsTime
                                         );
 
                                         if ($ft && $at) {
