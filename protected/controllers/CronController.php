@@ -1637,7 +1637,7 @@ class CronController extends Controller
                     $game = Archive::model()->findByAttributes(array('code'=>$code));
                 }
                 
-                if (!$game) {
+                if ($game) {
                     $this->render('print',array(
                         'variable'=>$game->result
                     ));
