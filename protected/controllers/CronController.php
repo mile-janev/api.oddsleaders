@@ -1239,19 +1239,20 @@ class CronController extends Controller
                                         $counter = 1;
                                         for ($i=3; $i<count($matchDetailsPage); $i++) {
                                             
-                                            $goalGuestFind = $matchDetailsPage[$i]->find("span[class=inc goal left]");
-                                            if ($goalGuestFind) {
-                                                $goalMin = $matchDetailsPage[$i]->find('td.min');
-                                                $goalsTime['team1'][$counter] = trim($goalMin[0]->innertext, " ,'");
-                                                $counter++;
-                                            }
-                                            
                                             $goalHomeFind = $matchDetailsPage[$i]->find("span[class=inc goal right]");
                                             if ($goalHomeFind) {
                                                 $goalMin = $matchDetailsPage[$i]->find('td.min');
-                                                $goalsTime['team2'][$counter] = trim($goalMin[0]->innertext, " , '");
+                                                $goalsTime['team1'][$counter] = trim($goalMin[0]->innertext, " , '");
                                                 $counter++;
                                             }
+                                            
+                                            $goalGuestFind = $matchDetailsPage[$i]->find("span[class=inc goal left]");
+                                            if ($goalGuestFind) {
+                                                $goalMin = $matchDetailsPage[$i]->find('td.min');
+                                                $goalsTime['team2'][$counter] = trim($goalMin[0]->innertext, " ,'");
+                                                $counter++;
+                                            }
+                                            
                                         }
 
                                         if ($homeTeam == $teams[0]) {
