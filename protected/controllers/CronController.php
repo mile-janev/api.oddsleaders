@@ -1264,15 +1264,15 @@ class CronController extends Controller
                                         }
 
                                         $resultArray = array(
-                                            'half-time-results' => array(
+                                            'half-time' => array(
                                                 'team1' => $halfTimeHomeGoals,
                                                 'team2' => $halfTimeGuestGoals
                                             ),
-                                            'final-results' => array(
+                                            'final' => array(
                                                 'team1' => $homeTeamGoals,
                                                 'team2' => $guestTeamGoals
                                             ),
-                                            'goals-results' => $goalsTime
+                                            'goals' => $goalsTime
                                         );
 
                                         if ($ft && $at) {
@@ -1640,15 +1640,15 @@ class CronController extends Controller
                                 }
 
                                 $resultArray = array(
-                                    'half-time-results' => array(
+                                    'half-time' => array(
                                         'team1' => $halfTimeHomeGoals,
                                         'team2' => $halfTimeGuestGoals
                                     ),
-                                    'final-results' => array(
+                                    'final' => array(
                                         'team1' => $homeTeamGoals,
                                         'team2' => $guestTeamGoals
                                     ),
-                                    'goals-results' => $goalsTime
+                                    'goals' => $goalsTime
                                 );
 
                                 if ($ft && $at) {
