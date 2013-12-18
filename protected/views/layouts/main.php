@@ -30,6 +30,7 @@
 		<?php $this->widget('zii.widgets.CMenu',array(
 			'items'=>array(
 				array('label'=>'Home', 'url'=>array('/site/index')),
+                                array('label'=>'Docs', 'url'=>array('/site/page', 'view'=>'documentation')),
                                 array('label'=>'Admin', 'url'=>array('/admin/admin')),
                                 array('label'=>'XML', 'url'=>Yii::app()->baseUrl."/xml/odds.xml"),
                                 array('label'=>'Cr.Names', 'url'=>array('/names/cron')),
@@ -57,9 +58,8 @@
 	<div class="clear"></div>
 
 	<div id="footer">
-		Copyright &copy; <?php echo date('Y'); ?> by My Company.<br/>
+            Copyright &copy; <?php echo date('Y'); ?> by <a href="http://oddsleaders.com" target="_blank">OddsLeaders</a>.<br/>
 		All Rights Reserved.<br/>
-		<?php echo Yii::powered(); ?>
 	</div><!-- footer -->
 
 </div><!-- page -->
