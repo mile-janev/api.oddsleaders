@@ -1590,7 +1590,36 @@ class CronController extends Controller
                                     $homeTeamGoals = trim($finalScoreArray[0]);
                                     $guestTeamGoals = trim($finalScoreArray[1]);
                                 }
+                                
+//                                For half-time
+                                $halfTimeGoalsHtml = $matchDetailsPage[1]->find('th.sco');
+                                if ($halfTimeGoalsHtml) {
+                                    $halfTimeGoals = trim(trim($halfTimeGoalsHtml[0]->innertext), '()');
+                                    $halfTimeArray = explode(' - ', $halfTimeGoals);
+                                    if (count($halfTimeArray) == 2) {
+                                        $halfTimeHomeGoals = trim($halfTimeArray[0]);
+                                        $halfTimeGuestGoals = trim($halfTimeArray[1]);
+                                    }
+                                }
 
+                                //For Goals time
+                                $goalsTime = array();
+                                $counter = 1;
+                                for ($i=3; $i<count($matchDetailsPage); $i++) {
+                                    $goalHomeFind = $matchDetailsPage[$i]->find("span[class=inc goal right]");
+                                    if ($goalHomeFind) {
+                                        $goalMin = $matchDetailsPage[$i]->find('td.min');
+                                        $goalsTime['team1'][$counter] = trim($goalMin[0]->innertext, " , '");
+                                        $counter++;
+                                    }
+                                    $goalGuestFind = $matchDetailsPage[$i]->find("span[class=inc goal left]");
+                                    if ($goalGuestFind) {
+                                        $goalMin = $matchDetailsPage[$i]->find('td.min');
+                                        $goalsTime['team2'][$counter] = trim($goalMin[0]->innertext, " ,'");
+                                        $counter++;
+                                    }
+                                }
+                                
 //                                    For half-time
                                 $halfTimeGoalsHtml = $matchDetailsPage[1]->find('th.sco');
                                 if ($halfTimeGoalsHtml) {
@@ -1618,7 +1647,8 @@ class CronController extends Controller
                                     'final' => array(
                                         'team1' => $homeTeamGoals,
                                         'team2' => $guestTeamGoals
-                                    )
+                                    ),
+                                    'goals' => $goalsTime
                                 );
 
                                 if ($ft && $at) {
