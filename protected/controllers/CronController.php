@@ -1108,7 +1108,7 @@ class CronController extends Controller
 
 //Cron job 4
 //Generate xml document
-    public function actionXml()
+    public function actionXml($duration=90)//Accept parameter duration=days. if negative in past. default 90 days fron NOW
     {
         $u_id = Yii::app()->user->id;
         $isAdmin = array_key_exists($u_id, $this->admin);
@@ -1136,14 +1136,16 @@ class CronController extends Controller
 
                             foreach ($tournament->stacks as $stack) {
                                 if ($stack->start) {
-                                    $xml .= "<game>";
+                                    if (strtotime($stack->start) <= time()+($duration*24*60*60)) {//If start time is in interval between now and limit
+                                        $xml .= "<game>";
 
-                                    $xml .= "<code>".$stack->code."</code>";
-                                    $xml .= "<opponent>".$stack->opponent."</opponent>";
-                                    $xml .= "<start>".strtotime($stack->start)."</start>";
-                                    $xml .= "<odds>".$stack->data."</odds>";
+                                        $xml .= "<code>".$stack->code."</code>";
+                                        $xml .= "<opponent>".$stack->opponent."</opponent>";
+                                        $xml .= "<start>".strtotime($stack->start)."</start>";
+                                        $xml .= "<odds>".$stack->data."</odds>";
 
-                                    $xml .= "</game>";
+                                        $xml .= "</game>";
+                                    }
                                 }
                             }
 
