@@ -40,8 +40,6 @@ class CronController extends Controller
         
         public function actionCron()
         {
-            $this->actionXml();
-                        $this->actionXml(7);
             $u_id = Yii::app()->user->id;
             $isAdmin = array_key_exists($u_id, $this->admin);
 
@@ -1170,7 +1168,7 @@ class CronController extends Controller
                 $sucessfull = file_put_contents(dirname(Yii::app()->getBasePath())."/xml/odds-all.xml",$xml);
             }
             
-            if ($sucessfull) {
+            if (!$sucessfull) {
                 echo "Prati mejl na admin vednas!";
             }
         
