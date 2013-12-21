@@ -40,6 +40,8 @@ class CronController extends Controller
         
         public function actionCron()
         {
+            $this->actionXml();
+                        $this->actionXml(7);
             $u_id = Yii::app()->user->id;
             $isAdmin = array_key_exists($u_id, $this->admin);
 
