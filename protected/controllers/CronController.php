@@ -90,6 +90,7 @@ class CronController extends Controller
                         $cron->cron_time = date("Y-m-d H:i:s", time());
                         $cron->update();
                         $this->actionXml();
+                        $this->actionXml(7);
                     }
                 }
                 else if($time>'20:00' && $time<'20:30') //XML Generate
@@ -101,6 +102,7 @@ class CronController extends Controller
                         $cron->cron_time = date("Y-m-d H:i:s", time());
                         $cron->update();
                         $this->actionXml();
+                        $this->actionXml(7);
                     }
                 }
             
@@ -1108,7 +1110,7 @@ class CronController extends Controller
 
 //Cron job 4
 //Generate xml document
-    public function actionXml($duration=90)//Accept parameter duration=days. if negative in past. default 90 days fron NOW
+    public function actionXml($duration=365)//Accept parameter duration=days. if negative in past. default 90 days fron NOW
     {
         $u_id = Yii::app()->user->id;
         $isAdmin = array_key_exists($u_id, $this->admin);
@@ -1157,12 +1159,16 @@ class CronController extends Controller
                 $xml .= "</sport>";
             }
 
-            $xml .= '</oddsleaders>'; 
+            $xml .= '</oddsleaders>';
 
-            if (file_put_contents(dirname(Yii::app()->getBasePath())."/xml/odds.xml",$xml)) {
-                $sucessfull = true;
-            } else {
-                $sucessfull = false;
+            $sucessfull = false;
+            if ($duration==7) {
+                $sucessfull = file_put_contents(dirname(Yii::app()->getBasePath())."/xml/odds.xml",$xml);
+            } else if ($duration==365) {
+                $sucessfull = file_put_contents(dirname(Yii::app()->getBasePath())."/xml/odds-all.xml",$xml);
+            }
+            
+            if ($sucessfull) {
                 echo "Prati mejl na admin vednas!";
             }
         
