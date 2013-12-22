@@ -1617,6 +1617,10 @@ class CronController extends Controller
                         'variable'=>$variable
                     ));
                 }
+            } else {
+                $this->render('print',array(
+                    'variable'=>$variable
+                ));
             }
         } else {
             $this->render('print',array(
