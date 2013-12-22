@@ -275,7 +275,7 @@ class CronController extends Controller
                 $criteria1 = new CDbCriteria();
                 $criteria1->addCondition('cron = :cron');
                 $criteria1->params[":cron"] = 0;
-                $criteria1->order = "cron, cron_time, id";
+                $criteria1->order = "cron, start, cron_time, id";
                 $criteria1->limit = 5;
                 $stacks = Stack::model()->findAll($criteria1);
 
