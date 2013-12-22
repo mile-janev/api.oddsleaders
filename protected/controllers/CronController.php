@@ -42,7 +42,7 @@ class CronController extends Controller
         {
             $u_id = Yii::app()->user->id;
             $isAdmin = array_key_exists($u_id, $this->admin);
-            $this->actionXmlresults(30);
+            
             if (($_SERVER['SERVER_ADDR'] == $_SERVER['REMOTE_ADDR']) || $isAdmin) {
                 
                 $time = date("H:i",time());
