@@ -42,15 +42,15 @@ class CronController extends Controller
         {
             $u_id = Yii::app()->user->id;
             $isAdmin = array_key_exists($u_id, $this->admin);
-$this->actionXml();
-                        $this->actionXml(7);
-                        $this->actionXmlresults(30);
+            $this->actionXmlresults(30);
             if (($_SERVER['SERVER_ADDR'] == $_SERVER['REMOTE_ADDR']) || $isAdmin) {
                 
                 $time = date("H:i",time());
 //                $time = '02:45';//For stack
 //                $time = '03:15';//For odds
 //                $time = '07:15';//For xml
+//                $time = '08:11';//For xml 7 days
+//                $time = '08:21';//For xml result 30 days
 //                $time = '07:02';//For results
 
                 if($time>'02:30' && $time<'03:00') //Stack fill
@@ -83,7 +83,7 @@ $this->actionXml();
                 {
                     $this->actionResults();
                 }
-                else if($time>'08:00' && $time<'08:30') //XML Generate
+                else if($time>'08:00' && $time<'08:10') //XML Generate
                 {
                     $cron = Cron::model()->findByAttributes(array('flag'=>'xml_fill'));
 
@@ -92,11 +92,17 @@ $this->actionXml();
                         $cron->cron_time = date("Y-m-d H:i:s", time());
                         $cron->update();
                         $this->actionXml();
-                        $this->actionXml(7);
-                        $this->actionXmlresults(30);
                     }
+                } 
+                else if ($time>'08:11' && $time<'08:20')
+                {
+                    $this->actionXml(7);
                 }
-                else if($time>'20:00' && $time<'20:30') //XML Generate
+                else if ($time>'08:21' && $time<'08:30')
+                {
+                    $this->actionXmlresults(30);
+                }
+                else if($time>'20:00' && $time<'20:10') //XML Generate
                 {
                     $cron = Cron::model()->findByAttributes(array('flag'=>'xml_fill'));
 
@@ -105,9 +111,15 @@ $this->actionXml();
                         $cron->cron_time = date("Y-m-d H:i:s", time());
                         $cron->update();
                         $this->actionXml();
-                        $this->actionXml(7);
-                        $this->actionXmlresults(30);
                     }
+                }
+                else if ($time>'20:11' && $time<'20:20')
+                {
+                    $this->actionXml(7);
+                }
+                else if ($time>'20:21' && $time<'30:30')
+                {
+                    $this->actionXmlresults(30);
                 }
             
             } else {
@@ -1209,18 +1221,16 @@ $this->actionXml();
                             $xml .= "<tournament_name>".$tournament->name."</tournament_name>";
 
                             foreach ($tournament->finisheds as $game) {
-                                if ($game->start) {
-                                    if (strtotime($game->start)+($duration*24*60*60) <= time()) {//Only for last $duration days
-                                        $xml .= "<game>";
+                                if ( strtotime($game->start)+($duration*24*60*60)>=time() ) {//Only for last $duration days
+                                    $xml .= "<game>";
 
-                                        $xml .= "<code>".$game->code."</code>";
-                                        $xml .= "<opponent>".$game->opponent."</opponent>";
-                                        $xml .= "<start>".strtotime($game->start)."</start>";
-                                        $xml .= "<odds>".$game->data."</odds>";
-                                        $xml .= "<result>".$game->result."</result>";
+                                    $xml .= "<code>".$game->code."</code>";
+                                    $xml .= "<opponent>".$game->opponent."</opponent>";
+                                    $xml .= "<start>".strtotime($game->start)."</start>";
+                                    $xml .= "<odds>".$game->data."</odds>";
+                                    $xml .= "<result>".$game->result."</result>";
 
-                                        $xml .= "</game>";
-                                    }
+                                    $xml .= "</game>";
                                 }
                             }
 
