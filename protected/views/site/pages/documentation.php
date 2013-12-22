@@ -27,9 +27,9 @@
 	<a href="#" class="button grey header">3. Getting Odds for match by own wish</a>
 	<div class="answer">
             Getting new odds for match by own wish can be done using some of the folowing actions:<br /><br />
-            3.1 <a href="http://api.oddsleaders.com/index.php?r=cron/getodds&code=123456">http://api.oddsleaders.com/index.php?r=cron/getodds&code=123456</a>
+            3.1 <a href="http://api.oddsleaders.com/index.php?r=cron/getodds&code=123456" target="_blank">http://api.oddsleaders.com/index.php?r=cron/getodds&code=123456</a>
                 - You will get newest odds from our database for this match. Note that odds are renewed 2-times in day. This is much faster then other functions.<br /><br />
-            3.2 <a href="http://api.oddsleaders.com/index.php?r=cron/forceodds&code=123456">http://api.oddsleaders.com/index.php?r=cron/forceodds&code=123456</a>
+            3.2 <a href="http://api.oddsleaders.com/index.php?r=cron/forceodds&code=123456" target="_blank">http://api.oddsleaders.com/index.php?r=cron/forceodds&code=123456</a>
                 - You will get newest odds, but weeknes here is slower executing. Sometimes need 5-6 seconds for this to be executed.<br /><br />
                 This is the reason because we recommend using previous function.
 	</div>
@@ -37,9 +37,9 @@
 	<a href="#" class="button grey header">4. Getting Results for match by own wish</a>
 	<div class="answer">
             Getting new odds for match by own wish can be done using some of the folowing actions:<br /><br />
-            3.1 <a href="http://api.oddsleaders.com/index.php?r=cron/getresult&code=123456">http://api.oddsleaders.com/index.php?r=cron/getresult&code=123456</a>
+            3.1 <a href="http://api.oddsleaders.com/index.php?r=cron/getresult&code=123456" target="_blank">http://api.oddsleaders.com/index.php?r=cron/getresult&code=123456</a>
                 - You will get newest results from database for this match. Note that results are renewed 2-times in day. This is much faster then other functions.<br /><br />
-            3.2 <a href="http://api.oddsleaders.com/index.php?r=cron/forceresults&code=123456">http://api.oddsleaders.com/index.php?r=cron/forceresults&code=123456</a>
+            3.2 <a href="http://api.oddsleaders.com/index.php?r=cron/forceresults&code=123456" target="_blank">http://api.oddsleaders.com/index.php?r=cron/forceresults&code=123456</a>
                 - You will get newest results, but weeknes here is slower executing. Sometimes need 5-6 seconds for this to be executed.<br /><br />
                 This is the reason because we recommend using previous function.
 	</div>
