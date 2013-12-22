@@ -56,6 +56,8 @@ class Tournament extends CActiveRecord
 			'stacks' => array(self::HAS_MANY, 'Stack', 'tournament_id'),
 			'sport' => array(self::BELONGS_TO, 'Sport', 'sport_id'),
                         'country' => array(self::BELONGS_TO, 'Country', 'country_id'),
+                        'finisheds' => array(self::HAS_MANY, 'Finished', 'tournament_id'),
+                        'archives' => array(self::HAS_MANY, 'Archive', 'tournament_id'),
 		);
 	}
 

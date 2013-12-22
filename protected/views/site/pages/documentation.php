@@ -18,12 +18,10 @@
         <div class="answer">
             2.1 Newest XML with odds for next 7 days is located in 
                 <a href="http://api.oddsleaders.com/xml/odds.xml" target="_blank">http://api.oddsleaders.com/xml/odds.xml</a>. <br /><br />
-            2.2 Newest XML with results and latest odds before starting the game is located in 
+            2.2 Newest XML with results from past 30 days is located in
                 <a href="http://api.oddsleaders.com/xml/results.xml" target="_blank">http://api.oddsleaders.com/xml/results.xml</a>. <br /><br />
             2.3 Newest XML with odds for unlimited next time with newest odds in our database is located in
                 <a href="http://api.oddsleaders.com/xml/odds-all.xml" target="_blank">http://api.oddsleaders.com/xml/odds-all.xml</a>. <br /><br />
-            2.4 Newest XML with results from past 30 days is located in
-                <a href="http://api.oddsleaders.com/xml/results-month.xml" target="_blank">http://api.oddsleaders.com/xml/results-month.xml</a>. <br /><br />
         </div>
         
 	<a href="#" class="button grey header">3. Getting Odds for match by own wish</a>

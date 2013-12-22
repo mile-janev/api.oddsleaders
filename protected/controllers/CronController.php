@@ -28,7 +28,7 @@ class CronController extends Controller
 	{
 		return array(
 			array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('cron','tournament','stack','odds','results','xml','archive',
+				'actions'=>array('cron','tournament','stack','odds','results','xml','xmlresults','archive',
                                     'getresult','getodds','getinfo','gettournament','forceodds','forceresults','test'),
 				'users'=>array('*'),
 			),
@@ -42,7 +42,9 @@ class CronController extends Controller
         {
             $u_id = Yii::app()->user->id;
             $isAdmin = array_key_exists($u_id, $this->admin);
-
+$this->actionXml();
+                        $this->actionXml(7);
+                        $this->actionXmlresults(30);
             if (($_SERVER['SERVER_ADDR'] == $_SERVER['REMOTE_ADDR']) || $isAdmin) {
                 
                 $time = date("H:i",time());
@@ -91,6 +93,7 @@ class CronController extends Controller
                         $cron->update();
                         $this->actionXml();
                         $this->actionXml(7);
+                        $this->actionXmlresults(30);
                     }
                 }
                 else if($time>'20:00' && $time<'20:30') //XML Generate
@@ -103,6 +106,7 @@ class CronController extends Controller
                         $cron->update();
                         $this->actionXml();
                         $this->actionXml(7);
+                        $this->actionXmlresults(30);
                     }
                 }
             
@@ -1178,6 +1182,73 @@ class CronController extends Controller
         exit();
     }
     
+    public function actionXmlresults($duration=30)
+    {
+        $u_id = Yii::app()->user->id;
+        $isAdmin = array_key_exists($u_id, $this->admin);
+
+        if (($_SERVER['SERVER_ADDR'] == $_SERVER['REMOTE_ADDR']) || $isAdmin) {
+            
+            $criteria1 = new CDbCriteria();
+            $criteria1->addCondition("active = :active");
+            $criteria1->params[':active'] = 1;
+            $sports = Sport::model()->findAll($criteria1);
+
+            $xml = '<?xml version="1.0" encoding="utf-8"?>'; 
+            $xml .= '<oddsleaders xmlns="http://oddsleaders.com">';
+
+            foreach ($sports as $sport) {
+                $xml .= "<sport>";
+                $xml .= "<sport_name>".$sport->name."</sport_name>";
+
+                foreach ($sport->tournaments as $tournament) {
+                    if ($tournament->active == 1) {
+                        if ($tournament->finisheds) {
+                            $xml .= "<tournament>";
+                            $xml .= "<country>".$tournament->country->country."</country>";
+                            $xml .= "<tournament_name>".$tournament->name."</tournament_name>";
+
+                            foreach ($tournament->finisheds as $game) {
+                                if ($game->start) {
+                                    if (strtotime($game->start)+($duration*24*60*60) <= time()) {//Only for last $duration days
+                                        $xml .= "<game>";
+
+                                        $xml .= "<code>".$game->code."</code>";
+                                        $xml .= "<opponent>".$game->opponent."</opponent>";
+                                        $xml .= "<start>".strtotime($game->start)."</start>";
+                                        $xml .= "<odds>".$game->data."</odds>";
+                                        $xml .= "<result>".$game->result."</result>";
+
+                                        $xml .= "</game>";
+                                    }
+                                }
+                            }
+
+                            $xml .= "</tournament>";
+                        }
+                    }
+                }
+
+                $xml .= "</sport>";
+            }
+
+            $xml .= '</oddsleaders>';
+
+            $sucessfull = false;
+            if ($duration==30) {
+                $sucessfull = file_put_contents(dirname(Yii::app()->getBasePath())."/xml/results.xml",$xml);
+            }
+            
+            if (!$sucessfull) {
+                echo "Prati mejl na admin vednas!";
+            }
+        
+        } else {
+            die("Access forbidden!");
+        }
+        exit();
+    }
+
 //    Cron job 5
     public function actionResults()
     {
@@ -1699,7 +1770,7 @@ class CronController extends Controller
     public function actionArchive()
     {
         $criteria1 = new CDbCriteria();
-        $criteria1->addCondition('start<date_sub( current_date, INTERVAL 7 day )');//Find only older than 30 days
+        $criteria1->addCondition('start<date_sub( current_date, INTERVAL 30 day )');//Find only older than 30 days
         $finished = Finished::model()->findAll($criteria1);
         
         foreach ($finished as $game) {
