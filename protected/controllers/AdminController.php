@@ -27,7 +27,7 @@ class AdminController extends Controller
 	{
 		return array(
 			array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('admin'),//
+				'actions'=>array('admin', 'cronjobs', 'xmls'),
 				'users'=>array('*'),
 			),
 			array('deny',  // deny all users
@@ -39,5 +39,15 @@ class AdminController extends Controller
         public function actionAdmin()
         {
             $this->render('admin');
+        }
+        
+        public function actionCronjobs()
+        {
+            $this->render('cronjobs');
+        }
+        
+        public function actionXmls()
+        {
+            $this->render('xmls');
         }
 }
