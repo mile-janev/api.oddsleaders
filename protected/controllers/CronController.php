@@ -1293,95 +1293,95 @@ class CronController extends Controller
                                         $parserLink = new SimpleHTMLDOM;
                                         $htmlLink = $parserLink->file_get_html('http://www.livescore.com'.trim($scoreLink->href));
 
-                                        if ($htmlLink) {
-                                            $matchDetailsPage = $htmlLink->find('table.match-details tbody tr');
-        //                                    $matchDetailsPage[0]//This is first row with final score
-        //                                    $matchDetailsPage[1]//This is second row with half-time score
+                                        $matchDetailsPage = $htmlLink->find('table.match-details tbody tr');
+    //                                    $matchDetailsPage[0]//This is first row with final score
+    //                                    $matchDetailsPage[1]//This is second row with half-time score
 
-                                            //For final score and teams
-                                            $homeTeamHtml = $matchDetailsPage[0]->find('th.home span.team');
-                                            $homeTeam = trim($homeTeamHtml[0]->innertext);
+                                        //For final score and teams
+                                        $homeTeamHtml = $matchDetailsPage[0]->find('th.home span.team');
+                                        $homeTeam = trim($homeTeamHtml[0]->innertext);
 
-                                            $guestTeamHtml = $matchDetailsPage[0]->find('th.awy span.team');
-                                            $guestTeam = trim($guestTeamHtml[0]->innertext);
+                                        $guestTeamHtml = $matchDetailsPage[0]->find('th.awy span.team');
+                                        $guestTeam = trim($guestTeamHtml[0]->innertext);
 
-                                            $finalScoreHtml = $matchDetailsPage[0]->find('th.sco');
-                                            $finalScore = trim($finalScoreHtml[0]->innertext);
-                                            $finalScoreArray = explode(' - ', $finalScore);
-                                            if (count($finalScoreArray) == 2) {
-                                                $homeTeamGoals = trim($finalScoreArray[0]);
-                                                $guestTeamGoals = trim($finalScoreArray[1]);
+                                        $finalScoreHtml = $matchDetailsPage[0]->find('th.sco');
+                                        $finalScore = trim($finalScoreHtml[0]->innertext);
+                                        $finalScoreArray = explode(' - ', $finalScore);
+                                        if (count($finalScoreArray) == 2) {
+                                            $homeTeamGoals = trim($finalScoreArray[0]);
+                                            $guestTeamGoals = trim($finalScoreArray[1]);
+                                        }
+
+    //                                    For half-time
+                                        $halfTimeGoalsHtml = $matchDetailsPage[1]->find('th.sco');
+                                        if ($halfTimeGoalsHtml) {
+                                            $halfTimeGoals = trim(trim($halfTimeGoalsHtml[0]->innertext), '()');
+                                            $halfTimeArray = explode(' - ', $halfTimeGoals);
+                                            if (count($halfTimeArray) == 2) {
+                                                $halfTimeHomeGoals = trim($halfTimeArray[0]);
+                                                $halfTimeGuestGoals = trim($halfTimeArray[1]);
                                             }
-
-        //                                    For half-time
-                                            $halfTimeGoalsHtml = $matchDetailsPage[1]->find('th.sco');
-                                            if ($halfTimeGoalsHtml) {
-                                                $halfTimeGoals = trim(trim($halfTimeGoalsHtml[0]->innertext), '()');
-                                                $halfTimeArray = explode(' - ', $halfTimeGoals);
-                                                if (count($halfTimeArray) == 2) {
-                                                    $halfTimeHomeGoals = trim($halfTimeArray[0]);
-                                                    $halfTimeGuestGoals = trim($halfTimeArray[1]);
-                                                }
+                                        }
+                                        
+                                        //For Goals time
+                                        $goalsTime = array();
+                                        $counter = 1;
+                                        for ($i=3; $i<count($matchDetailsPage); $i++) {
+                                            
+                                            $goalHomeFind = $matchDetailsPage[$i]->find("span[class=inc goal right]");
+                                            if ($goalHomeFind) {
+                                                $goalMin = $matchDetailsPage[$i]->find('td.min');
+                                                $goalsTime['team1'][$counter] = trim($goalMin[0]->innertext, " , '");
+                                                $counter++;
                                             }
-
-                                            //For Goals time
-                                            $goalsTime = array();
-                                            $counter = 1;
-                                            for ($i=3; $i<count($matchDetailsPage); $i++) {
-
-                                                $goalHomeFind = $matchDetailsPage[$i]->find("span[class=inc goal right]");
-                                                if ($goalHomeFind) {
-                                                    $goalMin = $matchDetailsPage[$i]->find('td.min');
-                                                    $goalsTime['team1'][$counter] = trim($goalMin[0]->innertext, " , '");
-                                                    $counter++;
-                                                }
-
-                                                $goalGuestFind = $matchDetailsPage[$i]->find("span[class=inc goal left]");
-                                                if ($goalGuestFind) {
-                                                    $goalMin = $matchDetailsPage[$i]->find('td.min');
-                                                    $goalsTime['team2'][$counter] = trim($goalMin[0]->innertext, " ,'");
-                                                    $counter++;
-                                                }
-
+                                            
+                                            $goalGuestFind = $matchDetailsPage[$i]->find("span[class=inc goal left]");
+                                            if ($goalGuestFind) {
+                                                $goalMin = $matchDetailsPage[$i]->find('td.min');
+                                                $goalsTime['team2'][$counter] = trim($goalMin[0]->innertext, " ,'");
+                                                $counter++;
                                             }
+                                            
+                                        }
 
-                                            if ($homeTeam == $teams[0]) {
-                                                $ft = true;
-                                            }
+                                        if ($homeTeam == $teams[0]) {
+                                            $ft = true;
+                                        }
 
-                                            if ($guestTeam == $teams[1]) {
-                                                $at = true;
-                                            }
+                                        if ($guestTeam == $teams[1]) {
+                                            $at = true;
+                                        }
 
-                                            $resultArray = array(
-                                                'half-time' => array(
-                                                    'team1' => $halfTimeHomeGoals,
-                                                    'team2' => $halfTimeGuestGoals
-                                                ),
-                                                'final' => array(
-                                                    'team1' => $homeTeamGoals,
-                                                    'team2' => $guestTeamGoals
-                                                ),
-                                                'goals' => $goalsTime
-                                            );
+                                        $resultArray = array(
+                                            'half-time' => array(
+                                                'team1' => $halfTimeHomeGoals,
+                                                'team2' => $halfTimeGuestGoals
+                                            ),
+                                            'final' => array(
+                                                'team1' => $homeTeamGoals,
+                                                'team2' => $guestTeamGoals
+                                            ),
+                                            'goals' => $goalsTime
+                                        );
+                                        var_dump($homeTeam);
+                                        var_dump($teams[0]);
+                                        var_dump($resultArray);
+                                        exit();
+                                        if ($ft && $at) {
+                                            $jsonData = json_decode($game->data);
+                                            $jsonData->score = $resultArray;
 
-                                            if ($ft && $at) {
-                                                $jsonData = json_decode($game->data);
-                                                $jsonData->score = $resultArray;
-                                                var_dump($jsonData);
-                                                exit();
-                                                $finished = new Finished();
-                                                $finished->code = $game->code;
-                                                $finished->opponent = $game->opponent;
-                                                $finished->start = $game->start;
-                                                $finished->data = json_encode($jsonData);
-                                                $finished->result = json_encode($resultArray);
-                                                $finished->tournament_id = $game->tournament_id;
-                                                $saved = $finished->save();
+                                            $finished = new Finished();
+                                            $finished->code = $game->code;
+                                            $finished->opponent = $game->opponent;
+                                            $finished->start = $game->start;
+                                            $finished->data = json_encode($jsonData);
+                                            $finished->result = json_encode($resultArray);
+                                            $finished->tournament_id = $game->tournament_id;
+                                            $saved = $finished->save();
 
-                                                if ($saved) {
-                                                    $game->delete();
-                                                }
+                                            if ($saved) {
+                                                $game->delete();
                                             }
                                         }
 
