@@ -1363,10 +1363,7 @@ class CronController extends Controller
                                             ),
                                             'goals' => $goalsTime
                                         );
-                                        var_dump($homeTeam);
-                                        var_dump($teams[0]);
-                                        var_dump($resultArray);
-                                        exit();
+
                                         if ($ft && $at) {
                                             $jsonData = json_decode($game->data);
                                             $jsonData->score = $resultArray;
